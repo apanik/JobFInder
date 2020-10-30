@@ -1,0 +1,165 @@
+{% load static %}
+<div class="jobxprss-app">
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="app-download">
+                    <h2>Get JobXprss App</h2>
+                    <span class="bottom-border-app-link"></span>
+                    <p>To get the best JobXprss experience, use the mobile app.</p>
+                    <div class="app-download-button">
+                        <a href="#" target="_blank" style="display: none;" class="android-app"><img src="{% static 'images/badge-android.png'%}" /></a>&nbsp;&nbsp;
+                        <a href="#" target="_blank" style="display: none; " class="apple-app"><img src="{% static 'images/badge-iphone.png'%}" /></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md app_image">
+                <img src="{% static 'images/yellow/jobxprss_app.png'%}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="footer-top border-bottom section-padding-top padding-bottom-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="footer-logo">
+                        <a href="{% url 'home' %}">
+                            <img src="{% static 'images/logo.png'%}" class="logo img-fluid" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="footer-social">
+                        <a class="facebook-url" style="display: none;" target="_blank" href="#"><i class="fab fa-3x fa-facebook-square text-yellow"></i></a>&nbsp;
+                        <a class="linkedin-url" style="display: none;" target="_blank" href="#"><i class="fab fa-3x fa-linkedin text-yellow"></i></a>&nbsp;
+                        <a class="twitter-url"  style="display: none;" target="_blank" href="#"><i class="fab fa-3x fa-twitter-square text-yellow"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-widget-wrapper padding-bottom-60 padding-top-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="footer-widget footer-shortcut-link">
+                        <h4 class="text-yellow">Information</h4>
+                        <div class="widget-inner">
+                            <ul>
+                                <li><a href="{% url 'about_us' %}">About Us</a></li>
+                                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                                <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                                <li><a href="{% url 'terms-of-use' %}">Terms of Use</a></li>
+                                <li><a href="{% url 'FAQ' %}">FAQ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="footer-widget footer-shortcut-link">
+                        <div class="widget-inner" style="pointer-events: none;">
+                            <h4 class="text-yellow">Address</h4>
+                            <address>
+                                House 76 (Level 4)<br />
+                                Road 4, Block B<br />
+                                Niketan, Gulshan 1<br />
+                                Dhaka 1212, Bangladesh<br />
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <div class="footer-bottom border-top">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="powered-by"><span>Powered By </span> <a target="_blank" href="http://www.ishraak.com"><img src="/static/images/ishraak-solutions-logo.png" alt="ISHRAAK" width="80px"></a>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="back-to-top">
+                                    <a href="#">Back to top<i class="fas fa-angle-up"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<p class="copyright-text">Copyright © 2020 JobXprss, All Right Reserved <span class="version">{{ APP_VERSION_NUMBER }}</span></p>
+
+{% include 'layout/__script_includes.html' %}
+
+<script type="text/javascript">
+    $(function () {
+        prof_id = getCookie('professional_id');
+        socialUrl = '/api/settings/';
+        jobAlertUrl = '/api/professional/job_alert_notification/';
+<!--        get('/log/', loadUser);-->
+    });
+
+    function loadUser(data) {
+        if(data.length>=1){
+
+
+            id=data[0].user.id;
+            pdUrl = '/professional/profile-dashboard/';
+            cdUrl = '/company/dashboard/';
+            cp_url = '/change-password/';
+            if(isCompany()){
+                $('.pro').attr('href', cdUrl);
+            }else {
+                $('.pro').attr('href', pdUrl);
+            }
+              $('.cp').attr('href', cp_url);
+
+             if (data[0].user.name){
+                 $('#alert-field').hide();
+        }
+
+        }
+
+
+    }
+
+    pdUrl = '/professional/profile-dashboard/';
+    cdUrl = '/company/dashboard/';
+    cp_url = '/change-password/';
+    if(isCompany()){
+        $('.pro').attr('href', cdUrl);
+    }else {
+        $('.pro').attr('href', pdUrl);
+    }
+    $('.cp').attr('href', cp_url);
+
+    if (getCookie('company_name')){
+        $('#alert-field').hide();
+    }
+    var company_name = getCookie('company_name');
+    $('.account-button').text(company_name);
+    $('.account-body a').text(company_name);
+    $('.account-body .mail').text(getCookie('email'));
+    $('#company-email').html(getCookie('email'));
+    var city = getCookie('city');
+    var profile_picture = getCookie('company_picture')
+    if(profile_picture==="null"){
+        profile_picture = '/static/images/company/company-logo-1.png';
+    }
+    $('#company_name_layout').html('<h5>'+company_name+'</h5>');
+    $('#c-image').html('<img src="'+ profile_picture +'" class="img-fluid" alt="">')
+    if(profile_picture){
+        $('.account-thumb').html('<img src="'+ profile_picture +'" class="img-fluid" alt="">')
+    } else {
+        $('.account-thumb').html('<img src="/static/images/alternate.jpg" class="img-fluid" alt="">')
+    }
+
+</script>

@@ -1,0 +1,152 @@
+{% extends 'layout/layout_company.html' %}
+{% load static %}
+{% block page_header %}
+    Dashboard
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Dashboard</span>
+{% endblock %}
+{% block body_block %}
+
+        <div class="dashboard-section user-statistic-block">
+          <div class="user-statistic posted-jobs-statistics" style="cursor: pointer">
+            <i data-feather="command"></i>
+            <h3 id="posted-jobs-count"></h3>
+              <a id="total-jobs"><span>Job(s) Posted</span></a>
+          </div>
+          <div class="user-statistic applications-statistics" style="cursor: pointer">
+            <i data-feather="file-text"></i>
+            <h3 id="applications-count"></h3>
+              <a id="total-applicants" href="/company-manage-candidates/"><span>Application(s)</span></a>
+          </div>
+          <div class="user-statistic shortlisted-statistics" style="cursor: pointer">
+            <i data-feather="heart"></i>
+            <h3 id="shortlisted-count"></h3>
+              <a id="total-shortlisted" href="/company-manage-candidates/?is_shortlisted"><span>Shortlisted</span></a>
+          </div>
+        </div>
+
+
+        <div class="dashboard-section dashboard-view-chart" style="display:none;">
+            <canvas id="data-chart" width="400" height="200"></canvas>
+        </div>
+
+
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+
+        $(document).ready(function() {
+            $('.dashboard').addClass("active");
+            get('/api/company/dashboard/infobox/',infoBoxCallBack);
+            get('/api/company/dashboard/chart/',DataChartCallBack);
+        });
+
+        $("body").delegate(".posted-jobs-statistics", "click", function(){
+            window.location.href =  '/company/manage-jobs/';
+        });
+
+        $("body").delegate(".applications-statistics", "click", function(){
+            window.location.href =  '/company-manage-candidates/';
+        });
+
+        $("body").delegate(".shortlisted-statistics", "click", function(){
+            window.location.href =  '/company-manage-candidates/?is_shortlisted';
+        });
+
+        function infoBoxCallBack(data) {
+            $('#posted-jobs-count').text(data.company_number_of_job)
+            $('#applications-count').text(data.company_appilcation_count)
+            $('#shortlisted-count').text(data.company_application_shortlist_count)
+
+        };
+
+
+        function DataChartCallBack(data) {
+            months = []
+                jobs = []
+                len = data.length
+                if(len>6){
+                    start = len-6
+                }
+                else {
+                    start = 0
+                }
+                for (i = start; i < data.length; i++){
+                    var calender = [[1,'Jan'], [2,'Feb'], [3,'Mar'], [4,'Apr'], [5,'May'], [6,'Jun'],
+                        [7,'Jul'], [8,'Aug'], [9,'Sep'], [10,'Oct'], [11,'Nov'], [12,'Dec']]
+                    var monthNo = data[i][1]
+                    for(x=0; x< calender.length; x++){
+                        if(monthNo == calender[x][0] ){
+                            var monthName = calender[x][1] +', ' + data[i][0]
+                        }
+                    }
+
+                    months.push(monthName)
+                    jobs.push(data[i][2])
+
+                }
+
+                if(data.length == 0){
+
+                }
+                else{
+                    if ($("#data-chart").length > 0) {
+                        $('.dashboard-view-chart').show()
+                        var ctx = document.getElementById("data-chart").getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: months,
+                                datasets: [{
+                                    label: 'Posted Jobs',
+                                    data: jobs,
+                                    backgroundColor:
+                                        'rgba(36, 109, 248, .2)',
+                                    borderColor:
+                                        'rgba(36, 109, 248, 1 )',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                title: {
+                                    display: true,
+                                    position :'top',
+                                    text: 'Jobs Posted Monthly' ,
+                                    fontSize : 15
+                                },
+                                gridLines: {
+                                    display: false
+                                },
+                                legend: {
+                                    display: false
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: true
+                                },
+                                responsive: true,
+                                scales: {
+                                    xAxes: [{
+                                        stacked: true,
+                                    }],
+                                    yAxes: [{
+                                        stacked: true,
+                                    }]
+                                }
+                            }
+                        });
+                    }
+                }
+        };
+
+
+
+
+    </script>
+{% endblock %}

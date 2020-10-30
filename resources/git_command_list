@@ -1,0 +1,10 @@
+## create new branch form existing tag
+git checkout -b newbranch_name tag_name
+## git tag list
+git tag
+## create new tag
+git tag new_tag_name
+## checkout to another tag
+git checkout tag_name
+## git tag push to origin
+git push origin --tags

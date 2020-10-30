@@ -1,0 +1,116 @@
+{% load static %}
+
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>
+window.fbAsyncInit = function() {
+  FB.init({
+    xfbml            : true,
+    version          : 'v8.0'
+  });
+};
+
+(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your Chat Plugin code -->
+<div class="fb-customerchat" attribution=setup_tool page_id="114731200274877" theme_color="#f5d91d">
+</div>
+<!-- End Facebook SDK for JavaScript -->
+
+
+
+<script src="{% static 'assets/js/jquery.min.js'%}"></script>
+<script src="{% static 'assets/js/popper.min.js'%}"></script>
+<script src="{% static 'js/moment.min.js'%}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js'%}"></script>
+<script src="{% static 'assets/js/toastr.min.js'%}"></script>
+<script src="{% static 'assets/js/feather.min.js'%}"></script>
+<script src="{% static 'assets/js/bootstrap-select.min.js'%}"></script>
+<script src="{% static 'assets/js/jquery.nstSlider.min.js'%}"></script>
+<script src="{% static 'assets/js/owl.carousel.min.js'%}"></script>
+<script src="{% static 'assets/js/visible.js'%}"></script>
+<script src="{% static 'assets/js/jquery.countTo.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="{% static 'assets/js/plyr.js'%}"></script>
+<script src="{% static 'assets/js/tinymce.min.js'%}"></script>
+<script src="{% static 'js/placeholder_plugin.js'%}"></script>
+<script src="{% static 'assets/js/slick.min.js'%}"></script>
+<script src="{% static 'assets/js/jquery.ajaxchimp.min.js'%}"></script>
+<script src="{% static '/assets/js/jquery.cookie.min.js' %}"></script>
+<script src="{% static 'js/custom.js'%}"></script>
+<script src="{% static '/assets/js/form2js.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/cropper.min.js' %}"></script>
+<script src="{% static '/assets/js/sweetalert2@9.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYT7cwP2Ki9fwJBmRH6t2FkjjkjsywVaE"></script>
+<script src="{% static 'js/map.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script src="{% static '/assets/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/select2.min.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+<script src="{% static 'dashboard/js/datePicker.js' %}"></script>
+<script src="{% static 'dashboard/js/upload-input.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-537d9c316bb7057a"></script>
+<script>
+    if($("nav.main-nav").next().css("display") == 'none'){
+        $("nav.main-nav").show();
+    } else {
+        if(!$("nav.main-nav").next().next().visible()){
+            $("nav.main-nav").show();
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= 110) {
+                $("nav.main-nav").slideDown();
+            } else {
+                $("nav.main-nav").hide();
+            }
+        });
+    }
+
+    function loadSettings(data) {
+        if (data.length>0){
+            data = data[0];
+            if(data.facebook_url) {
+                $('.facebook-url').attr('href', data.facebook_url).show();
+            }
+            if(data.linkedin_url) {
+                $('.linkedin-url').attr('href', data.linkedin_url).show();
+            }
+            if(data.twitter_url) {
+                $('.twitter-url').attr('href', data.twitter_url).show();
+            }
+            if (data.appstore_url){
+                $('.apple-app').show();
+                $('.apple-app').attr('href', data.appstore_url);
+            }
+            if (data.playstore_url){
+                $('.android-app').show();
+                $('.android-app').attr('href', data.playstore_url);
+            }
+            if(data.phone){
+                $('.phone-number').append(" "+data.phone);
+                $('.phone-number').attr("href","tel:+:"+data.phone);
+            }
+            if(data.admin_email){
+                $('.admin-email').append(" "+data.admin_email);
+                $('.admin-email').attr("href","mailto:"+data.admin_email);
+            }
+        }
+    }
+
+    get('/api/settings/', loadSettings);
+
+</script>

@@ -1,0 +1,67 @@
+{% extends 'layout/layout_home.html' %}
+{% load static %}
+
+{% block page_header %}
+    Career Advice
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <a href="{% url 'career_advice' %}">Career Advice</a> /
+    <span>Details</span>
+{% endblock %}
+
+{% block body_block %}
+    <div class="alice-bg padding-top-30 section-padding-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="blog-post-details-container">
+                        <div class="blog-details-wrapper">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            getApiurl = '/api/career_advice/';
+            get(getApiurl,getApi);
+        });
+
+        function getApi(data) {
+            var page_Size = data.count;
+            detailsUrl = '/api/career_advice/?page_size='+page_Size+'&page=1';
+            get(detailsUrl,loadDetails);
+        }
+
+        function loadDetails(data) {
+            var path = window.location.pathname.split('/');
+            var detailsId = path[path.length-2];
+            for(x=0;x<data.results.length;x++){
+                if(data.results[x].id == detailsId)
+                {
+                    var dateString = data.results[x].posted_at;
+                    var momentObj = moment(dateString, 'YYYY-MM-DD');
+                    var created_date = momentObj.format('DD/MM/YYYY');
+                    $('#title').append('<h1>'+data.results[x].title+'</h1>');
+                    let imgString = '';
+                    if (data.results[x].featured_image != null){
+                        imgString = '<img src="'+data.results[x].featured_image+'" class="img-fluid ca-thumb" alt="Featured Image">'
+                    }
+
+                    $('.blog-details-wrapper').append(
+                        '<div class="post-content">'+
+                        '<div>' +
+                        '<h3>'+data.results[x].title+'</h3><br />'+
+                        '<h6 style="padding-bottom: 5px; color: #6f7484;">'+data.results[x].author+', '+ created_date+'</h6>'+imgString+
+                        '</div>'+
+                        '<p>'+data.results[x].description+'</p>'+
+                        '</div>')
+                }
+            }
+        }
+    </script>
+{% endblock %}

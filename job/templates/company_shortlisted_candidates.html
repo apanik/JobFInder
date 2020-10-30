@@ -1,0 +1,213 @@
+{% extends 'layout_company.html' %}
+{% load static %}
+
+{% block breadcrumb %} Shortlisted Candidates {% endblock %}
+
+{% block body_block %}
+
+
+  <div class="manage-candidate-container">
+
+              <div class="job-filter-wrapper">
+                   <div class="job-filter-dropdown selectJob">
+
+                            <select class="selectpicker" multiple data-max-options="1" data-live-search="true"  title="Choose a job" id="category">
+
+
+                            </select>
+                        </div><br/>
+             </div>
+
+
+
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Job Title</th>
+                        <th>Shortlisted</th>
+                        <th class="action">Action</th>
+                     </tr>
+                    </thead>
+                    <tbody id="table">
+{#                      <tr class="candidates-list">#}
+{#                        <td class="title">#}
+{#                          <div class="thumb">#}
+{#                            <img src="{% static 'dashboard/images/avater-2.jpg'%}" class="img-fluid" alt="">#}
+{##}
+{#                          </div>#}
+{#                          <div class="body">#}
+{#                            <h5><a href="#">Lula Wallace</a></h5>#}
+{#                            <div class="info">#}
+{#                              <span class="designation"><a href="#"><i data-feather="check-square"></i>Senior UI / UX Designer</a></span>#}
+{#                              <span class="location"><a href="#"><i data-feather="map-pin"></i>New Orleans</a></span>#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </td>#}
+{#                         <td class="status"><a href="#" class="listed"><i class="fillheart"></i></a></td>#}
+{#                        <td class="action">#}
+{#                          <a href="#" class="download"><i data-feather="download"></i></a>#}
+{#                          <a href="#" class="inbox"><i data-feather="mail"></i></a>#}
+{##}
+{#                        </td>#}
+{#                      </tr>#}
+{#                      <tr class="candidates-list">#}
+{#                        <td class="title">#}
+{#                          <div class="thumb">#}
+{#                            <img src="{% static 'dashboard/images/avater-2.jpg'%}" class="img-fluid" alt="">#}
+{#                         </div>#}
+{#                          <div class="body">#}
+{#                            <h5><a href="#">Hertha A. Sullivan</a></h5>#}
+{#                            <div class="info">#}
+{#                              <span class="designation"><a href="#"><i data-feather="check-square"></i>Senior UI / UX Designer</a></span>#}
+{#                              <span class="location"><a href="#"><i data-feather="map-pin"></i>New Orleans</a></span>#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </td>#}
+{#                        <td class="status"><a href="#" class="listed"><i class="fillheart"></i></a></td>#}
+{#                        <td class="action">#}
+{#                          <a href="#" class="download"><i data-feather="download"></i></a>#}
+{#                          <a href="#" class="inbox"><i data-feather="mail"></i></a>#}
+
+{#                        </td>#}
+{#                      </tr>#}
+{#                      <tr class="candidates-list">#}
+{#                        <td class="title">#}
+{#                          <div class="thumb">#}
+{#                            <img src="{% static 'dashboard/images/avater-2.jpg'%}" class="img-fluid" alt="">#}
+{#                          </div>#}
+{#                          <div class="body">#}
+{#                            <h5><a href="#">David Johnston</a></h5>#}
+{#                            <div class="info">#}
+{#                             <span class="designation"><a href="#"><i data-feather="check-square"></i>Senior UI / UX Designer</a></span>#}
+{#                              <span class="location"><a href="#"><i data-feather="map-pin"></i>New Orleans</a></span>#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </td>#}
+{#                         <td class="status"><a href="#" class="listed"><i class="fillheart"></i></a></td>#}
+{#                        <td class="action">#}
+{#                          <a href="#" class="download"><i data-feather="download"></i></a>#}
+{#                          <a href="#" class="inbox"><i data-feather="mail"></i></a>#}
+{##}
+{#                        </td>#}
+{#                      </tr>#}
+{#                      <tr class="candidates-list">#}
+{#                        <td class="title">#}
+{#                          <div class="thumb">#}
+{#                            <img src="{% static 'dashboard/images/avater-2.jpg'%}" class="img-fluid" alt="">#}
+{#                          </div>#}
+{#                          <div class="body">#}
+{#                            <h5><a href="#">Robert Hayes</a></h5>#}
+{#                            <div class="info">#}
+{#                              <span class="designation"><a href="#"><i data-feather="check-square"></i>Senior UI / UX Designer</a></span>#}
+{#                              <span class="location"><a href="#"><i data-feather="map-pin"></i>New Orleans</a></span>#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </td>#}
+{#                       <td class="status"><a href="#" class="listed"><i class="fillheart"></i></a></td>#}
+{#                        <td class="action">#}
+{#                          <a href="#" class="download"><i data-feather="download"></i></a>#}
+{#                          <a href="#" class="inbox"><i data-feather="mail"></i></a>#}
+{##}
+{#                        </td>#}
+{#                      </tr>#}
+                    </tbody>
+                  </table>
+                  <!-- <div class="pagination-list text-center">
+                    <nav class="navigation pagination">
+                      <div class="nav-links">
+                        <a class="prev page-numbers" href="#"><i class="fas fa-angle-left"></i></a>
+                        <a class="page-numbers" href="#">1</a>
+                        <span aria-current="page" class="page-numbers current">2</span>
+                        <a class="page-numbers" href="#">3</a>
+                        <a class="page-numbers" href="#">4</a>
+                        <a class="next page-numbers" href="#"><i class="fas fa-angle-right"></i></a>
+                      </div>
+                   </nav>
+                  </div> -->
+                </div>
+
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+ $(document).ready(function() {
+            initAjaxForms();
+            var path = window.location.pathname.split('/');
+            var name = path[path.length-2];
+            var jobUrl = '/api/job/search/?company_name=' + name;
+            get(jobUrl,loadJob);
+            //var comapnyList = '/api/company/list';
+            //get(comapnyList,loadCompany);
+            
+        });
+ //function loadCompany(data) {
+     //console.log(data);
+ //}
+function loadJob(data){
+  var company_name = getCookie('company_name');
+    for (i=0;i<data.results.length;i++){
+        if(data.results[i].company.name == company_name){
+            console.log(data.results[i].title);
+            $('#category').append('<option value="'+data.results[i].job_id+'">'+data.results[i].title+'</option>');
+        }
+          $("#category").selectpicker('refresh');
+    }
+}
+$("#category").on('change', function() {
+      $('.candidates-list').css('display','none');
+    if(this.value){
+      var shortlisted = '/api/application/shortlist/'+this.value+'/';
+    }
+    else{
+        $('.candidates-list').css('display','none');
+    }
+  get(shortlisted,loadShort);
+});
+function loadShort(data){
+  //console.log(data);
+     for(index=0;i>data.results.length;index++){
+         if (data.results.length==0){
+         $('.candidates-list').css('display','none');
+     }
+         if(!data.results[index].image){
+             data.results[index].image = '/static/images/alternate.jpg';
+         }
+
+         
+
+         $('#table').append('<tr class="candidates-list">'+
+                        '<td class="title">'+
+                          '<div class="thumb">'+
+                            '<img  src="'+data.results[index].image+'" class="img-fluid" alt="">'+
+                          '</div>'+
+                          '<div class="body">'+
+                            '<h5><a href="#">'+data.results[index].full_name+'</a></h5>'+
+                            '<div class="info">'+
+                              '<span class="designation"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>'+data.results[index].current_designation+'</span>'+
+                              '<span class="location"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>'+data.results[index].current_location+'</span>'+
+                            '</div>'+
+                         ' </div>'+
+                        '</td>'+
+                       '<td class="status"><a href="#" class="fillheart"><i class="fillheart"></i></a></td>'+
+                        '<td class="action">'+
+                          '<a href="#" class="download"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></a>'+
+                          '<a href="#" class="inbox"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>'+
+                        '</td>'+
+                     ' </tr>');
+                     if(!data.results[index].current_designation){
+                 $('.designation').hide();
+         }
+         if(!data.results[index].current_location){
+           $('.location').hide();
+         }
+     }
+    }
+    
+   $('.shotlisted').addClass("active");
+
+
+</script>
+{% endblock %}

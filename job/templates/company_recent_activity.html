@@ -1,0 +1,94 @@
+{% extends 'layout/layout_company.html' %}
+{% load static %}
+{% block page_header %}
+    Recent Activity
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Recent Activity</span>
+{% endblock %}
+
+{% block body_block %}
+<div class="dashboard-section dashboard-recent-activity" id="recent-activity">
+        <h4 class="title">Recent Activity</h4>
+    </div>
+
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            get('/api/company/dashboard/recent_activity/',ActivityCallBack);
+        });
+        function ActivityCallBack(data) {
+            for(i=0; i<data.length;i++){
+                if(data[i]['type'] == 'job-posted_com'){
+                    $('#recent-activity').append('<div class="activity-list">'+
+                        '<i class="fas fa-briefcase"></i>'+
+                        '<div class="content">' +
+                        '<h5>'+ data[i]['description']+'</h5>'+
+                        '<span class="time">'+data[i]['time']+'</span>'+
+                        '</div>'+
+                        '<div class="close-activity" style="display: none">'+
+                        '<i class="fas fa-times"></i>'+
+                        '</div>'+
+                        '</div>')
+                }
+                if(data[i]['type'] == 'profile_com'){
+                    $('#recent-activity').append('<div class="activity-list">'+
+                        '<i class="fas fa-user"></i>'+
+                        '<div class="content">' +
+                        '<h5>'+ data[i]['description']+'</h5>'+
+                        '<span class="time">'+data[i]['time']+'</span>'+
+                        '</div>'+
+                        '<div class="close-activity" style="display: none">'+
+                        '<i class="fas fa-times"></i>'+
+                        '</div>'+
+                        '</div>')
+                }
+                if(data[i]['type'] == 'shortlist_com'){
+                    $('#recent-activity').append('<div class="activity-list">'+
+                        '<i class="fas fa-heart"></i>'+
+                        '<div class="content">' +
+                        '<h5>'+ data[i]['description']+'</h5>'+
+                        '<span class="time">'+data[i]['time']+'</span>'+
+                        '</div>'+
+                        '<div class="close-activity" style="display: none">'+
+                        '<i class="fas fa-times"></i>'+
+                        '</div>'+
+                        '</div>')
+                }
+                if(data[i]['type'] == 'apply_com'){
+                    $('#recent-activity').append('<div class="activity-list">'+
+                        '<i class="fas fa-check-square"></i>'+
+                        '<div class="content">' +
+                        '<h5>'+ data[i]['description']+'</h5>'+
+                        '<span class="time">'+data[i]['time']+'</span>'+
+                        '</div>'+
+                        '<div class="close-activity" style="display: none">'+
+                        '<i class="fas fa-times"></i>'+
+                        '</div>'+
+                        '</div>')
+                }
+                if(data[i]['type'] == 'update_com'){
+                    $('#recent-activity').append('<div class="activity-list">'+
+                        '<i class="fas fa-bolt"></i>'+
+                        '<div class="content">' +
+                        '<h5>'+ data[i]['description']+'</h5>'+
+                        '<span class="time">'+data[i]['time']+'</span>'+
+                        '</div>'+
+                        '<div class="close-activity" style="display: none">'+
+                        '<i class="fas fa-times"></i>'+
+                        '</div>'+
+                        '</div>')
+                }
+
+
+            }
+        }
+
+        $('.com_recent_activity').addClass("active");
+
+    </script>
+{% endblock %}
+

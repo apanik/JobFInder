@@ -1,0 +1,503 @@
+{% extends 'layout/layout_company.html' %}
+{% load static %}
+{% block page_header %}
+    Edit Profile
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Edit Profile</span>
+{% endblock %}
+
+
+{% block body_block %}
+
+    <form action="/api/company/update/" id="profile-form" class="dashboard-form ajax" method="PUT" data-callback = "companyProfileUpdate" enctype="multipart/form-data" novalidate="novalidate">
+        <div class="dashboard-section upload-profile-photo">
+            <div class="update-photo">
+                <img class="image jcrop-holder" src="" alt="">
+            </div>
+            <div class="file-upload">
+                <input type="file" id="profile_picture" class="file-input">Change
+            </div>
+        </div>
+        <div class="basic-info-input company-profile-picture-btn display-none">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <button class="btn btn-yellow picture-save-button"> Save Picture </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form action="/api/company/update/" id="company-update-form" class="dashboard-form ajax" method="PUT" novalidate="novalidate" data-callback="updatecallback">
+
+        <div class="dashboard-section basic-info-input">
+            <h4><i data-feather="user-check"></i>Basic Info</h4>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Company Name</label>
+                <div class="col-sm-9">
+                    <input type="text" name="name" id="name" class="form-control" placeholder="" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Company Profile</label>
+                <div class="col-sm-9">
+
+                    <textarea name="company_profile" id="company_profile" class="tinymce-editor tinymce-editor-1" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Year of Establishment</label>
+                <div class="col-sm-9">
+                    <input type="date" name="year_of_eastablishment" id="year_of_eastablishment" placeholder="DD/MM/YYYY" class="form-control" >
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Legal Structure</label>
+                <div class="col-sm-9">
+                    <input type="text" name="legal_structure_of_this_company" id="legal_structure_of_this_company" class="form-control" placeholder="" >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">No of Human resources</label>
+                <div class="col-sm-9">
+                    <input type="text" min="1" name="total_number_of_human_resources" id="total_number_of_human_resources" class="form-control" placeholder="" >
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">No of IT resources</label>
+                <div class="col-sm-9">
+                    <input type="text" min="1" name="no_of_it_resources" id="no_of_it_resources" class="form-control" placeholder="" >
+                </div>
+
+            </div>
+
+            <div class="dashboard-section basic-info-input">
+                <h4><i data-feather="map"></i>Address</h4>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Address</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="address" id="address" class="form-control" placeholder="" required data-msg-required="Address is required">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Area</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="area" id="area" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">City</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="city" id="city" data-text="name" data-value="name" data-placeholder="Select City"
+                                data-src="/api/city/list"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-section basic-info-input">
+                <h4><i data-feather="user-check"></i>Contact Number</h4>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">1</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="company_contact_no_one" id="company_contact_no_one" class="form-control" placeholder="" required data-msg-required="At least one contact number is required">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">2</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="company_contact_no_two" id="company_contact_no_two" class="form-control" placeholder="">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">3</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="company_contact_no_three" id="company_contact_no_three"  class="form-control" placeholder="">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Web Address</label>
+                <div class="col-sm-9">
+                    <input type="url" name="web_address" id="web_address" class="form-control" placeholder="">
+                </div>
+            </div>
+
+
+            <div class="dashboard-section basic-info-input">
+                <h4><i data-feather="user-check"></i>Organizations's Head</h4>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Name</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="organization_head" id="organization_head" class="form-control" placeholder="" required data-msg-required="Name is required">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Designation</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="organization_head_designation" id="organization_head_designation" class="form-control" placeholder="">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Mobile No</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="organization_head_number" id="organization_head_number" class="form-control" placeholder="">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-section basic-info-input">
+                <h4><i data-feather="user-check"></i>Contact Person</h4>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Name</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="contact_person" id="contact_person" class="form-control" placeholder="" required data-msg-required="name is required">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Designation</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="contact_person_designation" id="contact_person_designation" class="form-control" placeholder="" required data-msg-required="designation is required">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Mobile No</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="contact_person_mobile_no" id="contact_person_mobile_no" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Email</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input  type="text" name="contact_person_email" regex="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" id="contact_person_email" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="dashboard-section media-inputs" style="display: none;">
+                <h4><i data-feather="image"></i>Photo &amp; Video</h4>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Intro Video</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Link</div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="https://www.youtube.com/watch?v=ZRkdyjJ_489M">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row" style="display: none;">
+                    <label class="col-sm-3 col-form-label">Gallery</label>
+                    <div class="col-sm-9">
+                        <div class="input-group image-upload-input">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Image</div>
+                            </div>
+                            <div class="active">
+                                <div class="upload-images">
+                                    <div class="pic">
+                                        <span class="ti-plus"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="dashboard-section social-inputs">
+            <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cast"><path d="M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"></path><line x1="2" y1="20" x2="2" y2="20"></line></svg>Other Information</h4>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">BASIS Membership No</label>
+                <div class="col-sm-9">
+                    <input type="text" name="basis_membership_no" id="basis_membership_no" class="form-control" placeholder="">
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Name in Google</label>
+                <div class="col-sm-9">
+                    <input type="text" name="company_name_google" id="company_name_google" class="form-control" placeholder="">
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Name in Bdjobs</label>
+                <div class="col-sm-9">
+                    <input type="text" name="company_name_bdjobs" id="company_name_bdjobs" class="form-control" placeholder="">
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Name in Facebook</label>
+                <div class="col-sm-9">
+                    <input type="text" name="company_name_facebook" id="company_name_facebook" class="form-control" placeholder="">
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!-- <div class="dashboard-section media-inputs">
+            <h4><i data-feather="map-pin"></i>Company Location</h4> -->
+
+        <!--            <label class="col-sm-3 col-form-label">Latitude</label>-->
+        <!--            <div class="col-sm-9">-->
+        <!--                  <div class="form-row field-latitude" >-->
+        <!--            <input type="number" class="form-control" name="latitude" step="0.000001" id="id_latitude">-->
+        <!--        </div>-->
+        <!--            </div>-->
+
+        <!--    <div class="form-group row">-->
+        <!--         <label class="col-sm-3 col-form-label">Longitude</label>-->
+        <!--        <div class="col-sm-13">-->
+        <!--            <div class="form-row field-longitude"style="width:930px;">-->
+        <!--                <input type="number" name="longitude"  class="form-control" step="0.000001" id="id_longitude">-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+
+
+        <!-- </div> -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-3">
+                <button class="button" >Update</button>
+            </div>
+        </div>
+
+    </form>
+    <div class="apply-popup crop-popup">
+        <div class="modal fade" id="crop-popup-id" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i data-feather="edit"></i>Crop Profile Picture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="" class="image-width" id="image">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default js-zoom-in">
+                                <i data-feather="zoom-in"></i>
+                            </button>
+                            <button type="button" class="btn btn-default js-zoom-out">
+                                <i data-feather="zoom-out"></i>
+                            </button>
+                        </div>
+                        <button type="button" class="button js-crop-and-preview">Crop</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $("#company-update-form").validate({
+                errorClass: "my-error-class"
+            });
+            $('#profile_picture').on('change',function () {
+                $('.company-profile-picture-btn').removeClass('display-none');
+            });
+            cropImage("profile_picture", "crop-popup-id");
+            initAjaxSelects();
+            initAjaxForms();
+
+            var company_name = getCookie('company_name');
+            if(!company_name){
+                goCompanySignIn();
+            }
+            var getUrl = '/api/company/get/';
+            setTimeout(function (){
+                get(getUrl,loadCompany);
+            }, 500);
+
+
+        });
+
+        function  loadCompany(data){
+            id = $('form#company-update-form').attr('id');
+            if(data){
+                if (!data.profile_picture){
+                    data.profile_picture="/static/images/company/company-logo-1.png"
+                }
+                json2Form(data, id);
+                if(data.profile_picture){
+                    $(".image").attr('src', data.profile_picture)
+                }
+            }
+        }
+
+
+        function updatecallback(data) {
+            if(data.status==200){
+                showSuccess("Successful!", "Company updated successfully.");
+                var company_picture = data.responseJSON.profile_picture;
+                $("#c-image img").attr('src', company_picture);
+                setCookie('company_picture', company_picture, 1)
+            }
+            else{
+            }
+        }
+        $('.edit_pro').addClass("active");
+
+        function companyProfileUpdate(data){
+            var company_picture = data.responseJSON.profile_picture;
+            $('.company-profile-picture-btn').addClass('display-none');
+            $("#c-image img").attr('src', company_picture);
+            $('.account-thumb').html('<img src="'+ company_picture +'" class="img-fluid" alt="">')
+            editCookie('company_picture', company_picture)
+        }
+
+        function cropImage(inputId, modalId) {
+            $("#"+inputId).on('change',function () {
+                if((this.files[0].size/1000) < 2000){
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $("#image").attr("src", e.target.result);
+                            $("#"+modalId).modal("show");
+                        }
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                }else{
+                    showError('Picture Maximum Size Exceeded','Enter A Picture below 2MB Size');
+                }
+            });
+
+            /* SCRIPTS TO HANDLE THE CROPPER BOX */
+            var $image = $("#image");
+            var cropBoxData;
+            var canvasData;
+            $("#"+modalId).on("shown.bs.modal", function () {
+                $image.cropper({
+                    viewMode: 1,
+                    aspectRatio: 1/1,
+                    minCropBoxWidth: 200,
+                    minCropBoxHeight: 200,
+                    fillColor: '#fff',
+                    ready: function () {
+                        $image.cropper("setCanvasData", canvasData);
+                        $image.cropper("setCropBoxData", cropBoxData);
+                    }
+                });
+            }).on("hidden.bs.modal", function () {
+                cropBoxData = $image.cropper("getCropBoxData");
+                canvasData = $image.cropper("getCanvasData");
+                $image.cropper("destroy");
+            });
+
+            // Enable zoom in button
+            $(".js-zoom-in").click(function () {
+                $image.cropper("zoom", 0.1);
+            });
+
+            // Enable zoom out button
+            $(".js-zoom-out").click(function () {
+                $image.cropper("zoom", -0.1);
+            });
+
+            /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+            $(".js-crop-and-preview").click(function () {
+                var imageData = $('#image').cropper('getCroppedCanvas', {fillColor: '#fff'}).toDataURL('image/jpeg', 0.3) ;
+                $('.jcrop-holder').attr('src', imageData);
+                $("#"+inputId).val("");
+                $("#"+modalId).modal('hide');
+            });
+
+            $('.close').click(function() {
+                $("#"+inputId).val("");
+
+            });
+
+        }
+    </script>
+{% endblock %}
+

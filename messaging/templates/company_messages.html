@@ -1,0 +1,157 @@
+{% extends 'layout/layout_company.html' %}
+{% load static %}
+{% block page_header %}
+    Messages
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Messages</span>
+{% endblock %}
+
+
+{% block body_block %}
+    <div class="dashboard-message-wrapper message-section">
+        <div class="message-lists d-none"></div>
+        <div class="message-box d-none">
+            <ul class="dashboard-conversation">
+            </ul>
+            <div class="conversation-write-wrap">
+                <form action="/api/employer-message-create/" id="message-create" class="ajax" method="POST" novalidate="novalidate" data-callback="messageCreateCallback">
+                    <textarea required id="message-content" data-msg-required="Please type something" name="message" placeholder="Type a message"></textarea>
+                    <input type="hidden" value="" name="receiver" id="message-receiver">
+                    <button type="submit" class="send-message"><i data-feather="send"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        initAjaxForms();
+        $(document).ready(function() {
+            $("#company-update-form").validate({
+                errorClass: "my-error-class"
+            });
+        });
+        $('.company_message').addClass("active");
+        var senderListApiEndpoint= "/api/sender-list/";
+        var senderMessageListApiEndpoint= "/api/sender-message-list?sender=";
+
+        get(senderListApiEndpoint,loadSenderList);
+        function loadSenderList(data) {
+            var numberOfSender = data.length;
+            if (numberOfSender) {
+                $(".message-lists, .message-box").removeClass('d-none');
+                var numberOfSenderString;
+                var activeClassSender = ' active';
+                var firstChatTextLoadStatus = true;
+                for (x = 0; x < numberOfSender; x++) {
+                    var other_party_name = data[x].other_party_name;
+                    var other_party_image = '';
+                    if (data[x].other_party_image) {
+                        other_party_image = data[x].other_party_image;
+                    } else {
+                        other_party_image = ""
+                    }
+
+                    var other_party_user_id = data[x].other_party_user_id;
+                    numberOfSenderString = '<a href="javascript:void(0)" data-user="' + other_party_user_id + '" class="message-single' + activeClassSender + '"><div class="thumb">' +
+                        '<img src="' + other_party_image + '" class="img-fluid" alt=""></div>' +
+                        '<div class="body">' +
+                        '<h6 class="username">' + other_party_name + '</h6></div></a>';
+                    activeClassSender = '';
+                    $('.message-lists').append(numberOfSenderString);
+                    if (firstChatTextLoadStatus) {
+                        get(senderMessageListApiEndpoint + other_party_user_id, loadSenderMessageList);
+                        $("#message-receiver").val(other_party_user_id);
+
+                    }
+                    firstChatTextLoadStatus = false;
+                }
+            }else{
+                var message = "<div class='no-message-found'><div>No message found! To send a message to candidate," +
+                    " go to <a href='/company-manage-candidates/'> <strong>Manage Candidates</strong></a> and " +
+                    "click on the message icon on Action column.</div></div>";
+                $(".dashboard-message-wrapper").append(message);
+                $(".dashboard-content-wrapper").css("display", "inherit");
+            }
+        }
+
+        $(".message-lists").on('click', '.message-single', function (event) {
+            $('.message-lists a').removeClass("active");
+            $(this).addClass("active");
+            var userId = $(this).data('user');
+            $("#message-receiver").val(userId);
+            get(senderMessageListApiEndpoint+userId,loadSenderMessageList);
+        });
+
+        //geting live message from database
+        setInterval(function(){
+            var userId = $("a.message-single.active").data('user');
+            {#$("#message-receiver").val(userId);#}
+            get(senderMessageListApiEndpoint+userId,loadSenderMessageList);
+        }, 10000);
+
+
+        function loadSenderMessageList(data) {
+            var numberOfSender= data.length;
+            var numberOfSenderString;
+            var numberOfMessage = data.count;
+            var image;
+            var allMessage;
+            for(x=0;x<numberOfMessage;x++){
+                var classConversationInOrOut = '';
+                if (data.results[x].sender_type == "Company"){
+                    classConversationInOrOut = ' in';
+                    image = data.results[x].sender_company.profile_picture;
+                }else {
+                    classConversationInOrOut = ' out';
+                    image = data.results[x].sender_pro.image;
+                }
+
+                var message= data.results[x].message;
+                if (data.results[x].created_at){
+                    var createdAtmomentObj = moment(data.results[x].created_at);
+                    var created_at = createdAtmomentObj.format('DD/MM/YYYY');
+                    var created_day = createdAtmomentObj.format('dddd');
+                    var created_time = createdAtmomentObj.format('hh:mm A');
+                }else {
+                    var created_at= '';
+                    var created_day= '';
+                    var created_time= '';
+                }
+
+
+                var messageString = '<li class="conversation'+ classConversationInOrOut +'"><div class="avater">' +
+                    '<img src="'+image+'" class="img-fluid" alt="No Image">' +
+                    '</div><div class="message"><span>'+message+'</span></div>' +
+                    '<span class="send-time">'+created_time +' '+created_day+'<br />'+created_at+'</span></li>';
+
+                messageString += allMessage;
+                allMessage = messageString;
+            }
+            $('.dashboard-conversation').html(allMessage);
+        }
+
+        //After Send message Disable message send button for 1.5 seconds for preventing bulk request
+        $(".message-box").on('submit', '.send-message', function (event) {
+            $(".send-message").prop('disabled', true);
+            setTimeout(function(){
+                $(".send-message").prop('disabled', false);
+            }, 1000);
+        });
+
+
+        function messageCreateCallback(data) {
+            if(data.status==201){
+                $("#message-content").val('');
+                get(senderMessageListApiEndpoint+data.responseJSON.receiver,loadSenderMessageList);
+            }
+            else{
+            }
+        }
+    </script>
+{% endblock %}
+

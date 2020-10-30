@@ -1,0 +1,181 @@
+{% load static %}
+
+<div class="jobxprss-app">
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="app-download">
+                    <h2>Get JobXprss App</h2>
+                    <span class="bottom-border-app-link"></span>
+                    <p>To get the best JobXprss experience, use the mobile app.</p>
+                    <div class="app-download-button">
+                        <a href="#" target="_blank" style="display: none;" class="android-app"><img src="{% static 'images/badge-android.png'%}" /></a>&nbsp;&nbsp;
+                        <a href="#" target="_blank" style="display: none;" class="apple-app"><img src="{% static 'images/badge-iphone.png'%}" /></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md app_image">
+                <img src="{% static 'images/yellow/jobxprss_app.png'%}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="footer-top border-bottom section-padding-top padding-bottom-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="footer-logo">
+                        <a href="{% url 'home' %}">
+                            <img src="{% static 'images/logo.png'%}" class="logo img-fluid" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="footer-social">
+                        <a class="facebook-url" style="display: none;" href="#" target="_blank"><i class="fab fa-3x fa-facebook-square text-yellow"></i></a>&nbsp;
+                        <a class="linkedin-url" style="display: none;" href="#" target="_blank"><i class="fab fa-3x fa-linkedin text-yellow"></i></a>&nbsp;
+                        <a class="twitter-url" style="display: none;" href="#" target="_blank"><i class="fab fa-3x fa-twitter-square text-yellow"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="border-yellow w-auto" />
+    <div class="footer-widget-wrapper padding-bottom-60 padding-top-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="footer-widget footer-shortcut-link">
+                        <h4 class="text-yellow">Information</h4>
+                        <div class="widget-inner">
+                            <ul>
+                                <li><a href="{% url 'about_us' %}">About Us</a></li>
+                                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                                <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                                <li><a href="{% url 'terms-of-use' %}">Terms of Use</a></li>
+                                <li><a href="{% url 'FAQ' %}">FAQ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="footer-widget footer-shortcut-link">
+                        <h4 class="text-yellow">Company</h4>
+                        <div class="widget-inner">
+                            <ul>
+                                <li id="request_for_access"><a href="{% url 'request_for_access' %}">Request For Access</a></li>
+                                <li id="company_sign"><a href="{% url 'company_sign' %}">Company Sign In</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="footer-widget footer-shortcut-link">
+                        <h4 class="text-yellow">Job Seekers</h4>
+                        <div class="widget-inner">
+                            <ul>
+                                <li><a href="{% url 'register' %}">Create Account</a></li>
+                                <li><a href="{% url 'career_advice' %}">Career Advice</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="footer-widget footer-shortcut-link">
+                        <div class="widget-inner" style="pointer-events: none;">
+                            <h4 class="text-yellow">Address</h4>
+                            <address>
+                                House 76 (Level 4)<br />
+                                Road 4, Block B<br />
+                                Niketan, Gulshan 1<br />
+                                Dhaka 1212, Bangladesh<br />
+                            </address>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-widget footer-newsletter">
+                        <h4 class="text-yellow">Job Alert</h4>
+                        <p id="alert-msg">Get email updates about our latest news.</p>
+                        <h4>Subscribe Now...</h4>
+                        <form action="" id="job-alert" class="newsletter-form form-inline" method="POST" data-callback="" autocomplete="off">
+                            <div class="input-group job-alert-input mb-3">
+                                <input type="text" name="email" id="email" regex='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$' class="form-control" required data-msg-required="Email is required" data-msg-regex="Please enter a valid email" placeholder="demo@email.com">
+                                <div class="input-group-append">
+                                    <button class="btn bg-yellow" type="submit"><i class="fas fa-paper-plane fa-2x text-dark"></i></button>
+                                </div>
+                            </div>
+                            <p class="newsletter-error">0 - Please enter a value</p>
+                            <p class="newsletter-success">Thank you for subscribing!</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <div class="footer-bottom border-top">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="powered-by"><span>Powered By </span> <a target="_blank" href="http://www.ishraak.com"><img src="/static/images/ishraak-solutions-logo.png" alt="ISHRAAK" width="80px"></a>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="back-to-top">
+                                    <a href="#">Back to top<i class="fas fa-angle-up"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<p class="copyright-text">Copyright © 2020 JobXprss, All Right Reserved <span class="version">{{ APP_VERSION_NUMBER }}</span></p>
+
+{% include 'layout/__script_includes.html' %}
+
+<script type="text/javascript">
+    $(function () {
+        $('#job-alert').validate({
+            errorClass: "my-error-class",
+            errorPlacement: function(error, element) {
+                error.insertAfter(element.parent());
+            },
+        });
+
+        $("#job-alert").on('submit', function(event) {
+            event.preventDefault();
+            var email=$('.job-alert-input #email').val();
+            var getUrl = "/api/pro/check-professional-exist/?email=" + email;
+            var emailSubUrl = '/api/professional/email-subscription-on-off/';
+            if(!isLoggedIn()){
+                if($(this).valid()){
+                    get(getUrl, function (data) {
+                        var userEmail = { 'email': email};
+                        if(data.email_exist){
+                            localStorage.setItem('userEmail', JSON.stringify(userEmail));
+                            window.location.href = "/professional/sign-in/?email="+ email;
+                        }
+                        else{
+                            window.location.href = "/professional/signup/?email="+ email;
+                        }
+                    });
+                }
+            }else{
+                var data = {
+                    'job_alert_status' : true
+                };
+                put(emailSubUrl, JSON.stringify(data), jobAlertStatus);
+            }
+        });
+    });
+</script>
+
+

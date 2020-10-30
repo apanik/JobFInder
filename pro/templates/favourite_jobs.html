@@ -1,0 +1,330 @@
+{% extends 'layout/layout_professional.html' %}
+{% load static %}
+{% block page_header %}
+    Favourite Jobs
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Favourite Jobs</span>
+{% endblock %}
+{% block extra_css %}
+    <style>
+        #apply_now{
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        button#apply_now:hover{
+            border:1px solid #f5d91d !important;
+        }
+   </style>
+{% endblock %}
+
+{% block professional_block %}
+    <div class="dashboard-bookmarked" id="jobs">
+        <div class="job-view-filter">
+            <label for="page_size">Show:</label>
+            <select name="page_size" id="page_size">
+                <option value="10" selected>10</option>
+                <option value="25" >25</option>
+                <option value="50" >50</option>
+                <i class="fa fa-caret-down"></i>
+            </select>
+            <h4 class="bookmark-title float-right"></h4>
+        </div>
+
+        <div class="favorite-area" id="job-list">
+
+        </div>
+        <nav id="pagination-wrapper" class="mt-3">
+        </nav>
+    </div>
+
+    <div class="apply-popup">
+        <div class="modal fade" id="apply-popup-id" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i data-feather="edit"></i>APPLY</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 id="job-title"></h5>
+                        <form action="#" id="apply-form" novalidate="novalidate">
+
+                            <div class="form-group apply-name display-none">
+                                <input type="text" name="full_name" id="name" placeholder="Name" class="form-control" required>
+                            </div>
+                            <div class="form-group apply-phone display-none">
+                                <input type="text" regex="\+?(88)?0?1[56789][0-9]{8}\b" name="phone" id="phone" placeholder="Mobile" class="form-control" data-msg-regex="Enter a valid Mobile Number" required>
+                            </div>
+                            <div class="form-group apply-email display-none">
+                                <input type="email" name="email" id="email" regex='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$' placeholder="Email" class="form-control" data-msg-regex="Please enter a valid email" required>
+                                <input type="hidden" name="job" id="job" class="form-control">
+                                <input type="hidden" name="password" id="password" class="form-control">
+                                <input type="hidden" name="terms_and_condition_status" id="terms_and_condition_status" class="form-control">
+                            </div>
+                            <!--                            <div class="form-group">-->
+                            <!--                                <textarea class="form-control" placeholder="Message"></textarea>-->
+                            <!--                            </div>-->
+                            <div class="form-group file-input-wrap">
+                                <label for="up-cv">
+                                    <input id="up-cv" name="attachment" type="file" accept=".pdf,.doc,.docx,.zip">
+                                    <i id="icon-change" data-feather="upload-cloud"></i>
+                                    <span id="fileName">Attach your file <span>(pdf,zip,doc,docx)</span></span>
+                                </label>
+                                <textarea name="application_notes" id="application_notes" class="tinymce-editor tinymce-editor-1" placeholder="Application note here"></textarea>
+                            </div>
+                            <button id="apply_now" class="button btn-yellow btn-block">Apply Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+       $(document).ready(function() {
+           $("#apply-form").validate();
+           $('.favourite-job-bar').addClass('active')
+        var path = window.location.pathname.split('/')
+        var id = path[path.length-2]
+        var getUrl = '/api/job/favourite/';
+        get(getUrl, favJobs);
+        $("select#page_size").change(function (){
+            page_size = $(this).children("option:selected").val()
+            var getUrl = '/api/job/favourite/?page_size='+ page_size;
+            get(getUrl, favJobs);
+        });
+        favouriteJobAddRemove('job-list', '/api/job/favourite/toggle');
+           {#applyOnlineJobAddRemove('job-list', '/api/job/apply/');#}
+           $("#up-cv").change(function() {
+               var fileName = $(this).val().split('/').pop().split('\\').pop();
+               $("#fileName").text(fileName);
+           });
+
+           if(!isLoggedIn()){
+               $(".apply-name").removeClass("display-none");
+               $(".apply-phone").removeClass("display-none");
+               $(".apply-email").removeClass("display-none");
+           }
+
+           var job;
+           var jobTitle;
+           $("#jobs").on('click', '.apply:not(.applied)', function (event) {
+               if(!isLoggedIn()){
+                    $(".apply-popup .modal").removeAttr("id");
+                    var prevPosition = "job-list";
+                    showQuestion("Sign In required!", "Do you want to sign in now?", function(){
+                        window.location.href = '/professional/sign-in/?next=' + window.location.pathname + '#' + prevPosition;
+                    } , 'no');
+                }else{
+                   $("#up-cv").val('');
+                   $("#fileName").html("Attach your file <span>(pdf,zip,doc,docx)</span>");
+                   $("#apply-form")[0].reset();
+                   job = $(this).attr('href');
+                   jobTitle = $(this).parents().eq(2).find(".job-title").text();
+                   $("#job-title").text(jobTitle);
+               }
+           });
+
+           $("#apply-form").on('submit', function(event) {
+                event.preventDefault();
+                $('#apply_now').prop('disabled','disabled');
+                $('#job').val(job);
+                let resume = $('#up-cv').get(0).files[0];
+                applyUrl = "/api/job_apply/";
+
+                if($(this).valid()){
+                    var dataUrl;
+                    if(resume){
+                        var reader = new FileReader();
+                        reader.readAsDataURL(resume);
+                        reader.onload = function () {
+                            dataUrl = reader.result;
+                        };
+                    }
+
+                    upload(applyUrl, 'apply-form', function (data) {
+                        if(data.pro){
+                            let job_id = data.job;
+                            if(isLoggedIn()){
+                                var el = $("#jobs").find("[href='"+ job_id +"']");
+                                el.each(function () {
+                                    if($(this).hasClass("apply")){
+                                        $(this).addClass('disabled');
+                                        $(this).text('Applied');
+                                        $(this).removeAttr('href').css({"cursor":"default","color":"#ffffff"});
+                                        $(this).removeAttr("data-toggle");
+                                        $('#apply-popup-id').modal('hide');
+                                        showSuccess('Successful!', 'Job applied successfully.');
+                                        $('#apply_now').removeAttr('disabled')
+                                    }
+                                })
+                            }
+                        }else {
+                            showError('Error', 'Email exists');
+                            $('#apply_now').removeAttr('disabled')
+                        }
+                    },function (data){
+                        showError("Error", data.responseJSON.details);
+                        $('#apply_now').removeAttr('disabled')
+                    })
+                }
+
+        });
+
+    });
+       //appending fav jobs to html
+       function  favJobs(data){
+           $('.job-list').remove();
+           var startIndex = data.start_index;
+            var endIndex = data.end_index;
+            var count = data.count;
+            var paginationSummary = "Showing " + startIndex + ' - ' + endIndex + ' of ' + count + ' Jobs';
+           $('.bookmark-title').text(paginationSummary);
+
+            var dateString = new Date()
+            var todaymomentObj = moment(dateString, 'YYYY-MM-DD');
+
+           for(index=0;index<data.results.length;index++){
+               if(data.results[index].application_deadline){
+                   var dateString = data.results[index].application_deadline;
+                   var dateMomentString = moment(dateString, 'YYYY-MM-DD');
+                   {#var dateMomentString = momentObj.format('MMM DD, YYYY');#}
+                   var date1 = new Date(dateMomentString);
+                   var date2 = new Date(todaymomentObj)
+                   var timeDiff = (date1.getTime() - date2.getTime());
+                   var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+               }else{
+                   var diffDays = 0;
+               }
+
+            if (dateMomentString=='Invalid date'){
+             var dateMomentString = " None";
+            }
+            if(data.results[index].post_date){
+                    var PostdateString = data.results[index].post_date;
+                    var momentObj = moment(PostdateString, 'YYYY-MM-DD');
+                    PostdateMomentString = momentObj.format('DD/MM/YYYY');
+                }
+                if(data.results[index].salary && data.results[index].salary != 'Negotiable'){
+                    salary = Number(data.results[index].salary) + ' BDT'
+                }else{
+                    salary = 'Negotiable'
+                }
+                if(data.results[index].salary_min && data.results[index].salary_max){
+                    if(data.results[index].salary_min==data.results[index].salary_max){
+                        salary = Number(data.results[index].salary_min) + ' BDT'
+                    }
+                    else {
+                        salary = Number(data.results[index].salary_min) + '-' + Number(data.results[index].salary_max) +' BDT'
+                    }
+                }
+             var job_html_1st= '<div class="job-list" >'+
+                      '<div class="thumb">'+
+                        '<a href="/company-details/'+data.results[index].company.name+'">'+
+                          '<img src="'+data.results[index].company.profile_picture+'" style="max-width:70px"; class="img-fluid" alt="">'+
+                        '</a>'+
+                      '</div>'+
+                      '<div class="body">'+
+                        '<div class="content">'+
+                          '<h4><a class="job-title" href="/job-detail/'+ data.results[index].slug+'">'+data.results[index].title+'</a></h4>'+
+                          '<div class="info">'+
+                            '<span class="company"><a href="/company-details/'+data.results[index].company.name+'"><i class="fas fa-building" style="margin-right: 5px"></i>'+data.results[index].company.name+'</a></span>';
+             var job_html_office_location= '<span class="office-location"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>'+data.results[index].address+'</span>';
+             var job_html_last= '<span class="job-type full-time"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span class="text-normal"> '+data.results[index].job_type+'</span></span>'+
+                          '</div>'+
+                 '<div class="info" style="margin-top: 10px;">'+
+                    '<span class="posted_date"><i class="fas fa-calendar" style="margin-right: 5px"></i>Posted on '+PostdateMomentString+'</span>'+
+                    '<span class="salary"><i class="fas fa-money-bill" style="margin-right: 5px"></i>Salary: '+salary+'</span>'+
+                    '</div>'+
+                        '</div>'+
+                        '<div class="more">'+
+                          '<div class="buttons">'+
+                            '<a href="'+data.results[index].job_id+'" class="button btn-yellow apply" data-toggle="modal" data-target="#apply-popup-id" style="min-width: 115px;text-align: center;" data-toggle="modal">Apply</a>'+
+                            '<a href="'+data.results[index].job_id+'" class="favourite active bookmark-remove"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#f5d91d" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></i></a>'+
+                          '</div>'+
+                          '<p class="deadline-'+index+'"style="font-size: 1.3rem;margin-top: 10px; font-style: italic;font-weight: 300;display: block;text-align: right;">'+'Deadline in '+diffDays+' days</p>'+
+                        '</div>'+
+                      '</div>'+
+                   '</div>';
+
+            if (data.results[index].address){
+                 var job_html_total = job_html_1st + job_html_office_location + job_html_last;
+            }else {
+                var job_html_total = job_html_1st + job_html_last;
+            }
+
+            $('#job-list').append(job_html_total);
+
+            if(diffDays <= 0){
+                    $('.deadline-'+index).css('display','none')
+                }
+            var el = $("#job-list").find("[href='"+ data.results[index].job_id +"']");
+                el.each(function () {
+                    if($(this).hasClass('apply')){
+
+                        // $(this).removeClass('active');
+                        // showError('Oopss!', 'Job removed.')
+                        if(data.results[index].is_applied == true && isLoggedIn()){
+                            $(this).addClass('applied');
+                            $(this).addClass('disabled');
+                            $(this).text('Applied');
+                            $(this).removeAttr('href').css({"cursor":"default","color":"#ffffff"});;
+                            $(this).removeAttr("data-toggle");
+                        }
+                    }
+
+                });
+
+        }
+            makePaginator("#pagination-wrapper", data, 'favJobs');
+}
+//on click function for removing and sending id for each job in api
+       $('.favorite-area').on('click','.bookmark-remove',function (event) {
+           event.preventDefault()
+           $(this).parent().parent().parent().parent().remove();
+           var bookmark_value =$('.bookmark-title').val()-1;
+           $('.bookmark-title').html(bookmark_value + " Favorite Job");
+            $('.bookmark-title').val(bookmark_value);
+
+       });
+
+{% comment %}function myFunction(event,elm,clicked_id) {
+           event.preventDefault()
+ $(elm )
+ identifier = elm.id;
+ catUrl ='job/favourite/toggle';
+ get(catUrl,reWriter);
+    favouriteJobAddRemove('job-list', '/api/job/favourite/toggle');
+}
+
+//function for rewriting for showing up to date total bookmarked jobs
+function reWriter(data){
+showSuccess("Job Removed!", "")
+number_of_jobs_bookmarked=data.total_bookmarked;
+document.getElementsByClassName("bookmark-title")[0].innerHTML = number_of_jobs_bookmarked + " Job Bookmarked";
+}{% endcomment %}
+    function verifyRecaptchaCallback() {
+            recaptchachecked = true;
+            if(recaptchachecked==true){
+                document.getElementById('error-captcha').innerHTML="";
+            }
+        }
+
+        function generatePassword() {
+            var length = 8,
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                retVal = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            return retVal;
+        }
+
+
+    </script>
+{% endblock %}

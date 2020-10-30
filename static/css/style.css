@@ -1,0 +1,151 @@
+#tb-doc tbody tr:nth-child(2) td:last-child a, #tb-doc tbody tr:nth-child(3) td:last-child a {
+    display: none;
+}
+
+.margin-top-4 {
+    margin-top: 4px;
+}
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+/*result summary*/
+a#result-summary {
+    padding: 0.5rem 0.5rem;
+    font-size: inherit;
+    color: #000000;
+}
+
+#result-summary-table thead th, #result-summary-table tbody td{
+    border: 1px solid #eee;
+}
+
+#result-summary-table tbody tr td {
+    vertical-align: middle;
+}
+
+ul#result-summary-pagination {
+    float: right;
+}
+
+ul#result-summary-pagination li {
+    list-style-type: none;
+}
+
+/*question list */
+ul#question-list-pagination {
+    float: right;
+}
+
+
+#wrap {
+	padding-top: 70px;
+}
+
+#home h1 {
+	margin-bottom: 30px;
+}
+#demo,
+#examples,
+#support,
+#download {
+	padding-top: 40px;
+}
+
+/*assign questionnaire*/
+button#assign-questionnaire {
+    float: right;
+}
+ul li {
+    list-style-type: none;
+    padding: 1px 0;
+
+}
+
+.form-row label {
+    display: block;
+}
+.module .form-row {
+    margin-bottom: 1.5rem;
+}
+.fieldBox {
+    margin-right: 1.5rem;
+}
+.form-row .vCheckboxLabel {
+    display: inline;
+    margin-left: .4rem;
+}
+.results, .paginator {margin-right: 280px;
+}
+
+
+/*create exam*/
+#image-area{
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    width: 100%;
+}
+
+.tab-content .django-ckeditor-widget {
+    display: inherit !important;
+}
+
+/*Radio field common css for custom form*/
+.radio-field-wrapper ul {
+    padding: 0;
+}
+.radio-field-wrapper ul li {
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.tab-wrapper .nav-tabs .nav-item {
+    margin-bottom: -3px;
+}
+form label {
+    font-weight: 600;
+}
+.tab-wrapper .nav-tabs .nav-link.active {
+    border: 1px solid #ccc;
+    border-bottom: 0 ;
+}
+.tab-content {
+    border: 1px solid #ccc;
+    border-top: 0;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+.card-content .card-body .nav .nav-item .nav-link {
+    font-weight: 600;
+    font-size: 18px;
+}
+.basic-table tr td {
+    border: 1px solid #ccc;
+    vertical-align: middle;
+}
+.basic-table tr td:last-child, .basic-table tr th:last-child {
+    text-align: center;
+}
+.basic-table tr th {
+    font-size: 14px;
+    font-weight: normal;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.questionnaire-title {
+    padding-top: 15px;
+    margin-bottom: 0;
+}
+.bootstrap-tagsinput {
+    height: calc(2.75rem + 2px);
+}
+.preview-show {
+    max-height: 188px;
+    cursor: pointer;
+}
+li.help-block {
+    list-style: none;
+}
+:required {
+    border-right: 2px solid red !important;
+}

@@ -1,0 +1,293 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume</title>
+    <base href="{{ SITE_URL }}">
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/toastr.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/fontawesome/css/all.css'%}"/>
+    <link rel="stylesheet" href="{% static 'assets/icofont/icofont.min.css'%}"/>
+
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/yellow.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+    <style>
+        .row, .edu-list, .exp-list, .cer-list, .mem-list, .por-list{
+            display: -webkit-box; /* wkhtmltopdf uses this one */
+            -webkit-box-pack: center; /* wkhtmltopdf uses this one */
+            justify-content: center;
+
+        }
+
+
+        .row > div {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1 !important;
+            flex: 1;
+        }
+
+        .row > div:last-child {
+            margin-right: 0;
+        }
+        .keep-together {
+            page-break-inside: avoid;
+        }
+
+        .break-before {
+            page-break-before: always;
+        }
+
+        .break-after {
+            page-break-after: always;
+        }
+        .professonal-skill .progress-group {
+            display: inline-block;
+
+        }
+        .edu-list .body, .exp-list .body, .cer-list .body, .mem-list .body, .por-list .body, .mbr-list .body {
+            padding-left: 30px;
+            width: 94%;
+            padding-right: 30px;
+            text-align: justify;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="alice-bg section-padding-bottom" style="background: #fff;">
+    <div class="container no-gliters">
+        <div class="col">
+            <div class="dashboard-container" style="width: 100%;">
+                <div class="dashboard-content-wrapper" style="width: 100%;">
+
+
+                    <div class="skill-and-profile dashboard-section float-right">
+                        {% for obj in data %}
+                            <div class="social-profile ">
+                                <label id="social-icons">Social:</label>
+                                <a {% if obj.facebook_id %} href="{{ obj.facebook_id }}" {% endif %} id="facebook"><i style="color: #3b5998;" class="fab fa-facebook-f" ></i></a>
+                                <a{% if obj.twitter_id %} href="{{ obj.twitter_id }}" {% endif %} id="twitter"><i style="color: #00acee;" class="fab fa-twitter" ></i></a>
+                                <a {% if obj.linkedin_id %} href="{{ obj.linkedin_id }}" {% endif %} id="linkedin"><i style="color: #0e76a8;" class="fab fa-linkedin-in" ></i></a>
+                                {% if obj.current_company %}
+                                    <li id="current-company" style="list-style-type: none;font-family: Poppins, sans-serif;font-size: 1.4rem;"><strong>Company:</strong><span id="c_company" > {{ obj.current_company }}</span> </li>
+                                {% endif %}
+                                {% if obj.current_designation %}
+                                    <li id="current-designation" style="list-style-type: none;font-family: Poppins, sans-serif;font-size: 1.4rem;"><strong>Designation:</strong><span id="c_designation" > {{ obj.current_designation }}</span> </li>
+                                {% endif %}
+
+                            </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="dashboard-section upload-profile-photo">
+                                    <div class="update-photo">
+                                        {% if obj.image %}
+                                            <img id="image1" class="image" src=" {{ obj.image }}" alt="">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="about-details details-section dashboard-section">
+                                <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>Basic Info</h4>
+                                <div class="pro_about" id="about-details-div">
+                                    <div class="information-and-contact">
+                                        <ul>
+                                            <div id="basic-info-margin">
+                                                <span id="about_me"><h8>About Me: </h8>{% if  obj.about_me %}{{ obj.about_me | safe | escape }}{% endif %}</span><br>
+                                                <span class="about" id="about_me"></span>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-sm-6" id="loc">
+                                                    <span><h8>Location: </h8></span> <span id="address">Dhaka</span>
+                                                </div>
+
+
+                                            <div class="col-sm-6">
+                                                    <span><h8>Industry: </h8></span> <span id="industry_expertise">{% if obj.industry_expertise %}{{ obj.industry_expertise }}{% endif %}</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-sm-6">
+                                                    <span><h8>Mobile:</h8></span> <span id="phone">{% if obj.phone %}{{ obj.phone }}{% endif %}</span>
+                                                </div>
+
+                                            <div class="col-sm-6">
+                                                    {% ifequal obj.experience|slugify  '1' %}
+                                                        <span><h8>Years of Experience:</h8></span> <span id="experience">{{ obj.experience }} Year</span>
+                                                    {% else %}
+
+                                                        <span><h8>Experience:</h8></span> <span id="experience">{{ obj.experience }} Years</span>
+                                                    {% endifequal %}
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-sm-6">
+                                                    <span><h8>Qualification:</h8></span> <span id="qualification">{% if obj.qualification %}{{ obj.qualification }}{% endif %}</span>
+                                                </div>
+                                            </div>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if obj.educations.all %}
+                                <div class="edication-background details-section dashboard-section" id="edu">
+                                    <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>Education</h4>
+                                    {% for edu in obj.educations.all %}
+                                        <div class="education-label edu-list">
+                                            <div class="body" >
+                                                <span class="study-year"> {{ edu.enrolled_date|date:'d/m/Y' }} - {% if edu.graduation_date %}{{  edu.graduation_date|date:'d/m/Y' }}{% else %} Present {% endif %} </span>
+                                                <h5>  {% if edu.degree_text %} {{ edu.degree_text }}{% endif %}<span>@{% if edu.institution_text %}{{ edu.institution_text }} {% endif %}</span></h5>
+                                                <p> {% if edu.description %}{{ edu.description | safe | escape }}{% endif %}</p>
+                                            </div>
+                                            <div class="thumb">
+                                                <img  {% if edu.institution.image %} src="media/{{ edu.institution.image }}" {% else %} src="/static/images/candidate/Institute.png" {% endif %} class="img-fluid" alt="">
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {%  endif %}
+                            {% if obj.work_experiences.all %}
+                                <div class="experience dashboard-section details-section" id="work">
+                                    <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>Work Experience</h4>
+                                    {% for work in obj.work_experiences.all %}
+                                        <div class="experience-section exp-list">
+                                            <div class="body">
+                                                <span class="service-year"> {% if work.start_date %}{{ work.start_date|date:'d/m/Y' }}{% endif %}-{% if work.end_date %}{{ work.end_date|date:'d/m/Y'  }}{% else %} Present {% endif %} </span>
+                                                <h5>{% if work.designation %} {{ work.designation }}{% endif %}<span>@{% if work.company_text %}{{ work.company_text }}{% endif %}</span></h5>
+                                                <p> {% if work.description %}{{ work.description | safe | escape }}{% endif %}</p></div>
+                                            <div class="thumb">
+                                                <img {% if work.company %} {% if work.company.profile_picture  %} src="media/{{ work.company.profile_picture }}" {% else %} src="/static/images/company/company-logo.png" {% endif %} {% else %} src="/static/images/company/company-logo-2.png" {% endif %} class="img-fluid" alt="">
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="professonal-skill dashboard-section details-section">
+                                <h4><i class="fas fa-tools profile-skill"></i>Professional Skill</h4>
+                                <div class="progress-group" id="pro_skill">
+                                    {% for skill in obj.skills.all %}
+                                        <div class="progress-item skill-list" style="width:450px !important;">
+                                            <div class="progress-head">
+                                                <p class="progress-on"> {% if skill.skill_name %}{{  skill.skill_name }} {% endif %}  </p>
+                                            </div>
+                                            <div class="progress-body">
+                                                <div class="progress" style="display: -webkit-box !important;">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="{% if skill.rating %}{{skill.rating }}" {% endif %} aria-valuemin="0" aria-valuemax="100"  style="width:{% widthratio skill.rating 1 10 %}%;"></div>
+                                                </div>
+                                                <p class="progress-to"> {% if skill.rating %} {{ skill.rating|stringformat:'d' }}/10 {% endif %}</p>
+                                            </div>
+                                        </div>
+
+
+                                    {% endfor %}
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+                            {%  if obj.certifications.all %}
+                                <div class="certification dashboard-section details-section" id="work">
+                                    <h4><img id="certification-logo" src="{% static 'images/certification-file.svg' %}">Certification</h4>
+                                    {% for cer in obj.certifications.all %}
+                                        <div class="certification-label cer-list">
+                                            <div class="body">
+                                                <span class="study-year">{% if cer.issue_date %} {{cer.issue_date|date:'d/m/Y'}}{% endif %}  - {%  if cer.expiry_date %}{{ cer.expiry_date|date:'d/m/Y' }}{% else %} Present{% endif %}</span>
+                                                <h5>{% if cer.certificate_name %}{{ cer.certificate_name }}{% endif %}<span>@ {% if cer.organization %}{{ cer.organization }}{% endif %} </span></h5>
+
+                                            </div>
+                                            <div class="thumb">
+                                                <img  {% if cer.organization_key.image %} src="/media/{{ cer.organization_key.image }}" {% else %} src="/static/images/candidate/Organization.png" {% endif %} class="img-fluid" alt="">
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            {% endif %}
+                            {%  if obj.memberships.all %}
+                                <div class="membership dashboard-section details-section" id="work">
+                                    <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>Membership</h4>
+                                    {% for mem in obj.memberships.all %}
+                                        <div class="membership-label mem-list">
+                                            <div class="body">
+                                                <span class="study-year">{% if mem.start_date %}{{ mem.start_date|date:'d/m/Y' }} {% endif %} -  {% if mem.end_date %}{{ mem.end_date|date:'d/m/Y' }}{% else %} Present {% endif %} </span>
+                                                <h5>{% if mem.position_held %}{{mem.position_held }}{% endif %}<span> @{% if mem.organization %}{{ mem.organization }}{% endif %}</span></h5>
+                                                <p>{% if mem.description %}{{ mem.description | safe | escape }}{% endif %}</p>
+                                            </div>
+                                            <div class="thumb">
+                                                <img  {% if mem.organization_key.image %} src="/media/{{ mem.organization_key.image }}"{% else %}src="/static/images/candidate/Organization.png"{% endif %} class="img-fluid" alt="">
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {%  endif %}
+                            {% if obj.portfolios.all %}
+                                <div class="portfolio dashboard-section details-section" id="pro_portfolio">
+                                    <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-gift"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>Portfolio</h4>
+                                    {% for port in obj.portfolios.all %}
+                                        <div class="portfolio-section por-list">
+                                            <div class="body">
+                                                <input type="hidden" class="portfolio-object-id" value="">
+                                                <b class="port-title service-year"><b>{% if port.name %}{{ port.name }}{% endif %}</b></b>
+                                                <p>{% if port.description %}{{ port.description | safe | escape }}{% endif %}</p>
+                                            </div>
+                                            <div class="thumb">
+                                                <img src="{% if port.image %}{{ port.image }}{% else %}/static/images/candidate/Portfolio.png{% endif %}" class="img-fluid" alt="">
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if obj.references.all %}
+                                <div class="reference details-section dashboard-section">
+                                    <h4 id="ref-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>Reference</h4>
+                                    {% for ref in obj.references.all %}
+                                        <div class="body reference-section">
+                                            <span class="service-year">{% if ref.description %}{{ ref.description | safe | escape }}{% endif %}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            {% endif %}
+                            <div class="personal-information dashboard-section details-section" id="details">
+                                <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>Personal Details</h4>
+                                <ul>
+                                    <li><span>Full Name:</span><span>{% if obj.full_name %}{{ obj.full_name }}{% endif %}</span></li>
+                                    <li><span>Fathers Name:</span><span>{% if obj.father_name %}{{ obj.father_name }}{% endif %}<span></li>
+                                    <li><span>Mothers Name:</span><span>{% if obj.mother_name %}{{ obj.mother_name }}{% endif %}</span></li>
+                                    <li><span>Date of Birth:</span><span>{% if obj.date_of_birth %}{{ obj.date_of_birth|date:'d/m/Y' }}{% endif %}</span></li>
+                                    <li><span>Nationality:</span><span>{% if obj.nationality %}{{ obj.nationality.name }}{% endif %}</span></li>
+                                    <li><span>Gender:</span><span>{% if obj.gender %}{{ obj.gender }}{% endif %}</li></span>
+                                    <li><div style="display: inline-block; color: black; margin-right: 5px;">Address:</div><div style="display: inline-block">{% if obj.address %}{{ obj.address| safe | escape }}{% endif %}</div></li>
+                                </ul>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                        {% endfor %}
+</body>
+
+</html>
+

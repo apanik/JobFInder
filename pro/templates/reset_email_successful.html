@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+    <meta name="X-CSRF-TOKEN" content="44f02902-3ac0-4d5a-86e2-da3d17430c26"/>
+    <title>P7</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+
+    <!-- External Css -->
+    <link rel="stylesheet" href="{% static '/assets/css/fontawesome-all.min.css'%}" />
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/faviconl.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/icon-114x114.png' %}">
+    {% block extra_css %}
+    {% endblock %}
+
+    <!--[if lt IE 9]>
+    <script src="{% static '/assets/js/html5shiv.min.js' %}"></script>
+    <script src="{% static '/assets/js/respond.min.js' %}"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<header class="header-2 access-page-nav">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="header-top">
+                    <div class="logo-area">
+                        <a href="{% url 'home' %}"><img src="{% static 'images/logo-2.png' %}" alt=""></a>
+                    </div>
+                    <div class="top-nav">
+                        <a href="/professional/sign-in/" class="account-page-link">Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="padding-top-100 padding-bottom-100 access-page-bg">
+    <div class="container padding-top-100">
+        <div class="row">
+            <div class="col-xl-5 col-md-6">
+                <div class="access-form">
+                    <div class="form-header">
+                        <h5 class="green-color"><i class="fas fa-check-square padding-icon-10 green-color"></i>Email is sent successfully with recovery link.</h5>
+                    </div>
+                    <div class="account-type display-none">
+                        <label for="idRegisterCan">
+                            <input id="idRegisterCan" type="radio" name="register">
+                            <span>Candidate</span>
+                        </label>
+                        <label for="idRegisterEmp">
+                            <input id="idRegisterEmp" type="radio" name="register">
+                            <span>Employer</span>
+                        </label>
+                    </div>
+                    <form action="/api/professional/password_reset/" id="forget-password-form" novalidate="novalidate" method="post" class="ajax" data-callback="forgetPasswordCallback">
+                        <div class="form-group">
+                            <input type="email" name="email" id="email"  placeholder="Email Address" class="form-control display-none" required data-msg-required="Please enter a valid email">
+
+                        </div>
+                        <div class="form-group display-none">
+                            <input type="password" placeholder="Password" class="form-control" required>
+                        </div>
+                        <div class="form-group display-none">
+                            <input type="password" placeholder="Confirm Password" class="form-control" required>
+                        </div>
+                        <div class="more-option terms display-none">
+                            <div class="mt-0 terms">
+                                <input class="custom-radio" type="checkbox" id="radio-4" name="termsandcondition" checked>
+                                <label for="radio-4">
+                                    <span class="dot"></span> I accept the <a href="/terms-and-condition">terms & conditions</a>
+                                </label>
+                            </div>
+                        </div>
+                        <a class="button primary-bg btn-block text-center" href="/professional/forget-password/">Reset Password Again</a>
+                    </form>
+                    <div class="shortcut-login">
+                        <span class="display-none">Or connect with</span>
+                        <div class="buttons display-none">
+                            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>
+                            <a href="#" class="google"><i class="fab fa-google"></i>Google</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static '/assets/js/jquery.min.js' %}"></script>
+<script src="{% static '/assets/js/popper.min.js' %}"></script>
+<script src="{% static '/assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/assets/js/feather.min.js' %}"></script>
+<script src="{% static '/assets/js/bootstrap-select.min.js' %}"></script>
+<script src="{% static '/assets/js/jquery.nstSlider.min.js' %}"></script>
+<script src="{% static '/assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static '/assets/js/visible.js' %}"></script>
+<script src="{% static '/assets/js/jquery.countTo.js' %}"></script>
+<script src="{% static '/assets/js/chart.js' %}"></script>
+<script src="{% static '/assets/js/plyr.js' %}"></script>
+<script src="{% static '/assets/js/tinymce.min.js' %}"></script>
+<script src="{% static '/assets/js/slick.min.js' %}"></script>
+<script src="{% static '/assets/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static '/assets/js/jquery.cookie.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static '/assets/js/form2js.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+<script src="{% static 'dashboard/js/datePicker.js' %}"></script>
+<script src="{% static 'dashboard/js/upload-input.js' %}"></script>
+<script src="{% static '/assets/js/sweetalert2@9.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        // $("#forget-password-form").validate({
+        //     errorClass : 'my-error-class'
+        // });
+        // initAjaxForms();
+    });
+    // function  forgetPasswordCallback(data){
+    //     if(data.status == 200){
+    //         $("#forget-password-form").toggle();
+    //         $(".access-page-bg").removeClass("padding-top-90 padding-bottom-90");
+    //         $(".access-page-bg").addClass("padding-top-150 padding-bottom-150");
+    //         $(".form-header").html('<h5><i data-feather="edit"></i>Email is sent successfully with recovery link.</h5>');
+    //         // showSuccess("Email Sent","Email sent succesesfully")
+    //     }
+    //     else {
+    //         showError('Email Not Sent!','Enter A Valid Email')
+    //     }
+    // };
+</script>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+{% load static %}
+{% url 'home' as home_url %}
+
+<header>
+    <nav class="main-nav navbar fixed-top navbar-light bg-white py-2 pr-2" id="navBtnGroup" style="display: none">
+        <div class="col">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/logo_black.png'%}" class="img-fluid logo" alt="">
+            </a>
+        </div>
+        <div class="col-auto px-0 mx-1">
+            <button class="navbar-toggler account-thumb" type="button" data-toggle="collapse" data-target="#userNavbar">
+                <img src="{% static 'images/account/thumb-1.jpg' %}" class="img-fluid" alt="">
+            </button>
+            <div class="collapse navbar-collapse" id="userNavbar" data-parent="#navBtnGroup" style="top: 113% !important;">
+                <div class="account-card">
+                    <a class="account-thumb">
+                        <img src="{% static 'images/account/thumb-1.jpg' %}" class="img-fluid" alt="">
+                    </a>
+                    <div class="account-body">
+                        <h5><a></a></h5>
+                        <span class="mail"></span>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <ul class="navbar-nav">
+                    <li  class="nav-item top-links"><a class="nav-link" href="/professional/profile-dashboard/"><span class="ti-home"></span>&nbsp;Dashboard</a></li>
+                    <li  class="nav-item top-links"><a class="nav-link" href="/change-password/"><span class="ti-key"></span>&nbsp;Change Password</a></li>
+                    <li  class="nav-item top-links"><a class="nav-link" href="/sign-out"><span class="ti-power-off"></span>&nbsp;Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-auto px-0 mx-1">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse top-links" id="collapsibleNavbar" data-parent="#navBtnGroup" style="top:113% !important;">
+                <ul class="navbar-nav">
+                    <li  class="nav-item"><a class="nav-link" href="{% url 'jobs' %}" >Jobs</a></li>
+                    <li  class="nav-item"><a class="nav-link" href="{% url 'career_advice' %}">Career Advice</a></li>
+                    <li  class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About Us</a></li>
+                    <li  class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="bg-yellow pt-1 d-none d-md-block">
+        <div class="container">
+            <div class="row">
+                <div class="nav col">
+                    <a class="nav-link admin-email"><span class="fas fa-envelope text-dark"></span></a>
+                    <a class="nav-link phone-number"><span class="icofont-phone-circle"></span></a>
+                </div>
+                <div class="nav col-auto pull-right">
+                    <a class="nav-link facebook-url" style="display: none;" target="_blank"><span class="fab fa-facebook-square"></span></a>
+                    <a class="nav-link linkedin-url" style="display: none;" target="_blank"><span class="fab fa-linkedin"></span></a>
+                    <a class="nav-link twitter-url"  style="display: none;" target="_blank"><span class="fab fa-twitter-square"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container my-4 d-none d-md-block">
+        <div class="row">
+            <div class="col">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png'%}" class="img-fluid logo" alt="">
+                </a>
+            </div>
+            <div class="col-auto">
+                <ul class="nav top-links">
+                    {% if request.get_full_path == home_url %}
+                        <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+                    {% else %}
+                        <li class="nav-item active"><a class="nav-link" title="Home" href="{% url 'home' %}">Home</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'jobs' %}" >Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'career_advice' %}">Career Advice</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a></li>
+                    <li class="nav-item dropdown">
+                        <button style="outline: none !important;" class="navbar-toggler account-thumb" type="button" data-toggle="collapse" data-target="#userNavbarMain">
+                            <img src="{% static 'images/account/thumb-1.jpg' %}" class="img-fluid" alt="">
+                        </button>
+                        <div class="collapse navbar-collapse" id="userNavbarMain" style="top: 145%">
+                            <div class="account-card">
+                                <a class="account-thumb" style="padding-top: 0 !important;margin-top: 5px;">
+                                    <img src="{% static 'images/account/thumb-1.jpg' %}" class="img-fluid" alt="">
+                                </a>
+                                <div class="account-body">
+                                    <h5><a></a></h5>
+                                    <span class="mail"></span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <ul class="navbar-nav">
+                                <li  class="nav-item"><a class="nav-link" href="/professional/profile-dashboard/"><span class="ti-home"></span>&nbsp;Dashboard</a></li>
+                                <li  class="nav-item"><a class="nav-link" href="/change-password/"><span class="ti-key"></span>&nbsp;Change Password</a></li>
+                                <li  class="nav-item"><a class="nav-link" href="/sign-out"><span class="ti-power-off"></span>&nbsp;Sign out</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>

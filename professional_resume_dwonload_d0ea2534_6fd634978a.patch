@@ -1,0 +1,108 @@
+From 6fd634978a24044dc433af09ab31b002acbb08ed Mon Sep 17 00:00:00 2001
+From: Anik-ish <alam@ishraak.com>
+Date: Mon, 21 Sep 2020 14:31:34 +0600
+Subject: [PATCH] professional resume pdf download done
+
+---
+ pro/templates/pro_view_profile.html |  4 ++-
+ pro/urls.py                         |  3 +-
+ pro/views.py                        | 45 +++++++++++++++++++++++++++--
+ 3 files changed, 48 insertions(+), 4 deletions(-)
+
+diff --git a/pro/templates/pro_view_profile.html b/pro/templates/pro_view_profile.html
+index 7c0853e2..c69dbfa7 100644
+--- a/pro/templates/pro_view_profile.html
++++ b/pro/templates/pro_view_profile.html
+@@ -28,6 +28,7 @@
+     <div class="skill-and-profile dashboard-section float-right">
+ 
+         <div class="social-profile ">
++            <li style="list-style: none;"><a class="download" href=""><i class="fas fa-download" style="margin-bottom: 10px;margin-right: 10px;"></i>Download Resume</a> </li>
+             <label id="social-icons">Social:</label>
+             <li id="current-company" style="list-style-type: none;font-family: Poppins, sans-serif;font-size: 1.4rem;"><strong>Company:</strong><span id="c_company" ></span> </li>
+             <li id="current-designation" style="list-style-type: none;font-family: Poppins, sans-serif;font-size: 1.4rem;"><strong>Designation:</strong><span id="c_designation" ></span> </li>
+@@ -638,6 +639,7 @@
+             var formattedDate = momentObj.format('DD/MM/YYYY');
+             return formattedDate;
+         }
+-
++        user_id = getCookie('user_id');
++        $('.download').attr("href",'/professional/download-resume/'+user_id)
+     </script>
+ {% endblock %}
+\ No newline at end of file
+diff --git a/pro/urls.py b/pro/urls.py
+index 698a08cf..288ea340 100644
+--- a/pro/urls.py
++++ b/pro/urls.py
+@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
+ from p7.views import PublicProfileView, ProDashboardView, ProEditProfile, ProProfileView, FavoriteJobsView, \
+     AppliedJobsView, ProRecentActivity, ApplicantProfileView
+ from pro.api import *
+-
++from pro.views import generate_resume
+ 
+ urlpatterns = [
+     path('professional/profile-layout/', TemplateView.as_view(template_name='layout_professional.html')),
+@@ -25,4 +25,5 @@ urlpatterns = [
+     path('pro/<str:slug>/', PublicProfileView.as_view(), name='public_myprofile'),
+     path('applicant/<str:slug>/', ApplicantProfileView.as_view(), name='public_myprofile'),
+     path('professional/recent-activity/',ProRecentActivity.as_view() , name='pro_recent_activity'),
++    path('professional/download-resume/<int:id>/', generate_resume, name='download_resume'),
+ ]
+\ No newline at end of file
+diff --git a/pro/views.py b/pro/views.py
+index 91ea44a2..c4aa9390 100644
+--- a/pro/views.py
++++ b/pro/views.py
+@@ -1,3 +1,44 @@
+-from django.shortcuts import render
++import uuid
+ 
+-# Create your views here.
++import pdfkit
++from django.db.models import Prefetch
++from django.http import HttpResponse
++from django.template.loader import get_template
++
++from p7.settings_dev import SITE_URL
++from pro.models import Professional, ProfessionalEducation, ProfessionalSkill, WorkExperience, Portfolio, Membership, \
++    Certification, Reference
++
++
++def generate_resume(request, id):
++    queryset = Professional.objects.filter(user_id=id).prefetch_related(
++        Prefetch('educations',
++                 queryset=ProfessionalEducation.objects.filter(is_archived=False).order_by('-enrolled_date')),
++        Prefetch('skills',
++                 queryset=ProfessionalSkill.objects.filter(is_archived=False).order_by('skill_name')),
++        Prefetch('work_experiences',
++                 queryset=WorkExperience.objects.filter(is_archived=False).order_by('-start_date')),
++        Prefetch('portfolios',
++                 queryset=Portfolio.objects.filter(is_archived=False).order_by('created_at')),
++        Prefetch('memberships',
++                 queryset=Membership.objects.filter(is_archived=False).order_by('created_at')),
++        Prefetch('certifications',
++                 queryset=Certification.objects.filter(is_archived=False).order_by('-issue_date')),
++        Prefetch('references',
++                 queryset=Reference.objects.filter(is_archived=False).order_by('created_at'))
++    )
++    template = get_template('public_profile_pdf.html')
++    html = template.render({'data': queryset, 'SITE_URL': SITE_URL})
++    options = {
++        'page-size': "A4",
++        'encoding': "UTF-8",
++        "enable-local-file-access": None,
++        "viewport-size": "1024x768",
++    }
++
++    resume = pdfkit.from_string(html, False, options=options)
++    filename = 'resume-' + str(uuid.uuid4()) + '.pdf'
++    response = HttpResponse(resume)
++    response['Content-Type'] = 'application/pdf'
++    response['Content-Disposition'] = "attachment; filename=%s" % filename
++    return response
+\ No newline at end of file
+-- 
+2.25.1
+

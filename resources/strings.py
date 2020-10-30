@@ -1,0 +1,10 @@
+DEFAULT_MIN_LENGTH_ERROR = "Password must contains at least 8 character long"
+DEFAULT_INVALID_PASSWORD_ERROR = "Password must contains at least 1 number and character"
+DEFAULT_INVALID_PHONE_NUMBER_ERROR = "Enter valid phone number"
+SUCCESS = 'success'
+FAILED = 'failed'
+PASSED = 'passed'
+PENDING= 'pending',
+DATA_NOT_FOUND='Data Not Found'
+YES_TEXT= 'Yes'
+NO_TEXT= 'No'

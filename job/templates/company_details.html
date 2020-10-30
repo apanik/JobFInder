@@ -1,0 +1,500 @@
+{% extends 'layout/layout_home.html' %}
+{% load static %}
+{% block page_header %}
+    Company Details
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Company Details</span>
+{% endblock %}
+{% block extra_css %}
+    <style>
+        #apply_now{
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        button#apply_now:hover{
+            border:1px solid #f5d91d !important;
+        }
+    </style>
+
+{% endblock %}
+{% block body_block %}
+    <div id="jobs">
+        <!-- Company Details -->
+        <div class="alice-bg padding-top-60 section-padding-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="company-details">
+                            <div class="title-and-info">
+                                <div class="title">
+                                    <div class="thumb" id="img">
+                                    </div>
+                                    <div class="title-body">
+                                        <h4 id='name'> </h4>
+                                        <div class="info" id="com_location">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="download-resume" id="jobCount">
+
+                                </div>
+                            </div>
+                            <div class="details-information padding-top-60">
+                                <div class="row">
+                                    <div class="col-xl-7 col-lg-8">
+
+                                        <div class="about-details details-section" id="about_us_section">
+                                            <h4><i data-feather="align-left"></i>About Us</h4>
+                                            <div id="company_profile" class="tinymce-editor">
+                                            </div>
+                                        </div>
+
+                                        <div class="intor-video details-section" id="video" style="display: none;">
+                                            <h4><i data-feather="video"></i>Intro Video</h4>
+                                        </div>
+
+
+                                        <div class="portfolio details-section" id="image" style="display: none;">
+                                            <h4><i data-feather="grid"></i>Image Gallery</h4>
+                                            <div class="portfolio-slider owl-carousel" id="images">
+                                                <div class="portfolio-item">
+                                                    <img src="{% static 'images/portfolio/thumb-2.jpg' %}" class="img-fluid" alt="">
+                                                    <div class="overlay">
+                                                        <a href="#"><i data-feather="eye"></i></a>
+                                                        <a href="#"><i data-feather="link"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="open-job details-section" id="open_jobs">
+                                            <h4><i data-feather="check-circle"></i>Recent Job(s)</h4>
+                                        </div>
+                                        <nav id="pagination-wrapper" class="mt-3">
+                                        </nav>
+                                    </div>
+
+                                    <div class="col-xl-4 offset-xl-1 col-lg-4">
+                                        <div class="information-and-contact">
+                                            <div class="information">
+                                                <h4>Basic Information</h4>
+                                                <ul>
+                                                    <li><span >Name:</span><p style="display: inline-block;" id="name"></p></li>
+                                                    <li ><span>Year of Establishment:</span><p style="display: inline-block;" id="year_of_eastablishment"></p></li>
+                                                    <li  ><span>Legal Structure:</span> <p style="display: inline-block;" id="legal_structure_of_this_company"></p></li>
+                                                    <li  ><span>No of Human Resources:</span> <p style="display: inline-block;" id="total_number_of_human_resources"></p></li>
+                                                    <li  ><span>No of IT Resources:</span><p style="display: inline-block;" id="no_of_it_resources"></p> </li>
+                                                </ul>
+                                            </div><br>
+
+                                            <div class="information" id="coninfo">
+                                                <h4>Contact Number</h4>
+                                                <ul id="web">
+                                                    <li><span>Mobile No:</span> <p style="display: inline-block;" id="company_contact_no_one"></p> </li>
+                                                    <li><span></span> <p style="display: inline-block;padding-left: 71px;" id="company_contact_no_two"></p> </li>
+                                                    <li><span></span> <p style="display: inline-block;padding-left: 71px;" id="company_contact_no_three"></p> </li>
+                                                    <li><span>Email:</span> <p style="display: inline-block;" id="email"></p></li>
+
+                                                </ul>
+                                            </div><br>
+                                        </div>
+
+                                        <div class="information" id="info">
+                                            <h4>Address</h4>
+                                            <ul>
+                                                <li><span>Address:</span><span style="color: inherit;line-height: 1.85;font-size: 1.4rem; font-weight: 400;"id="address"></span></li>
+                                                <li><span>Area:</span><p style="display: inline-block;" id="area"></p> </li>
+                                                <li><span>City:</span><p style="display: inline-block;" id="city"></p> </li>
+                                            </ul>
+                                        </div><br>
+
+                                        <div class="information" id="otherinfo">
+                                            <h4>Other Information</h4>
+                                            <ul>
+                                                <li ><span>BASIS Membership No:</span> <p style="display: inline-block;" id="basis_membership_no"></p></li>
+                                                <li ><span>Name in Google:</span> <p style="display: inline-block;" id="company_name_google"></p></li>
+                                                <li ><span>Name in Bdjobs:</span> <p style="display: inline-block;" id="company_name_bdjobs"></p></li>
+                                                <li ><span>Name in Facebook:</span> <p style="display: inline-block;" id="company_name_facebook"></p></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="job-location" id="maploc">
+                                            <h4>Our Location</h4>
+                                            <div id="map-area">
+                                                <div class="cp-map" id="location" data-zoom="10"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Company Details End -->
+        <div class="apply-popup">
+            <div class="modal fade" id="apply-popup-id" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><i data-feather="edit"></i>APPLY</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5 id="job-title"></h5>
+                            <form action="#" id="apply-form" novalidate="novalidate">
+
+                                <div class="form-group apply-name display-none">
+                                    <input type="text" name="full_name" id="name" placeholder="Name" class="form-control" required>
+                                </div>
+                                <div class="form-group apply-phone display-none">
+                                    <input type="text" regex="\+?(88)?0?1[56789][0-9]{8}\b" name="phone" id="phone" placeholder="Mobile" class="form-control" data-msg-regex="Enter a valid Mobile Number" required>
+                                </div>
+                                <div class="form-group apply-email display-none">
+                                    <input type="email" name="email" id="email" regex='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$' placeholder="Email" class="form-control" data-msg-regex="Please enter a valid email" required>
+                                    <input type="hidden" name="job" id="job" class="form-control">
+                                    <input type="hidden" name="password" id="password" class="form-control">
+                                    <input type="hidden" name="terms_and_condition_status" id="terms_and_condition_status" class="form-control">
+                                </div>
+
+                                <div class="form-group file-input-wrap">
+                                    <label for="up-cv">
+                                        <input id="up-cv" name="resume" type="file" accept=".pdf,.doc,.docx,.zip">
+                                        <i id="icon-change" data-feather="upload-cloud"></i>
+                                        <span id="fileName">Attach your file <span>(pdf,zip,doc,docx)</span></span>
+                                    </label>
+                                    <textarea name="application_notes" id="application_notes" class="tinymce-editor tinymce-editor-1" placeholder="Application note here"></textarea>
+                                </div>
+                                <button id="apply_now" class="button btn-yellow btn-block">Apply Now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $("#apply-form").validate();
+            var path = window.location.pathname.split('/');
+            var name = path[path.length-2];
+            {#applyOnlineJobAddRemove('open_jobs', '/api/job/apply/');#}
+            favouriteJobAddRemove('open_jobs', '/api/job/favourite/toggle');
+            var getUrl = '/api/company/search/?name=' + name;
+            get(getUrl,loadCompany);
+
+            var jobUrl = '/api/job/search/?company=' + name;
+            get(jobUrl,loadJob);
+
+            $("#up-cv").change(function() {
+                var fileName = $(this).val().split('/').pop().split('\\').pop();
+                $("#fileName").text(fileName);
+            });
+
+
+            if(!isLoggedIn()){
+                $(".apply-name").removeClass("display-none");
+                $(".apply-phone").removeClass("display-none");
+                $(".apply-email").removeClass("display-none");
+            }
+
+            var job;
+            var jobTitle;
+            $(".company-details").on('click', '.apply:not(.applied)', function (event) {
+                if(!isLoggedIn()){
+                    $(".apply-popup .modal").removeAttr("id");
+                    var prevPosition = "job-list";
+                    showQuestion("Sign In required!", "Do you want to sign in now?", function(){
+                        window.location.href = '/professional/sign-in/?next=' + window.location.pathname + '#' + prevPosition;
+                    } , 'no');
+                }else{
+                    $("#up-cv").val('');
+                    $("#fileName").html("Attach your file <span>(pdf,zip,doc,docx)</span>");
+                    $("#apply-form")[0].reset();
+                    job = $(this).attr('href');
+                    jobTitle = $(this).parents().eq(2).find(".job-title").text();
+                    $("#job-title").text(jobTitle);
+                }
+            });
+
+            $("#apply-form").on('submit', function(event) {
+                event.preventDefault();
+                $('#apply_now').prop('disabled','disabled')
+                $('#job').val(job);
+                let resume = $('#up-cv').get(0).files[0];
+                applyUrl = "/api/job_apply/";
+
+                if($(this).valid()){
+                    var dataUrl;
+                    if(resume){
+                        var reader = new FileReader();
+                        reader.readAsDataURL(resume);
+                        reader.onload = function () {
+                            dataUrl = reader.result;
+                        };
+                    }
+
+                    upload(applyUrl, 'apply-form', function (data) {
+                        if(data.pro){
+                            let job_id = data.job;
+                            if(isLoggedIn()){
+                                var el = $("#jobs").find("[href='"+ job_id +"']");
+                                el.each(function () {
+                                    if($(this).hasClass("apply")){
+                                        $(this).addClass('disabled');
+                                        $(this).text('Applied');
+                                        $(this).removeAttr('href').css({"cursor":"default","color":"#ffffff"});
+                                        $(this).removeAttr("data-toggle");
+                                        $('#apply-popup-id').modal('hide');
+                                        showSuccess('Successful!', 'Job applied successfully.');
+                                        $('#apply_now').removeAttr('disabled')
+                                    }
+                                })
+                            }
+                        }else {
+                            showError('Error', 'Email exists');
+                            $('#apply_now').removeAttr('disabled')
+                        }
+                    },function (data){
+                        showError("Error", data.responseJSON.details);
+                        $('#apply_now').removeAttr('disabled')
+                    })
+                }
+
+            });
+
+        });
+
+        function verifyRecaptchaCallback() {
+            recaptchachecked = true;
+            if(recaptchachecked==true){
+                document.getElementById('error-captcha').innerHTML="";
+            }
+        }
+
+        function generatePassword() {
+            var length = 8,
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                retVal = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            return retVal;
+        }
+
+        function loadCompany(data) {
+            var container = $('.container');
+            json2Div(data.results[0], container);
+            if(data.results[0].year_of_eastablishment){
+                var momentObj = moment(data.results[0].year_of_eastablishment, 'YYYY-MM-DD');
+                var year_of_eastablishment = momentObj.format('YYYY');
+                $('#year_of_eastablishment').text(year_of_eastablishment);}
+            else{
+                $('#year_of_eastablishment').hide(); }
+            if(data.results[0].web_address){
+                var http = data.results[0].web_address.includes("http");
+                if(http == false)
+                {
+                    web_address = 'http://' + data.results[0].web_address;
+                    $('#web').append('<li><span>Web Address:</span><p style="display: inline-block;" id="web_address"></p><a target="_blank" href="'+web_address+'">'+data.results[0].web_address+'</a></li>');
+                }
+                else{
+                    $('#web').append('<li><span>Web Address:</span><p style="display: inline-block;" id="web_address"></p><a target="_blank" href="'+data.results[0].web_address+'">'+data.results[0].web_address+'</a></li>');
+                }
+
+            }
+            if(data.results[0].city){
+                var office_location = data.results[0].city;
+                $('#com_location').append('<span class="company-location"><i data-feather="map-pin"></i><p style="display: inline-block;">'+office_location+'</p></span>');
+            }
+            if(data.results[0].profile_picture){
+                $('#img').append('<img src=" '+data.results[0].profile_picture+'" class="img-fluid" style="" alt="">');
+            }
+            else{
+                $('#img').append('<img src="{% static 'images/company/company-logo.png' %}" class="img-fluid" style="width:70px;" alt="">');
+            }
+            $('.cp-map').attr('data-lat',data.results[0].latitude);
+            $('.cp-map').attr('data-lng',data.results[0].longitude);
+            initMap();
+
+            if(!data.results[0].company_profile){
+                $('#about_us_section').hide();
+            }
+
+            if(data.results[0].video){
+                $('#video').append('<div class="video-area">'+
+                    '<div id="player" data-plyr-provider="vimeo" data-plyr-embed-id="126777001"></div>'+
+                    '</div>');
+            }
+            else{
+                $('#video').hide();
+
+            }
+
+            if(data.results[0].portfolio){
+                $('#images').append('<div class="portfolio-item">'+
+                    '<img src="{% static 'images/portfolio/thumb-3.jpg' %}" class="img-fluid" alt="">'+
+                    '<div class="overlay">'+
+                    '<a href="#"><i data-feather="eye"></i></a>'+
+                    '<a href="#"><i data-feather="link"></i></a>'+
+                    '</div>'+
+                    '</div>');
+            }
+            else{
+                $('#image').hide();
+            }
+
+            if(!data.results[0].basis_membership_no && !data.results[0].company_name_bdjobs && !data.results[0].company_name_google
+                && !data.results[0].company_name_facebook){$('#otherinfo').hide();}
+
+            if(!data.results[0].address && !data.results[0].area && !data.results[0].city){$('#info').hide();}
+
+            if(!data.results[0].web && !data.results[0].company_contact_no_one && !data.results[0].company_contact_no_two
+                && !data.results[0].company_contact_no_three && !data.results[0].email){$('#coninfo').hide();}
+
+            if(!data.results[0].contact_person && !data.results[0].contact_person_designation && !data.results[0].contact_person_mobile_no
+                && !data.results[0].contact_person_email){$('#conperson').hide();}
+
+            if(!data.results[0].organization_head && !data.results[0].organization_head_designation
+                && !data.results[0].organization_head_number){$('#orghead').hide();}
+
+            if(!data.results[0].latitude && !data.results[0].longitude){$('#maploc').hide();}
+
+        }
+
+        function loadJob(data) {
+            var dateString = new Date()
+            var todaymomentObj = moment(dateString, 'YYYY-MM-DD');
+            var path = window.location.pathname.split('/');
+            var name = path[path.length-2];
+            var name = unescape(name);
+        $('.job-list').remove()
+        var job_counter = 0;
+  //console.log('data.results.length' ,data.results.length);
+        if(data.results.length > 0){
+            for(index=0;index<data.results.length;index++){
+
+            var name_checker = (data.results[index].company.name == name);
+  //console.log('name' , name);
+  //console.log('company_name' ,data.results[index].company.name);
+  //console.log('name_checker' ,name_checker);
+            if(name_checker == true)
+            {
+            if(data.results[index].address)
+            {var address = data.results[index].address}
+            else{ address= 'Unknown'; }
+            if(data.results[index].job_type)
+            {var job_type = data.results[index].job_type;
+ //console.log('job_type' ,job_type);
+             var job_type =  job_type.charAt(0).toUpperCase() + job_type.slice(1).toLowerCase(); }
+ //console.log('capitalize job_type' ,job_type);
+            else{ job_type= ''; }
+                if(data.results[index].post_date){
+                    var PostdateString = data.results[index].post_date;
+                    var momentObj = moment(PostdateString, 'YYYY-MM-DD');
+                    PostdateMomentString = momentObj.format('DD/MM/YYYY');
+                }
+                if(data.results[index].application_deadline){
+                    var dateString = data.results[index].application_deadline;
+                    var application_deadline = moment(dateString, 'YYYY-MM-DD');
+                    {#var dateMomentString = momentObj.format('DD/MM/YYYY');#}
+                    {#var application_deadline = dateMomentString;#}
+                    var date1 = new Date(application_deadline);
+                    var date2 = new Date(todaymomentObj)
+                    var timeDiff = (date1.getTime() - date2.getTime());
+                    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                }
+                else{
+                    application_deadline= 'None';
+                    var diffDays = 0
+                }
+
+                if(data.results[index].salary && data.results[index].salary != 'Negotiable'){
+                    salary = Number(data.results[index].salary) + ' BDT'
+                }else{
+                    salary = 'Negotiable'
+                }
+                if(data.results[index].salary_min && data.results[index].salary_max){
+                    if(data.results[index].salary_min==data.results[index].salary_max){
+                        salary = Number(data.results[index].salary_min) + ' BDT'
+                    }
+                    else {
+                        salary = Number(data.results[index].salary_min) + '-' + Number(data.results[index].salary_max) +' BDT'
+                    }
+                }
+
+            var applyOrCopy = '<a href="'+data.results[index].job_id+'" class="button btn-yellow apply" data-toggle="modal" style="min-width: 115px;text-align: center;" data-target="#apply-popup-id">Apply Now</a>';
+            var favoriteJob = '<a href="'+data.results[index].job_id+'" class="favourite"><i data-feather="heart"></i></a>';
+            if(isCompany()){
+                applyOrCopy = '<a href="/company/post-job/?copy-from='+data.results[index].slug+'" class="button btn-yellow" style="min-width: 123px;text-align: center;">Copy This Job</a>';
+                favoriteJob = '<a href="'+data.results[index].job_id+'" class="favourite display-none"><i data-feather="heart"></i></a>';
+            }
+            var job_html= '<div class="job-list">'+
+                '<div class="body">'+
+                '<div class="content">'+
+                '<h4><a class="job-title" href="/job-detail/'+ data.results[index].slug+'">'+data.results[index].title+'</a></h4>'+
+                '<div class="info">'+
+                '<span class="office-location"><i data-feather="map-pin"></i>'+address+ '</a></span>'+
+                '<span class="job-type full-time"><i data-feather="clock"></i>'+job_type+'</a></span>'+
+                '</div>'+
+                '<div class="info" style="margin-top: 10px;">'+
+                    '<span class="posted_date"><i class="fas fa-calendar" style="margin-right: 5px"></i>Posted on '+PostdateMomentString+'</span>'+
+                    '<span class="salary"><i class="fas fa-money-bill" style="margin-right: 5px"></i>Salary: '+salary+'</span>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="more">'+
+                '<div class="buttons">'+
+                applyOrCopy+
+                favoriteJob+
+                '</div>'+
+                '<p class="deadline-'+index+'"style="font-size: 1.3rem;margin-top: 10px; font-style: italic;font-weight: 300;display: block;text-align: right;">'+'Deadline in '+diffDays+' days</p>'+
+                '</div>'+
+                '</div>'+
+                '</div>';
+            $('#open_jobs').append(job_html);
+             if(diffDays <= 0){
+                    $('.deadline-'+index).css('display','none')
+                }
+            var job_counter = job_counter + 1;
+  //console.log('job_counter' ,job_counter);
+            var el = $("#jobs").find("[href='"+ data.results[index].job_id +"']");
+            el.each(function () {
+                if($(this).hasClass('apply')){
+                    if(data.results[index].is_applied == true && isLoggedIn()){
+                        $(this).addClass('applied');
+                        $(this).addClass('disabled');
+                        $(this).text('Applied');
+                       $(this).removeAttr('href');
+                       $(this).removeAttr("data-toggle");
+                    }
+                }
+                if($(this).hasClass("favourite")){
+                    if(data.results[index].is_favourite == true && isLoggedIn()){
+                        $(this).addClass('active');
+                        $(this).children().attr("fill", "#f5d91d")
+                    }
+                }
+            });
+            feather.replace();
+            }
+            if(address && address == 'Unknown'){
+                $('.office-location').hide()
+            }
+          }
+        }
+  //console.log('job_counterFinal' ,job_counter);
+        $('#jobCount').append('<a>'+data.count+' Job(s)</a>');
+        makePaginator("#pagination-wrapper", data, 'loadJob');
+                    }
+   </script>
+{% endblock %}
+
+
+

@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="179829546239-ikudb9t84rf1vhihp36cdv4rbmd0vfmn.apps.googleusercontent.com">
+
+    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+    <meta name="X-CSRF-TOKEN" content="44f02902-3ac0-4d5a-86e2-da3d17430c26"/>
+    <title>JobXprss: All the Great Jobs in One Place!</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+
+    <!-- External Css -->
+    <link rel="stylesheet" href="{% static '/assets/css/fontawesome-all.min.css'%}" />
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/yellow.css' %}" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/favicon-57.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicon-72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicon-114.png' %}">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B24WQR88NR"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-B24WQR88NR');
+
+      function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+      let access_token = googleUser['wc']['access_token'];
+      console.log('successfully logged in via google signin');
+      let data = {
+            "token" : access_token
+      }
+      var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+
+        });
+      let url = "/api/company/google/signin/";
+      post(url, JSON.stringify(data), redirectPage);
+    }
+
+    function onFailure(error) {
+      console.log(error);
+    }
+    function renderButton() {
+      gapi.signin2.render('google-signin', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'light',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+    </script>
+    <!-- End Google Analytics -->
+
+    <!--[if lt IE 9]>
+    <script src="{% static '/assets/js/html5shiv.min.js' %}"></script>
+    <script src="{% static '/assets/js/respond.min.js' %}"></script>
+
+    <![endif]-->
+    <style>
+        body {
+            background: #111133 url({% static 'images/bg/bg_home.jpg' %}) no-repeat top;
+            font-family: "Poppins";
+        }
+
+        a{
+            color:#000;
+        }
+
+        a:hover{
+            color: #f5d91d;
+        }
+        #modal-signin h5 {
+            font-size: 1.8rem;
+        }
+        #modal-signin h5 svg {
+            height: 23px;
+            width: 30px;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+        #sign-in input {
+            border-radius: 5px;
+        }
+        #sign-in .more-option {
+            margin-top: 0;
+            margin-bottom: 30px;
+            display: inline;
+        }
+        .shortcut-login p {
+            padding-left: 15px;
+        }
+        .shortcut-login a, .more-option a {
+            font-weight: bold;
+        }
+        .modal-footer {
+            justify-content: left;
+        }
+        .logo-area img{
+            width:300px;
+            height: auto !important;
+        }
+        #google-signin {
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="header-top text-center">
+                <div class="logo-area w-100">
+                    <img src="{% static 'images/logo.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modal-signin" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-yellow">
+                <h4 class="modal-title">
+                    <div class="form-header display-none">
+                        <h5><i data-feather="user"></i>Company Sign In</h5>
+                    </div>
+                </h4>
+            </div>
+            <div class="modal-body mt-4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="access-form">
+                                <div class="display-none">
+                                    <h5><i data-feather="user"></i></h5>
+                                </div>
+                                <form action="/api/company/signin/" id="sign-in" class="ajax display-none" method="POST" data-callback = "redirectPage" novalidate="novalidate">
+                                    <div class="form-group" style="margin-bottom: 15px;">
+                                        <input type="email" regex="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" placeholder="Email Address" name="email" id="email" class="form-control" required data-msg-required="Email is required" data-msg-email="Please enter a valid email">
+                                        <input type="text" name="alert" id="alert" class="display-none">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 15px;">
+                                        <input type="password" placeholder="Password" name="password" class="form-control" required data-msg-required="Password is required">
+                                    </div>
+                                    <div class="more-option">
+                                        Forgot Password? <a href="{% url 'company_forgot' %}">Reset</a>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col">
+                                            <a id="cancelButton" href="{% url 'home' %}" class="button btn-yellow">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button style="outline: none !important;" id="signinButton" disabled class="button btn-yellow">Sign In</button>
+                                        </div>
+{#                                        <div id="google-signin"></div>#}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="shortcut-login">
+                    <div class="buttons display-none">
+                        <a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>
+                        <a href="#" class="google"><i class="fab fa-google"></i>Google</a>
+                    </div>
+                    <p class="pt display-none">Don't have an account? <a href="{% url 'contact_us' %}">Contact Us</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Load Facebook SDK for JavaScript -->
+      <div id="fb-root"></div>
+      <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            xfbml            : true,
+            version          : 'v8.0'
+          });
+        };
+
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+
+      <!-- Your Chat Plugin code -->
+      <div class="fb-customerchat"
+        attribution=setup_tool
+        page_id="114731200274877"
+  theme_color="#f5d91d">
+      </div>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static '/assets/js/jquery.min.js' %}"></script>
+<script src="{% static '/assets/js/popper.min.js' %}"></script>
+<script src="{% static '/assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/assets/js/feather.min.js' %}"></script>
+<script src="{% static '/assets/js/bootstrap-select.min.js' %}"></script>
+<script src="{% static '/assets/js/jquery.nstSlider.min.js' %}"></script>
+<script src="{% static '/assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static '/assets/js/visible.js' %}"></script>
+<script src="{% static '/assets/js/jquery.countTo.js' %}"></script>
+<script src="{% static '/assets/js/chart.js' %}"></script>
+<script src="{% static '/assets/js/plyr.js' %}"></script>
+<script src="{% static '/assets/js/tinymce.min.js' %}"></script>
+<script src="{% static '/assets/js/slick.min.js' %}"></script>
+<script src="{% static '/assets/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static '/assets/js/sweetalert2@9.js' %}"></script>
+<script src="{% static '/assets/js/jquery.cookie.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static '/assets/js/form2js.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+<script src="{% static 'dashboard/js/datePicker.js' %}"></script>
+<script src="{% static 'dashboard/js/upload-input.js' %}"></script>
+<script>
+    var urlParams;
+    $(document).ready(function() {
+        $('#sign-in').validate({
+            errorClass: "my-error-class",
+        });
+        urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has('email')){
+            $('#email').val(urlParams.get('email'));
+            $('#alert').val('on');
+        }
+        initAjaxForms();
+        var path = window.location.href
+        var message = path.split('/?').pop()
+        if(message == 'verification_success'){
+            $(".access-page-bg").removeClass("padding-top-90 padding-bottom-90");
+            $(".access-page-bg").addClass("padding-top-150 padding-bottom-150");
+            $("#form-box").removeClass("col-xl-4").addClass("col-xl-5");
+            $(".form-header").html('<h5 class="green-color"><i class="fas fa-check-square green-color padding-icon-10"></i>Your Account is verified.</h5>').removeClass('display-none');
+            $("a").remove(".account-page-link");
+            $(".top-nav").append('<a href="/company/sign-in" class="account-page-link">Sign In</a>');
+        }
+        if(message == 'verification_failed'){
+            $("#sign-in").toggle();
+            $(".access-page-bg").removeClass("padding-top-90 padding-bottom-90");
+            $(".access-page-bg").addClass("padding-top-150 padding-bottom-150");
+            $("#form-box").removeClass("col-xl-4").addClass("col-xl-5");
+            $(".form-header").html('<h5 class="red-color"><i class="fas fa-times-circle padding-icon-10 red-color"></i>This link is expired.</h5>' ).removeClass("display-none");
+            $("p").remove(".pt");
+
+        }
+        if(!urlParams.has('verification_failed') && !urlParams.has('verification_success')){
+            $("#sign-in").removeClass("display-none");
+            $(".pt").removeClass("display-none");
+            $(".form-header").removeClass("display-none");
+        }
+        setTimeout(function(){
+            $("#signinButton").prop('disabled', false);
+        }, 1500);
+
+
+
+    });
+    function redirectPage(data) {
+        console.log(data);
+        if(data.status==200){
+             window.location.href = "/company/dashboard/";
+        }
+        else{
+            $(".form-header").html('<h5 class="red-color"><i class="fas fa-times-circle padding-icon-10 red-color"></i>'+data.responseJSON.detail+'</h5>' );
+        }
+        //set cookie
+        var access_lifetime_hr = (data.responseJSON.token_lifetime.ACCESS_TOKEN_LIFETIME-30)/3600;
+        var refresh_lifetime_hr = (data.responseJSON.token_lifetime.REFRESH_TOKEN_LIFETIME-30)/3600;
+        var company_name = data.responseJSON.company.name;
+        var company_picture = data.responseJSON.company.profile_picture;
+        var city = data.responseJSON.company.city;
+        var user_type = data.responseJSON.user.type;
+        var expires = new Date();
+        expires.setTime(expires.getTime() + (refresh_lifetime_hr * 60 * 60 * 1000));
+        setCookie("refresh_expires_at", expires.toUTCString(), refresh_lifetime_hr);
+        setCookie('company_name',company_name , refresh_lifetime_hr)
+        setCookie('company_picture', company_picture, refresh_lifetime_hr)
+        setCookie('city', city, refresh_lifetime_hr)
+        setCookie('email', data.responseJSON.user.email, refresh_lifetime_hr)
+        setCookie('user_type',user_type , refresh_lifetime_hr)
+        setCookie('refresh',data.responseJSON.refresh , refresh_lifetime_hr)
+        setCookie('access_lifetime_hr',access_lifetime_hr , refresh_lifetime_hr)
+
+        setCookie('access',data.responseJSON.access , access_lifetime_hr)
+        {#document.cookie = "token = "+data.responseJSON.token;#}
+        {#console.log(document.cookie);#}
+        {#window.location.href = "/";#}
+    }
+
+    $("#modal-signin").modal({
+        "backdrop": "static"
+    })
+
+</script>
+</body>
+</html>

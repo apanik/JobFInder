@@ -1,0 +1,15 @@
+[Unit]
+Description=ProjectSeven MIS Service
+After=multi-user.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/var/p7/shell/start-prod.sh
+Restart=on-failure
+RestartSec=10
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
+

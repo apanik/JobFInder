@@ -1,0 +1,288 @@
+
+https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/userinfo.profile
+ubuntu@34.207.214.85
+----------------------------------
+1. Dashboard API:
+----------------------------------
+request type: GET
+url: http://0.0.0.0:8000/api/dashboard/2
+Note: 2 = professional id
+
+output: {
+    "status": "success",
+    "code": 200,
+    "data": {
+        "user": {
+            "name": "apikapik06@gmail.com",
+            "id": 2,
+            "profile_pic_url": "https://icon-library.net/images/default-user-icon/default-user-icon-4.jpg",
+            "email": "apikapik06@gmail.com"
+        },
+        "featured_exam": [
+            {
+                "id": 1,
+                "exam_code": "Python Basic",
+                "exam_name": "Python Basic",
+                "pass_mark": "10",
+                "duration": "30",
+                "image": null,
+                "is_featured": true,
+                "instruction": "<p>test</p>",
+                "question_selection_type": null,
+                "created_date": "2020-03-10T07:00:33.358182Z",
+                "exam_type": null,
+                "exam_fee": null,
+                "promo_code": null,
+                "discount_price": null,
+                "discount_percent": null,
+                "re_registration_delay": null,
+                "exam_category": null,
+                "exam_level": null,
+                "subject": null,
+                "topic": null,
+                "sub_topic": null
+            }
+        ],
+        "enrolled_exam": [
+            {
+                "id": 2,
+                "exam_code": "Flutter Basic",
+                "exam_name": "Flutter Basic",
+                "duration": "10",
+                "image": null,
+                "exam_fee": null,
+                "discount_price": null,
+                "discount_percent": null,
+                "instruction": "<p>test</p>"
+            }
+        ],
+        "recent_exam": [],
+        "exam_chart": {
+            "percentage_of_pass": 80,
+            "percentage_of_fail": 20
+        }
+    }
+}
+
+----------------------------------
+1. Professional Info API:
+----------------------------------
+request type: GET
+url: http://0.0.0.0:8000/api/profile-info/2
+Note: 2 = user id
+
+output: {
+    "status": "success",
+    "code": 200,
+    "data": {
+        "user": {
+            "name": "Rashed",
+            "mobile_number": "01610160201",
+            "id": 2,
+            "profile_pic_url": "https://icon-library.net/images/default-user-icon/default-user-icon-4.jpg",
+            "email": "apikapik06@gmail.com",
+            "address": null,
+            "about": "Entrepreneur and businessman Bill Gates and his business partner Paul Allen founded and built the world's largest software business, Microsoft, through technological innovation, keen business strategy and aggressive business tactics. In the process, Gates became one of the richest men in the world.",
+            "city": "Dhaka"
+        }
+    }
+}
+
+
+----------------------------------
+1. Featured exam list of particular profession excluded already enrolled:
+----------------------------------
+request type: GET
+url: http://0.0.0.0:8000/api/featured-examlist/2
+Note: 2 = professional id
+
+output: {
+        "status": "success",
+        "next_pages": false,
+        "code": 200,
+        "data": {
+            "featured_exam_list": [
+                {
+                    "id": 1,
+                    "exam_code": "Python Basic",
+                    "exam_name": "Python Basic",
+                    "pass_mark": "10",
+                    "duration": "30",
+                    "image": null,
+                    "is_featured": true,
+                    "instruction": "<p>test</p>",
+                    "question_selection_type": null,
+                    "created_date": "2020-03-10T07:00:33.358182Z",
+                    "exam_type": null,
+                    "exam_fee": null,
+                    "promo_code": null,
+                    "discount_price": null,
+                    "discount_percent": null,
+                    "re_registration_delay": null,
+                    "exam_category": null,
+                    "exam_level": null,
+                    "subject": null,
+                    "topic": null,
+                    "sub_topic": null
+                }
+            ]
+        }
+    }
+
+----------------------------------
+2. Enroll exam of particular profession excluded already enrolled:
+----------------------------------
+
+request type: POST
+url: http://0.0.0.0:8000/api/exam-enroll/
+body: {
+        "exam_id":2,
+        "professional_id":2
+    }
+output: {
+            "status": "success",
+            "code": 200,
+            "message": "Exam Successfully Enrolled",
+            "result": {
+                "reg_id": 2
+            }
+        }
+    "failed": {
+            "status": "failed",
+            "code": 401,
+            "message": "Duplicate Entry Not Allowed",
+            "result": {
+                "user": {
+                    "reg_id": ""
+                }
+            }
+        }
+}
+
+----------------------------------
+3. Enrolled exam list of particular profession:
+----------------------------------
+request type: GET
+url: http://0.0.0.0:8000/api/featured-examlist/2
+Note: 2 = professional id
+
+output: {
+    "status": "success",
+    "next_pages": false,
+    "code": 200,
+    "data": {
+        "enrolled_exam": [
+            {
+                "id": 2,
+                "exam_code": "Flutter Basic",
+                "exam_name": "Flutter Basic",
+                "duration": "10",
+                "image": null,
+                "exam_fee": null,
+                "discount_price": null,
+                "discount_percent": null,
+                "instruction": "<p>test</p>"
+            }
+        ]
+    }
+}
+
+----------------------------------
+4. Exam instruction of specific exam:
+----------------------------------
+request type: GET
+url: http://0.0.0.0:8000/api/exam-instruction/2
+Note: 2 = exam id
+
+output: {
+    "status": "success",
+    "code": 200,
+    "data": {
+        "exam": {
+            "id": 2,
+            "exam_code": "Flutter Basic",
+            "exam_name": "Flutter Basic",
+            "pass_mark": "30",
+            "duration": "10",
+            "image": null,
+            "is_featured": false,
+            "instruction": "<p>test</p>",
+            "question_selection_type": null,
+            "created_date": "2020-03-10T07:01:18.486290Z",
+            "exam_type": null,
+            "exam_fee": null,
+            "promo_code": null,
+            "discount_price": null,
+            "discount_percent": null,
+            "re_registration_delay": null,
+            "exam_category": null,
+            "exam_level": null,
+            "subject": null,
+            "topic": null,
+            "sub_topic": null
+        }
+    }
+}
+
+----------------------------------
+3. Recent exam list of particular profession:
+----------------------------------
+request type: GET
+url: http://0.0.0.0:8000/api/recent-examlist/2
+Note: 2 = user id
+
+output: {
+    "status": "success",
+    "next_pages": false,
+    "code": 200,
+    "data": {
+        "recent_exam_list": []
+    }
+}
+
+----------------------------------
+3. Question list of a  exam:
+----------------------------------
+request type: GET
+url: http://192.168.1.51:8000/api/question-list/3
+Note: 3 = exam id
+
+output: {
+    "questionListWithAns": [
+        {
+            "id": 2,
+            "question": "<p>In an Agile environment, what is the main responsibility of a tester?</p>",
+            "qtype": null,
+            "answers": [
+                {
+                    "id": 3,
+                    "name": "tesrt",
+                    "correct": true
+                },
+                {
+                    "id": 4,
+                    "name": "sdf",
+                    "correct": false
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "question": "<p>Which of the following is delivered at the end of the Sprint?</p>",
+            "qtype": null,
+            "answers": [
+                {
+                    "id": 1,
+                    "name": "test",
+                    "correct": true
+                },
+                {
+                    "id": 2,
+                    "name": "test",
+                    "correct": false
+                }
+            ]
+        }
+    ]
+}
+

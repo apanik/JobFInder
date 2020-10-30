@@ -1,0 +1,382 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+{% block extrastyle %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+
+    <!-- External Css -->
+    <link rel="stylesheet" href="{% static 'assets/fontawesome/css/all.css'%}"/>
+    {#<link rel="stylesheet" href="{% static '/assets/css/fontawesome-all.min.css'%}" />#}
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/bootstrap-tagsinput.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static '/assets/css/jquery-ui.min.css' %}">
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cropper.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/faviconl.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/icon-114x114.png' %}">
+    <style>
+        .dashboard-container .dashboard-sidebar {
+            display: none;
+            width: 0;
+        }
+        .dashboard-container .dashboard-content-wrapper {
+            width: 100%;
+        }
+    </style>
+    <script src="{% static 'assets/js/jquery.min.js'%}"></script>
+{% endblock %}
+
+
+{% block breadcrumb %} Post Job {% endblock %}
+{% block content %}
+    <div class="post-content-wrapper">
+        <form action="/api/job/create/" id="job-post-form" class="job-post-form ajax" method="POST" novalidate="novalidate" data-callback="jobpostCallback">
+            <div class="basic-info-input">
+                <h4><i data-feather="plus-circle"></i>Post A Job</h4>
+                <div id="job-summery" class="row">
+                    <label class="col-md-3 col-form-label">Company</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <select class="form-control" name="company_id" id="job_category" data-text="name"
+                                            data-value="name" data-placeholder="Select Company" data-src="/api/company/list/without-pagination/">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="job-title" class="form-group row">
+                    <label class="col-md-3 col-form-label">Job Title</label>
+                    <div class="col-md-9">
+                        <input name="title" id="title" required type="text" regex='[A-Z]' class="form-control" maxlength="50" placeholder="Your job title here" data-msg-required="Title is required">
+                    </div>
+                </div>
+                <div id="job-description" class="row">
+                    <label class="col-md-3 col-form-label">Job Description</label>
+                    <div class="col-md-9">
+                        <textarea name="description" id="description" required class="tinymce-editor tinymce-editor-1" placeholder="Description text here"></textarea>
+                    </div>
+                </div>
+                <div id="job-summery" class="row">
+                    <label class="col-md-3 col-form-label">Job Summary</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="job_category_id" id="job_category" data-text="name" data-value="name" data-placeholder="Select Category" data-src="/api/job/top-categories/">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="experience" id="experience" data-text="name" data-value="name" data-placeholder="Select Experience" data-src="/api/experience/list">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="job_gender_id" id="job_gender" data-text="name" data-value="name" data-placeholder="Select Gender" data-src="/api/job-gender/list/">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="qualification_id" id="qualification" data-text="name" data-value="name" data-placeholder="Select Qualification" data-src="/api/qualification/list">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" name="vacancy" id="vacancy"  class="form-control" placeholder="No of Vacancy" min="1" required data-msg-required="Vacancy is required">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3 col-form-label">Salary </label>
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input name="salary" id="salary" type="text" class="form-control" placeholder="Salary">
+                        </div>
+                    </div>
+
+
+                    <label class="col-md-3 col-form-label">Salary Range</label>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="salary_min" id="salary_min" type="text"  placeholder="Salary Min">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="salary_max" id="salary_max" type="text"  placeholder="Salary Max">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-md-3 col-form-label">Application Deadline</label>
+                    <div class="col-md-4">
+                        <div class="form-group datepicker">
+                            <input name="application_deadline" id="application_deadline" type="date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="response" class="row">
+                    <label class="col-md-3 col-form-label">Responsibilities</label>
+                    <div class="col-md-9">
+                        <textarea id="responsibilities" name="responsibilities" class="tinymce-editor tinymce-editor-2" placeholder="Responsibilities (Optional)"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3 col-form-label">Education</label>
+                    <div class="col-md-9">
+                        <textarea id="education" name="education" class="tinymce-editor tinymce-editor-2" placeholder="Education (Optional)"></textarea>
+                    </div>
+                </div>
+                <div id="job-skills" class="row" >
+                    <label class="col-md-3 col-form-label">Additional Requirements</label>
+                    <div class="col-md-9">
+                        <!--                                        <input name="skills" id="skills" required type="text" class="form-control" placeholder="Your job skills here" data-msg-required="Skills are required">-->
+                        <textarea name="additional_requirements" id="additional_requirements" class="tinymce-editor tinymce-editor-1" placeholder="Description text here"></textarea>
+                    </div>
+                </div>
+
+                <div id="others" class="row">
+                    <label class="col-md-3 col-form-label">Other Benefits</label>
+                    <div class="col-md-9">
+                        <textarea id="other_benefits" name="other_benefits" class="tinymce-editor tinymce-editor-2" placeholder="Description text here"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Job Location</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" required data-msg-required="Address is required">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="job_area" name="job_area" placeholder="Area">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="job_city" name="job_city" placeholder="City">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">About Job</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <select class="form-control" name="job_site_id" id="job_site" data-text="id" data-value="name" data-placeholder="Select Job Site"
+                                            data-src="/api/job-site/list"></select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+
+                                <div class="form-group">
+                                    <select class="form-control" name="job_nature_id" id="job_nature" data-text="id" data-value="name" data-placeholder="Select Job Nature"
+                                            data-src="/api/job-nature/list"></select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="job_type_id" id="job_type" data-text="id" data-value="name" data-placeholder="Select Job Type"
+                                            data-src="/api/job-type/list"></select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row" id="comapny_name">
+                    <label class="col-md-3 col-form-label">Required Skills</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input name="skills" id="skills" required type="text" class="form-control" placeholder="Your job skills here" data-msg-required="Skills are required">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="about-company" class="row">
+                    <label class="col-md-3 col-form-label">About Company</label>
+                    <div class="col-md-9">
+                        <div class="row">
+
+
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea name="company_profile" id="company_profile" class="form-control" placeholder="Company Profile"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label"></label>
+                    <div class="col-md-9">
+                        <button class="button">Post Your Job</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $("#job-post-form").validate({
+                errorClass: "my-error-class"
+            });
+            initAjaxSelects();
+            initAjaxForms();
+            salaryType();
+            tagAutoSuggesion('/api/skill/list', "input[name='skills']");
+
+        });
+
+        function redirectPage() {
+            window.location.href = "/jobs/";
+        }
+
+        function salaryType() {
+            $('#salary-max, #salary-min, #currency-div').hide();
+            $('#salary').on('change', function () {
+                var salaryTypeValue = $(this).val();
+                if(salaryTypeValue=='salary_range'){
+                    $('#salary-max, #salary-min, #currency-div').show();
+                }else{
+                    $('#salary-max, #salary-min, #currency-div').hide();
+                }
+            });
+        }
+
+
+        function tagAutoSuggesion(url, id) {
+            var previousSkills = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: {
+                    url: url,
+                    filter: function(list) {
+
+                        console.log("hello, ",list);
+                        return $.map(list, function(name) {
+                            return { name: name }; });
+                    }
+                }
+            });
+
+            previousSkills.initialize();
+
+            $(id).tagsinput({
+                typeaheadjs: {
+                    name: 'previousSkills',
+                    displayKey: 'name',
+                    valueKey: 'name',
+                    source: previousSkills.ttAdapter()
+                }
+            });
+        }
+
+        function jobpostCallback(data) {
+            if(data.status==200){
+                showSuccess("Successful!", "Job created successfully.")
+                window.location.href = window.location.pathname + window.location.search + window.location.hash;
+            }
+            else{
+            }
+        }
+        $('.post_job').addClass("active");
+    </script>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'assets/js/popper.min.js'%}"></script>
+<script src="{% static 'js/moment.min.js'%}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js'%}"></script>
+<script src="{% static 'assets/js/feather.min.js'%}"></script>
+<script src="{% static 'assets/js/bootstrap-select.min.js'%}"></script>
+<script src="{% static 'assets/js/jquery.nstSlider.min.js'%}"></script>
+<script src="{% static 'assets/js/owl.carousel.min.js'%}"></script>
+<script src="{% static 'assets/js/visible.js'%}"></script>
+<script src="{% static 'assets/js/jquery.countTo.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="{% static 'assets/js/plyr.js'%}"></script>
+<script src="{% static 'assets/js/tinymce.min.js'%}"></script>
+<script src="{% static 'assets/js/slick.min.js'%}"></script>
+<script src="{% static 'assets/js/jquery.ajaxchimp.min.js'%}"></script>
+<script src="{% static '/assets/js/jquery.cookie.min.js' %}"></script>
+<script src="{% static 'js/custom.js'%}"></script>
+<script src="{% static '/assets/js/form2js.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/cropper.min.js' %}"></script>
+<script src="{% static '/assets/js/sweetalert2@9.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYT7cwP2Ki9fwJBmRH6t2FkjjkjsywVaE"></script>
+<script src="{% static 'js/map.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script src="{% static '/assets/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/select2.min.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+<script src="{% static 'dashboard/js/datePicker.js' %}"></script>
+<script src="{% static 'dashboard/js/upload-input.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-537d9c316bb7057a"></script>
+
+{% endblock %}

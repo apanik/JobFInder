@@ -1,0 +1,25 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+  <div id="preview_container" style="background: white;overflow:hidden;z-index:1000;border:2px solid #f5d91d;top:0;right:0;height:30px;width:30px;position: fixed">
+        <div id="raw_content_control" style="cursor:pointer;position: fixed; background:#f5d91d;height: 30px;width:100%"></div>
+        <div id="raw_content_preview" style="overflow:scroll;padding:20px;margin-top:30px;height:100%;"></div>
+  </div>
+{% endblock %}
+{% block after_related_objects %}
+<script>
+    document.getElementById("raw_content_preview").innerHTML = document.getElementById("id_raw_content").value;
+    document.getElementById("raw_content_control").onclick = function (){
+        if (document.getElementById("preview_container").style.height == "30px") {
+            document.getElementById("preview_container").style.width = "40%";
+            document.getElementById("preview_container").style.height = "99%";
+        } else {
+            document.getElementById("preview_container").style.width = "30px";
+            document.getElementById("preview_container").style.height = "30px";
+        }
+    };
+    if(document.getElementById("id_locked_by").value != ""){
+        document.getElementById("id_locked_by").style.background = "#FAA"
+    }
+</script>
+{% endblock %}

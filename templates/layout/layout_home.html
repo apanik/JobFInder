@@ -1,0 +1,97 @@
+{% load static %}
+{% url 'home' as home_url %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+    <meta name="X-CSRF-TOKEN" content="44f02902-3ac0-4d5a-86e2-da3d17430c26"/>
+    <title>{% block title_block %} JobXprss: All the Great Jobs in One Place! {% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/toastr.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/fontawesome/css/all.css'%}"/>
+    <link rel="stylesheet" href="{% static 'assets/icofont/icofont.min.css'%}"/>
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/bootstrap-tagsinput.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static '/assets/css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cropper.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/yellow.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins" />
+
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/favicon-57.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicon-72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicon-114.png' %}">
+
+    <!--[if lt IE 9]>
+    <script src="{% static '/assets/js/html5shiv.min.js' %}"></script>
+    <script src="{% static '/assets/js/respond.min.js' %}"></script>
+    <![endif]-->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B24WQR88NR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-B24WQR88NR');
+    </script>
+    <!-- End Google Analytics -->
+
+    <!-- Global site tag (gtag.js) - Google Ads: 720178701 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-720178701"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-720178701');
+    </script>
+    <!-- End Google Ads -->
+
+    {% block extra_css %}
+    {% endblock %}
+</head>
+<body>
+{% include header %}
+
+{% if request.get_full_path != home_url %}
+    <div class="header-other"></div>
+    <div class="alice-bg shadow mb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md page-title">
+                    {% block page_header %}
+                    {% endblock %}
+                </div>
+                <div class="col-md bread-crumb text-right">
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% block body_block %}
+{% endblock %}
+{% include footer %}
+{% block extra_js %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,12 @@
+NAME_TEXT="Questionnaire Name"
+REMARKS_TEXT = 'Remarks'
+SUBJECT_TEXT = 'Subjects'
+TOPIC_TEXT = 'Topics'
+SUBTOPIC_TEXT = 'Sub Topics'
+
+QUESTIONNAIRE_VERBOSE_NAME_SINGLE ="Questionnaire"
+QUESTIONNAIREDETAL_VERBOSE_NAME_SINGLE ="Questionnaire Detail"
+QUESTIONNAIRE_VERBOSE_NAME_PLURAL ="Questionnaires"
+QUESTIONNAIREDETAIL_VERBOSE_NAME_PLURAL ="Questionnaire Details"
+MINIMUM_QUESTION_VALIDATION = "You Have To Add Atleast One Question"
+MINIMUM_QUESTIONNAIRE_VALIDATION = "You Have To Add Atleast One Questionnaire"

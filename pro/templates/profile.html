@@ -1,0 +1,173 @@
+{% extends 'layout_professional.html' %}
+{% load static %}
+{% block page_header %}
+    My Profile
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>My Profile</span>
+{% endblock %}
+
+{% block professional_block %}
+    <form action="" id="profile-form" class="dashboard-form ajax" method="PUT" data-callback = "profileUpdateCallback" enctype="multipart/form-data" novalidate="novalidate">
+        <div class="dashboard-section upload-profile-photo">
+            <div class="update-photo">
+                <input type="text" id="image" value="">
+                <img id="image1" class="image" src="{% static 'dashboard/images/user-1.jpg' %}" alt="">
+            </div>
+            <div class="file-upload">
+                <input src="ok" type="file" accept="image/*" class="file-input">Change Avatar
+            </div>
+        </div>
+        <div class="dashboard-section basic-info-input">
+            <h4><i data-feather="user-check"></i>Basic Info</h4>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Professional ID</label>
+                <div class="col-sm-9">
+                    <input type="text" name="professional_id" id="professional_id" class="form-control" placeholder="Professional ID">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Full Name</label>
+                <div class="col-sm-9">
+                    <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Full Name" required data-msg-required="Name is required">
+                </div>
+            </div>
+            <div class="form-group row display-none">
+                <label class="col-sm-3 col-form-label">Username</label>
+                <div class="col-sm-9">
+                    <input type="text" id="username" name="username" class="form-control" placeholder="@username">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Email Address</label>
+                <div class="col-sm-9">
+                    <input type="text" name="email" id="email" class="form-control" placeholder="email@example.com" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Phone</label>
+                <div class="col-sm-9">
+                    <input type="digits" maxlength="11" minlength="11" id="phone" name="phone" class="form-control" placeholder="01626296800" required data-msg-required="Phone is required">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Address</label>
+                <div class="col-sm-9">
+                    <input type="text" id="address" name="address" class="form-control" placeholder="Gulshan">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Industry Expertise</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="industry_expertise" id="industry_expertise" data-text="name" data-value="name" data-placeholder="Select Category" data-src="/api/industry/list">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">About Me</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="about_me" name="about_me" placeholder="Introduce Yourself"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <button class="button">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-section basic-info-input display-none">
+            <h4><i data-feather="lock"></i>Password</h4>
+            {#                                    <div class="form-group row">#}
+            {#                                        <label class="col-sm-3 col-form-label">Current Password</label>#}
+            {#                                        <div class="col-sm-9">#}
+            {#                                            <input type="password" class="form-control" placeholder="Current Password">#}
+            {#                                        </div>#}
+            {#                                    </div>#}
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Password</label>
+                <div class="col-sm-9">
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Retype Password</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" placeholder="Retype Password">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <button class="button">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $('.basic-profile-bar').addClass('active')
+            initAjaxSelects();
+            $('#profile-form').validate();
+            var path = window.location.pathname.split('/');
+            var id = path[path.length-2];
+            var getUrl = '/api/professional/profile/'+ id + '/';
+            get(getUrl, loadProfile);
+            var postUrl = '/api/professional/profile_update/'+ id + '/';
+            $('form.ajax').attr('action',postUrl);
+            initAjaxForms();
+        });
+        function  loadProfile(data){
+            console.log(data.personal_info)
+            id = $('form.ajax').attr('id');
+            json2Form(data.personal_info, id);
+            if(data.personal_info.image){
+                // $('.image').attr('src', data.personal_info.image)
+                getBase64Image(data.personal_info.image,function(base64image){
+                console.log(base64image);
+                $('.image').attr('src',base64image)
+              });
+            }
+            // $('#full_user_name').text(data.full_name)
+            // $('#user_email').text(data.email)
+        }
+
+        imageUPload("#professional-image");
+
+
+        function  profileUpdateCallback(data){
+            if(data.status == 200){
+                showSuccess("Profile Done","Updated succesesfully!");
+            }
+            else {
+                showError('Profile Not Updated','Enter Valid Data');
+            }
+        }
+
+        function getBase64Image(imgUrl, callback) {
+    var img = new Image();
+
+    // onload fires when the image is fully loadded, and has width and height
+
+    img.onload = function(){
+
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      var dataURL = canvas.toDataURL("image/png")
+      callback(dataURL); // the base64 string
+
+    };
+
+    // set attributes and src
+    img.setAttribute('crossOrigin', 'anonymous'); //
+    img.src = imgUrl;
+
+}
+    </script>
+{% endblock %}

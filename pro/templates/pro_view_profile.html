@@ -1,0 +1,643 @@
+{% extends 'layout/layout_home.html' %}
+{% load static %}
+{% block page_header %}
+    Applicant Profile
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Applicant Profile</span>
+{% endblock %}
+
+{%  block body_block %}
+
+
+    <div class="alice-bg padding-bottom-75">
+
+    </div>
+
+
+
+
+   <div class="alice-bg section-padding-bottom">
+   <div class="container no-gliters">
+   <div class="col">
+   <div class="dashboard-container" style="width: 100%;">
+   <div class="dashboard-content-wrapper" style="width: 100%;">
+
+
+    <div class="skill-and-profile dashboard-section float-right">
+
+        <div class="social-profile ">
+            <label id="social-icons">Social:</label>
+            <li id="current-company" style="list-style-type: none;font-family: Poppins, sans-serif;font-size: 1.4rem;"><strong>Company:</strong><span id="c_company" ></span> </li>
+            <li id="current-designation" style="list-style-type: none;font-family: Poppins, sans-serif;font-size: 1.4rem;"><strong>Designation:</strong><span id="c_designation" ></span> </li>
+
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="dashboard-section upload-profile-photo">
+            <div class="update-photo">
+                <img id="image1" class="image" src="{% static 'dashboard/images/user-1.jpg' %}" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="about-details details-section dashboard-section">
+        <h4><i data-feather="user-check"></i>Basic Info</h4>
+        <div class="pro_about" id="about-details-div">
+            <div class="information-and-contact">
+                <ul>
+                    <div id="basic-info-margin">
+                        <span><h8>About Me: </h8></span><br>
+                        <span class="about" id="about_me"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span><h8>Industry: </h8></span> <span id="industry_expertise"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span><h8>Location: </h8></span> <span id="current_location"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span><h8>Years of Experience:</h8></span> <span id="experience"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>
+                                <h8>Mobile:</h8>
+                            </span>
+                            <span class="about-info-phone" id="phone">
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <span><h8>Qualification:</h8></span> <span id="qualification"></span>
+                        </div>
+                    </div>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="edication-background details-section dashboard-section" id="edu">
+        <h4><i data-feather="book"></i>Education</h4>
+    </div>
+    <div class="experience dashboard-section details-section" id="work">
+        <h4><i data-feather="briefcase"></i>Work Experience</h4>
+    </div>
+
+    <div class="professonal-skill dashboard-section details-section">
+        <h4><i class="fas fa-tools profile-skill"></i>Professional Skill</h4>
+
+        <div class="progress-group" id="pro_skill">
+        </div>
+    </div>
+
+    <div class="certification dashboard-section details-section" id="work">
+        <h4><img id="certification-logo" src="{% static 'images/certification-file.svg' %}">Certification</h4>
+    </div>
+
+    <div class="membership dashboard-section details-section" id="work">
+        <h4><i data-feather="user-check"></i>Membership</h4>
+    </div>
+
+    <div class="portfolio dashboard-section details-section" id="pro_portfolio">
+        <h4><i data-feather="gift"></i>Portfolio</h4>
+    </div>
+       <div class="reference details-section dashboard-section">
+            <h4 id="ref-label"><i data-feather="user-check"></i>Reference</h4>
+        </div>
+
+
+    <div class="personal-information dashboard-section details-section" id="details">
+        <h4><i data-feather="user-plus"></i>Personal Details</h4>
+    </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $('.profile-details-bar').addClass('active')
+            initAjaxSelects();
+            $('#profile-form').validate();
+            var path = window.location.pathname.split('/');
+            var id = path[path.length-2];
+
+            var getUrl = '/api/professional/profile/';
+            get(getUrl, loadProfile);
+
+            initAjaxForms();
+
+        });
+
+        function loadProfile(data){
+
+            current_company = data.personal_info.current_company
+            current_designation = data.personal_info.current_designation
+
+            if (current_company){
+               $('#c_company').append(' '+current_company)
+            }
+            if(current_designation){
+               $('#c_designation').append(' '+current_designation)
+             }
+
+            //profile picture shows
+
+            // $('#pro_pic').append('<img src="'+data.personal_info.image+'" class="img-fluid" alt="">');
+            if(data.personal_info.image) {
+                $('#image1').attr('src', data.personal_info.image);
+            }
+            else {
+                 $('#image1').attr('src', "/static/images/user_default.jpg");
+            }
+            //        $('#pro_pic').append('<img src="{% static 'images/icon-114x114.png'%}" class="img-fluid" alt="">');
+
+
+
+
+
+            //social link shows
+            if (data.personal_info.twitter_id){
+                $('#social-icons').after('<a style="color:#00acee;" href="http://twitter.com/'+data.personal_info.twitter_id +'" id="twitter">' +
+                    '<i class="fab fa-twitter" ></i></a>')
+            }
+            if (data.personal_info.linkedin_id){
+                $('#social-icons').after('<a style="color:#0e76a8;" href="http://linkedin.com/'+data.personal_info.linkedin_id+'" id="linkedin">' +
+                    '<i class="fab fa-linkedin-in" ></i></a>')
+            }
+            if (data.personal_info.facebook_id){
+                $('#social-icons').after('<a style="color:#3b5998;" href="http://facebook.com/'+data.personal_info.facebook_id+'" id="facebook">' +
+                    '<i class="fab fa-facebook-f" ></i></a>')
+
+            }
+
+
+
+
+
+            //about info show
+
+            function getAge(dateString)
+            {
+                var today = new Date();
+                var birthDate = new Date(dateString);
+                var age = today.getFullYear() - birthDate.getFullYear();
+                var m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
+                {
+                    age--;
+                }
+                return age;
+            }
+            var pro_age = getAge(data.personal_info.date_of_birth)
+            {#var about_html='<p>'+data.personal_info.about_me+'</p>';#}
+            {#$(".pro_about").html(about_html);#}
+            if (!data.personal_info.industry_expertise){
+                data.personal_info.industry_expertise= "";
+            }
+            if (!data.personal_info.address){
+                data.personal_info.address= "";
+            }
+            if (!data.personal_info.status){
+                data.personal_info.status= "";
+            }
+            if (!data.personal_info.experience){
+                data.personal_info.experience= "";
+            }
+            else{
+                if(data.personal_info.experience == 1){
+                    data.personal_info.experience = data.personal_info.experience + " year"
+                }
+                else {
+                    data.personal_info.experience = data.personal_info.experience + " years"
+                }
+
+            }
+            if (!data.personal_info.status){
+                data.personal_info.status= "";
+            }if (data.personal_info.expected_salary_min && data.personal_info.expected_salary_max){
+                data.personal_info.expected_salary_min = 'BDT '+Number(data.personal_info.expected_salary_min).toLocaleString('en')+' - ';
+                data.personal_info.expected_salary_max = Number(data.personal_info.expected_salary_max).toLocaleString('en');
+            }
+
+            else{
+                data.personal_info.expected_salary_min = "";
+                data.personal_info.expected_salary_max = "";
+            }
+
+            if (!data.personal_info.gender){
+                data.personal_info.gender= "";
+            }
+            if (!pro_age){
+                pro_age= "";
+            }
+            if (!data.personal_info.qualification){
+                data.personal_info.qualification= "";
+            }
+            about_container = $('.pro_about');
+            json2DivPopulate(data.personal_info, about_container);
+            {#var info_html =#}
+            {#    '<ul>'+#}
+            {#    '<li><span>Category:</span> '+data.personal_info.industry_expertise+'</li>'+#}
+            {#    '<li><span>Location:</span> '+data.personal_info.address+'</li>'+#}
+            {#    '<li><span>Status:</span>'+data.personal_info.status+'</li>'+#}
+            {#    '<li><span>Experience:</span>'+data.personal_info.experience+'</li>'+#}
+            {#    '<li><span>Salary:</span> '+data.personal_info.expected_salary_min+'  '+data.personal_info.expected_salary_max+'</li>'+#}
+            {#    '<li><span>Gender:</span>'+data.personal_info.gender+'</li>'+#}
+            {#    '<li><span>Age:</span>'+pro_age+' Year(s)</li>'+#}
+            {#    '<li><span>Qualification:</span>'+data.personal_info.qualification+'</li>'+#}
+            {#    '</ul>';#}
+            {#$(".information-and-contact").html(info_html);#}
+
+
+            //education info show
+
+            edu_data = data['edu_info']
+            len = edu_data.length;
+            if(len == 0){
+                $('#edu').append('<p class="no-records">No Record found</p>');
+            }
+            else {
+                for (x = 0; x < len; x++) {
+                    var enrolled_date = edu_data[x].enrolled_date;
+                    var momentObj = moment(enrolled_date, 'YYYY-MM-DD');
+                    var enrolled_date = momentObj.format('DD/MM/YYYY') + ' - ';
+                    if (edu_data[x].is_ongoing == true) {
+                        var graduation_date = 'Present';
+                    } else if (edu_data[x].graduation_date) {
+
+                        var graduation_date = edu_data[x].graduation_date;
+                        var momentObj = moment(graduation_date, 'YYYY-MM-DD');
+                        var graduation_date = momentObj.format('DD/MM/YYYY');
+                    } else {
+                        var graduation_date = '';
+                    }
+                    if (!edu_data[x].institution_text) {
+                        edu_data[x].institution_text = "";
+                    }
+
+                    if (edu_data[x].major_obj.name && edu_data[x].cgpa) {
+                        edu_data[x].major_obj.name = edu_data[x].major_obj.name + '</b> -';
+                        edu_data[x].cgpa = edu_data[x].cgpa;
+                    } else {
+                        edu_data[x].major_obj.name = "";
+                        edu_data[x].cgpa = "";
+                    }
+                    if (!edu_data[x].major_text) {
+                        edu_data[x].major_text = "";
+                    }
+                    if (!edu_data[x].description) {
+                        edu_data[x].description = ''
+                    }
+                    var edu_image = edu_data[x].institution_obj.image;
+                    if(!edu_data[x].institution_obj.image){
+                        edu_image = '/static/images/candidate/Institute.png';
+                    }
+                    var edu_html = '<div class="education-label edu-list">' +
+                        '<div class="thumb">\n' +
+                        '<img src="'+edu_image+'" class="img-fluid" alt="">\n' +
+                        '</div>'+
+                        '<div class="body">' +
+                        '<span class="study-year">' + enrolled_date + '  ' + graduation_date + '</span>' +
+                        '<h5>' + edu_data[x].degree_text + '<span>@' + edu_data[x].institution_text + '</span></h5>' +
+                        '<p>' + edu_data[x].description + '</p>' +
+                        '</div>'+
+                        '</div><br>';
+                    $('#edu').append(edu_html);
+                }
+            }
+
+            //work experience info show
+
+            experience_info = data.experience_info
+            len = experience_info.length;
+            if(len == 0){
+                $('#work').append('<p class="no-records">No Record found</p>');
+            }
+            else {
+                for (x = 0; x < len; x++) {
+                    if (experience_info[x].start_date) {
+                        var start_date = experience_info[x].start_date;
+                        var momentObj = moment(start_date, 'YYYY-MM-DD');
+                        var start_date = momentObj.format('DD/MM/YYYY');
+                    } else {
+                        start_date = '';
+                    }
+                    if (experience_info[x].end_date) {
+
+                        var end_date = experience_info[x].end_date;
+                        var momentObj = moment(end_date, 'YYYY-MM-DD');
+                        var end_date = momentObj.format('DD/MM/YYYY');
+                    } else {
+                        if (experience_info[x].start_date) {
+                            var end_date = 'Present';
+                        } else {
+                            var end_date = '';
+                        }
+                    }
+                    if (experience_info[x].designation) {
+                        var designation = experience_info[x].designation;
+                    } else {
+                        var designation = '';
+                    }
+                    if (experience_info[x].company) {
+                        var company = experience_info[x].company;
+                    } else {
+                        var company = '';
+                    }
+                    if (experience_info[x].company_text) {
+                        var company_text = experience_info[x].company_text;
+                    } else {
+                        var company_text = '';
+                    }
+                    if (experience_info[x].description) {
+                        var description = experience_info[x].description
+                    } else {
+                        var description = ''
+                    }
+                    if(!experience_info[x].company){
+                        exp_image = '/static/images/company/company-logo-2.png';
+                    }else {
+                        exp_image = experience_info[x].company.profile_picture;
+                    }
+                    var work_html = '<div class="experience-section exp-list">' +
+                        '<div class="thumb">\n' +
+                        '<img src="'+exp_image+'" class="img-fluid" alt="">\n' +
+                        '</div>'+
+                        '<div class="body">' +
+                        '<span class="service-year">' + start_date + ' - ' + end_date + '</span>' +
+                        '<h5>' + designation + '<span>@' + company_text + '</span></h5>' +
+                        '<p>' + description + '</p></div><br>'+
+                        '</div>'+
+                        '</div><br>';
+
+                    $('#work').append(work_html);
+                }
+            }
+
+
+            //Professional Skill info show
+
+            pro_skill_data = data['skill_info']
+            len = pro_skill_data.length;
+            if(len == 0){
+                $('#pro_skill').before('<p class="no-records">No Record found</p>');
+            }
+            else {
+                for (x = 0; x < len; x++) {
+                    var pro_skill_html = '<div class="progress-item">' +
+                        '<div class="progress-head">' +
+                        '<p class="progress-on">' + pro_skill_data[x].skill_obj.name + '</p>' +
+                        '</div>' +
+                        '<div class="progress-body">' +
+                        '<div class="progress">' +
+                        '<div class="progress-bar" role="progressbar" aria-valuenow="' + pro_skill_data[x].rating * 10 + '" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div>' +
+                        '</div>' +
+                        '<p class="progress-to">' + pro_skill_data[x].rating + '/10</p>' +
+                        '</div>' +
+                        '</div>';
+
+                    $('#pro_skill').append(pro_skill_html);
+                }
+            }
+
+
+            //certification show
+            certification_info = data['certification_info']
+            len = certification_info.length;
+            if(len == 0){
+                $('.certification').append('<p class="no-records">No Record found</p>');
+            }
+            else {
+                for (x = 0; x < len; x++) {
+
+                    if (certification_info[x].issue_date) {
+                        var issue_date = certification_info[x].issue_date;
+                        var momentObj = moment(issue_date, 'YYYY-MM-DD');
+                        var issue_date = momentObj.format('DD/MM/YYYY');
+                    } else {
+                        issue_date = '';
+                    }
+                    if (certification_info[x].expiry_date) {
+
+                        var expiry_date = certification_info[x].expiry_date;
+                        var momentObj = moment(expiry_date, 'YYYY-MM-DD');
+                        var expiry_date = momentObj.format('DD/MM/YYYY');
+                    } else {
+                        if (certification_info[x].has_expiry_period == false) {
+                            var expiry_date = 'Lifetime Certification';
+                        } else {
+                            var expiry_date = '';
+                        }
+                    }
+                    if (certification_info[x].certificate_name) {
+                        var certificate_name = certification_info[x].certificate_name;
+                    } else {
+                        var certificate_name = '';
+                    }
+                    if (certification_info[x].credential_id) {
+                        var credential_id = certification_info[x].credential_id;
+                    } else {
+                        var credential_id = '';
+                    }
+                    if (certification_info[x].credential_url) {
+                        var credential_url = certification_info[x].credential_url;
+                    } else {
+                        var credential_url = '';
+                    }
+                    if (certification_info[x].organization) {
+                        var organization = certification_info[x].organization;
+                    } else {
+                        var organization = '';
+                    }
+                    var cer_image;
+                    if(!certification_info[x].organization_obj.image){
+                        cer_image = '/static/images/candidate/Organization.png';
+                    }
+                    else{
+                        cer_image = certification_info[x].organization_obj.image;
+                    }
+
+                    var cft_html = '<div class="certification-label cer-list">' +
+                         '<div class="thumb">\n' +
+                        '<img src="'+cer_image+'" class="img-fluid" alt="">\n' +
+                        '</div>'+
+                        '<div class="body">' +
+                        '<span class="study-year">' + issue_date + ' - ' + expiry_date + '</span>' +
+                        '<h5>' + certificate_name + '<span>@' + organization + '</span></h5>' +
+                        '<p><b>' + credential_id + '</b> - <a style="color:blue;" href="' + credential_url + '">view</a></p>' +
+                        '</div>'+
+                        '</div><br>';
+                    $('.certification').append(cft_html);
+                }
+            }
+
+            //membership show
+            membership_info = data['membership_info']
+            len = membership_info.length;
+            if(len == 0){
+                $('.membership').append('<p class="no-records">No Record found</p>');
+            }
+            else {
+                for (x = 0; x < len; x++) {
+
+                    if (membership_info[x].start_date) {
+                        var start_date = membership_info[x].start_date;
+                        var momentObj = moment(start_date, 'YYYY-MM-DD');
+                        var start_date = momentObj.format('DD/MM/YYYY');
+                    } else {
+                        start_date = '';
+                    }
+                    if (membership_info[x].end_date) {
+
+                        var end_date = membership_info[x].end_date;
+                        var momentObj = moment(end_date, 'YYYY-MM-DD');
+                        var end_date = momentObj.format('DD/MM/YYYY');
+                    } else {
+                        if (membership_info[x].membership_ongoing == true) {
+                            var end_date = 'Present';
+                        } else {
+                            var end_date = '';
+                        }
+                    }
+                    if (membership_info[x].organization) {
+                        var organization = membership_info[x].organization;
+                    } else {
+                        var organization = '';
+                    }
+                    if (membership_info[x].position_held) {
+                        var position_held = membership_info[x].position_held;
+                    } else {
+                        var position_held = '';
+                    }
+                    if (membership_info[x].description) {
+                        var description = membership_info[x].description;
+                    } else {
+                        var description = '';
+                    }
+                    var memImage;
+                    if (membership_info[x].organization_obj.image){
+                        memImage = membership_info[x].organization_obj.image;
+                    }
+                    else {
+                         memImage = '/static/images/candidate/Organization.png';
+                    }
+
+
+                    var mbr_html = '<div class="membership-label mem-list">' +
+                        '<div class="thumb">\n' +
+                        '<img src="'+memImage+'" class="img-fluid" alt="">\n' +
+                        '</div>'+
+                        '<div class="body">' +
+                        '<span class="study-year">' + start_date + ' - ' + end_date + '</span>' +
+                        '<h5>' + position_held + '<span> @' + organization + '</span></h5>' +
+                        '<p>' + description + '</p>' +
+                        '</div>'+
+                        '</div><br>';
+                    $('.membership').append(mbr_html);
+                }
+            }
+
+
+            //portfolio show
+
+
+            portfolio_data = data.portfolio_info
+            len = portfolio_data.length;
+            if(len == 0){
+                $('.portfolio').append('<p class="no-records">No Record found</p>');
+            }
+            else {
+                for (x = 0; x < len; x++) {
+                    if (!portfolio_data[x].description){
+                        portfolio_data[x].description = ""
+                    }
+                    if (!portfolio_data[x].image){
+                        portfolio_data[x].image = "/static/images/candidate/Portfolio.png"
+                    }
+                    var portfolio_html = '<div class="portfolio-section por-list">\n' +
+                        '<div class="thumb">\n' +
+                        '<img src="'+portfolio_data[x].image+'" class="img-fluid" alt="">\n' +
+                        '</div>'+
+                        '<div class="body">' +
+                        '<input type="hidden" class="portfolio-object-id" value="' + portfolio_data[x].id + '">' +
+                        '                <b class="port-title service-year"><b>' + portfolio_data[x].name + '</b></b>\n' +
+                        '<p>' + portfolio_data[x].description + '</p>' +
+                        '              </div>'+
+                         '</div><br>';
+                    $('.portfolio').append(portfolio_html);
+                }
+            }
+
+            reference_data = data.reference_data
+            len = reference_data.length;
+            if(len == 0){
+                    $('.reference').append('<p class="no-records">No Record found</p>');
+                }
+            for(x=0;x<len;x++){
+                    var reference_html =('<div class="body reference-section">\n' +
+                        '                <span class="service-year">'+reference_data[x].description+'</span>\n' +
+                        '              </div><br>');
+                     $('.reference').append(reference_html)
+            }
+
+
+
+            //personal details show
+            if (!data.personal_info.father_name){
+                data.personal_info.father_name= "";
+            }
+            if (!data.personal_info.mother_name){
+                data.personal_info.mother_name= "";
+            }
+            if (!data.personal_info.permanent_address){
+                data.personal_info.permanent_address= "";
+            }
+            if(data.personal_info.date_of_birth != null) {
+                var dateofbirth = data.personal_info.date_of_birth
+                var momentObj = moment(dateofbirth, 'YYYY-MM-DD');
+                var dateMomentString = momentObj.format('DD/MM/YYYY');
+            }else{
+                dateMomentString = '';
+            }
+            var detail_html = '<ul>'+
+                '<li><span>Full Name:</span><span> '+ data.personal_info.full_name+'</span></li>'+
+                '<li><span>Fathers Name:</span><span> '+data.personal_info.father_name+'<span></li>'+
+                '<li><span>Mothers Name:</span><span>'+ data.personal_info.mother_name+'</span></li>'+
+                '<li><span>Date of Birth:</span><span>'+dateMomentString+'</span></li>'+
+                '<li><span>Nationality:</span><span>'+data.personal_info.nationality_obj.name+'</span></li>'+
+                '<li><span>Gender:</span><span>'+data.personal_info.gender+'</li></span>'+
+                '<li><span>Address:</span><span>'+data.personal_info.permanent_address+'</span></li>'+
+                '</ul>';
+            $("#details").append(detail_html);
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+        function formatDate(date) {
+            var momentObj = moment(date, 'YYYY-MM-DD');
+            var formattedDate = momentObj.format('DD/MM/YYYY');
+            return formattedDate;
+        }
+
+    </script>
+{% endblock %}

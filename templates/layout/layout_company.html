@@ -1,0 +1,173 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+    <meta name="X-CSRF-TOKEN" content="44f02902-3ac0-4d5a-86e2-da3d17430c26"/>
+    <title>JobXprss: All the Great Jobs in One Place!</title>
+
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/toastr.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/fontawesome/css/all.css'%}"/>
+    <link rel="stylesheet" href="{% static 'assets/icofont/icofont.min.css'%}"/>
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/bootstrap-tagsinput.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static '/assets/css/jquery-ui.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cropper.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/yellow.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins" />
+
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/favicon-57.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicon-72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicon-114.png' %}">
+
+    <!--[if lt IE 9]>
+    <script src="{% static '/assets/js/html5shiv.min.js' %}"></script>
+    <script src="{% static '/assets/js/respond.min.js' %}"></script>
+    <![endif]-->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B24WQR88NR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-B24WQR88NR');
+    </script>
+    <!-- End Google Analytics -->
+
+    <!-- Global site tag (gtag.js) - Google Ads: 720178701 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-720178701"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-720178701');
+    </script>
+    <!-- End Google Ads -->
+
+    {% block extra_css %}
+    {% endblock %}
+</head>
+<body>
+{% include header %}
+
+{% if request.get_full_path != home_url %}
+    <div class="header-other"></div>
+    <div class="alice-bg shadow mb-3">
+        <div class="container mb-2">
+            <div class="row">
+                <div class="col-md page-title">
+                    {% block page_header %}
+                    {% endblock %}
+                </div>
+                <div class="col-md bread-crumb text-right">
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="alice-bg section-padding-bottom">
+    <div class="container no-gliters">
+        <div class="row no-gliters">
+            <div class="col">
+                <div class="dashboard-container">
+                    <div class="dashboard-content-wrapper">
+                        {% block body_block %}
+
+                        {% endblock %}
+                    </div>
+                    <div class="dashboard-sidebar">
+                        <div class="company-info">
+                            <div class="thumb" id="c-image">
+
+                            </div>
+                            <div class="company-body" id="company">
+                                <h5 id="company_name_layout"></h5>
+                                <span id="company-email"></span>
+                                <span id="city"></span>
+                            </div>
+                        </div>
+                        <div class="profile-progress">
+                            <div class="progress-item">
+                                <div class="progress-head">
+                                    <p class="progress-on">Profile</p>
+                                </div>
+                                <div class="progress-body">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div>
+                                    </div>
+                                    <p class="progress-to">70%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-menu">
+                            <ul>
+                                <li class="dashboard"><i class="fas fa-home"></i><a href="/company/dashboard/">Dashboard</a></li>
+                                <li class="edit_pro" ><i class="fas fa-user"></i><a href="/company/edit-profile/">Edit Profile</a></li>
+                                <li class="managejobs "><i class="fas fa-briefcase"></i><a href="/company/manage-jobs/">Manage Jobs</a></li>
+                                <li class="managecandidate "><i class="fas fa-users"></i><a href="/company-manage-candidates/">Manage Candidates</a></li>
+                                <li class="post_job"><i class="fas fa-plus-square"></i><a href="/company/post-job/">Post Job</a></li>
+                                <li class="company_message"><i class="fas fa-envelope"></i><a href="/company/messages/">Messages</a></li>
+                                <li class="com_recent_activity"><i class="fas fa-history"></i><a href="/company/recent-activity/">Recent Activity</a></li>
+                                <li class="company_notification"><i class="fas fa-bell"></i><a href="/company/notifications/">Notifications</a></li>
+                            </ul>
+                            <ul class="delete">
+                            </ul>
+                            <!-- Modal -->
+                            <div class="modal fade modal-delete" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h4><i data-feather="trash-2"></i>Delete Account</h4>
+                                            <p>Are you sure! You want to delete your profile. This can't be undone!</p>
+                                            <form action="#">
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" placeholder="Enter password">
+                                                </div>
+                                                <div class="buttons">
+                                                    <button class="delete-button">Save Update</button>
+                                                    <button class="">Cancel</button>
+                                                </div>
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" checked="">
+                                                    <label class="form-check-label">You accepts our <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a></label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include footer %}
+{% block extra_js %}
+{% endblock %}
+</body>
+</html>

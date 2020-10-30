@@ -1,0 +1,138 @@
+
+{% extends 'layout_common.html' %}
+{% load static %}
+{% block body_block %}
+    <!-- Breadcrumb -->
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="breadcrumb-area">
+                        <h1>New Company</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Post A Company</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="breadcrumb-form">
+                        <form action="#">
+                            <input type="text" placeholder="Enter Keywords">
+                            <button><i data-feather="search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <div class="alice-bg section-padding-bottom">
+        <div class="container no-gliters">
+            <div class="row no-gliters">
+                <div class="col">
+                    <div class="post-container">
+                        <div class="post-content-wrapper">
+                            <form action="/api/company_create/" id="company-form" class="job-post-form ajax" method="post" novalidate="novalidate">
+                                <div class="basic-info-input">
+                                    <h4><i data-feather="plus-circle"></i>Create Company</h4>
+                                    <div id="job-title" class="form-group row">
+                                        <label class="col-md-3 col-form-label">Company Name</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required name="name" class="form-control" placeholder="Your company name here" data-msg-required="Please enter a valid company name">
+                                        </div>
+                                    </div>
+                                    <div id="job-title" class="form-group row">
+                                        <label class="col-md-3 col-form-label">Company email</label>
+                                        <div class="col-md-9">
+                                            <input type="email" name="email" class="form-control" placeholder="Your company email here" data-msg-email="Please enter a valid company email">
+                                        </div>
+                                    </div>
+                                    <div id="job-title" class="form-group row">
+                                        <label class="col-md-3 col-form-label">Password</label>
+                                        <div class="col-md-9">
+                                            <input type="password" required name="passowrd" id="password" class="form-control" placeholder="***">
+                                        </div>
+                                    </div>
+                                    <div id="job-title" class="form-group row">
+                                        <label class="col-md-3 col-form-label">Confirm password</label>
+                                        <div class="col-md-9">
+                                            <input type="password" required class="form-control" placeholder="***" data-rule-equalto="#password" data-msg-equalto="Password and confirm password should be same!!">
+                                        </div>
+                                    </div>
+                                    <div id="post-location" class="form-group row">
+                                        <label class="col-md-3 col-form-label">Company Location</label>
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select class="form-control" required name="division_id" id="division" data-text="name" data-value="name" data-placeholder="Division" data-src="http://127.0.0.1:8000/api/division">
+                                                        </select>
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select class="form-control" name="district_id" id="district" data-text="name" data-value="name" data-src="http://127.0.0.1:8000/api/district_populate" data-placeholder="District" data-parent="#division">
+                                                            <option>District</option>
+                                                        </select>
+                                                        <i class="fa fa-caret-down"></i>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <input type="text" name="address" class="form-control" placeholder="Your Location">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"></label>
+                                        <div class="col-md-9">
+                                            <button class="button">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="call-to-action-bg padding-top-90 padding-bottom-90">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="call-to-action-2">
+                        <div class="call-to-action-content">
+                            <h2>For Find Your Dream Job or Candidate</h2>
+                            <p>Add resume or post a job. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec.</p>
+                        </div>
+                        <div class="call-to-action-button">
+                            <a href="add-resume.html" class="button">Add Resume</a>
+                            <span>Or</span>
+                            <a href="post-job.html" class="button">Post A Job</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Call to Action End -->
+
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            initAjaxSelects();
+            initAjaxForms();
+            $("#company-form").validate();
+        });
+    </script>
+{% endblock %}

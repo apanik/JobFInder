@@ -1,0 +1,164 @@
+
+
+{% load static %}
+<html>
+<head>
+
+   <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="/static/assets/css/bootstrap.min.css" />
+
+    <!-- External Css -->
+    <link rel="stylesheet" href="/static/assets/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="/static/assets/css/themify-icons.css" />
+    <link rel="stylesheet" href="/static/assets/css/et-line.css" />
+    <link rel="stylesheet" href="/static/assets/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap-tagsinput.css" />
+    <link rel="stylesheet" href="/static/assets/css/plyr.css" />
+    <link rel="stylesheet" href="/static/assets/css/flag.css" />
+    <link rel="stylesheet" href="/static/assets/css/slick.css" />
+    <link rel="stylesheet" href="/static/assets/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/static/assets/css/jquery.nstSlider.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/assets/css/jquery-ui.min.css">
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="/static/css/select2.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="/static/dashboard/css/dashboard.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/images/faviconl.png">
+    <link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/images/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/images/icon-114x114.png">
+
+
+
+    <!--[if lt IE 9]>
+    <script src="/static/assets/js/html5shiv.min.js"></script>
+    <script src="/static/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+
+
+</head>
+<body>
+<!-- Breadcrumb -->
+   <!-- Breadcrumb -->
+
+
+    <div class="alice-bg section-padding-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="contact-block">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="contact-address">
+                                    <h4>Contact Info</h4>
+                                    <ul>
+                                        <li><i data-feather="map-pin"></i><span id="address">Niketan,Gulshan 1</span></li>
+                                        <li><i data-feather="mail"></i> <span id="support_email">Support@Ishraak.com</span> </li>
+                                        <li><i data-feather="phone-call"></i><span id="phone">01784009080</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 offset-lg-1">
+                                <div class="contact-form">
+                                    <h4>Keep In Touch</h4>
+                                    <form action="/api/send_email_to_admin_contact_us/" id="contactForm" class="ajax" method="POST" novalidate="novalidate" data-callback="contactUsCallback">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input name="name" type="text" class="form-control" placeholder="Name" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input name="email" type="email" class="form-control" placeholder="Email" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input regex="\+?(88)?0?1[56789][0-9]{8}\b" name="phone" type="text" class="form-control" placeholder="Phone" data-msg-regex="Enter a valid Mobile Number" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input name="subject" type="text" class="form-control" placeholder="Subject" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <textarea name="message" class="form-control" placeholder="Message" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="button">Submit</button>
+                                        <p class="input-success">Your message has been sent. Thanks for contact.</p>
+                                        <p class="input-error">Something went wrong while sending. Please try leter.</p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="map-area" class="contact-map">
+                                    <div class="cp-map" id="location" data-lat="23.6850" data-lng="90.3563" data-zoom="8"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/js/popper.min.js"></script>
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/assets/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/feather.min.js"></script>
+<script src="/static/assets/js/bootstrap-select.min.js"></script>
+<script src="/static/assets/js/jquery.nstSlider.min.js"></script>
+<script src="/static/assets/js/owl.carousel.min.js"></script>
+<script src="/static/assets/js/visible.js"></script>
+<script src="/static/assets/js/jquery.countTo.js"></script>
+<script src="/static/assets/js/chart.js"></script>
+<script src="/static/assets/js/plyr.js"></script>
+<script src="/static/assets/js/tinymce.min.js"></script>
+<script src="/static/assets/js/slick.min.js"></script>
+<script src="/static/assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="/static/assets/js/jquery.cookie.min.js"></script>
+<script src="/static/js/custom.js"></script>
+<script src="/static/assets/js/form2js.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/assets/js/sweetalert2%409.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYT7cwP2Ki9fwJBmRH6t2FkjjkjsywVaE"></script>
+<script src="/static/js/map.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script src="/static/assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="/static/assets/js/jquery-ui.min.js"></script>
+<script src="/static/js/select2.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/dashboard/js/dashboard.js"></script>
+<script src="/static/dashboard/js/datePicker.js"></script>
+<script src="/static/dashboard/js/upload-input.js"></script>
+<script src="/static/js/common.js"></script>
+</body>
+</html>
+ <script>
+      feather.replace()
+      initMap();
+ </script>
+
+
+
+
+

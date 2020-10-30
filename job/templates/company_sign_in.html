@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+    <meta name="X-CSRF-TOKEN" content="44f02902-3ac0-4d5a-86e2-da3d17430c26"/>
+    <title>JobXprss: All the Great Jobs in One Place!</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+
+    <!-- External Css -->
+    <link rel="stylesheet" href="{% static '/assets/css/fontawesome-all.min.css'%}" />
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/favicon-57.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicon-72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicon-114.png' %}">
+    {% block extra_css %}
+        <style>
+           .more-option {
+            display: inline-block !important;
+
+        }
+           a{
+               color: #000;
+           }
+           .shortcut-login a, .more-option a{
+               font-weight: bold;
+           }
+        </style>
+    {% endblock %}
+
+    <!--[if lt IE 9]>
+    <script src="{% static '/assets/js/html5shiv.min.js' %}"></script>
+    <script src="{% static '/assets/js/respond.min.js' %}"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<header class="header-2 access-page-nav">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="header-top">
+                    <div class="logo-area">
+                        <a href="{% url 'home' %}"><img src="{% static 'images/logo_black.png' %}" alt=""></a>
+                    </div>
+                    <div class="top-nav">
+<!--                        <a href="/professional/register/" class="account-page-link">Register</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="padding-top-90 padding-bottom-90 access-page-bg1">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4 col-md-6">
+                <div class="access-form">
+                    <div class="form-header">
+                        <h5><i class="fas fa-building" style="margin-right: 5px"></i>Company Sign In</h5>
+                    </div>
+                    <form action="/api/company/signin/" id="sign-in" class="ajax" method="POST" data-callback = "redirectPage" novalidate="novalidate">
+                        <div class="form-group" >
+                            <input type="email" placeholder="Email Address" name="email" class="form-control" required data-msg-required="Email is required" data-msg-email="Please enter a valid email">
+                            <input type="text" name="alert" id="alert" class="display-none">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <input type="password" placeholder="Password" name="password" class="form-control" required data-msg-required="Password is required">
+                        </div>
+                        <div class="more-option">
+                                        Forgot Password? <a href="{% url 'company_forgot' %}">Reset</a>
+                                    </div>
+
+                        <button class="button primary-bg btn-block">Sign In</button>
+                    </form>
+                    <div class="shortcut-login">
+                        <div class="buttons display-none">
+                            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>
+                            <a href="#" class="google"><i class="fab fa-google"></i>Google</a>
+                        </div>
+                        <p>Don't have an account? <a href="{% url 'contact_us' %}">Contact Us</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static '/assets/js/jquery.min.js' %}"></script>
+<script src="{% static '/assets/js/popper.min.js' %}"></script>
+<script src="{% static '/assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/assets/js/feather.min.js' %}"></script>
+<script src="{% static '/assets/js/bootstrap-select.min.js' %}"></script>
+<script src="{% static '/assets/js/jquery.nstSlider.min.js' %}"></script>
+<script src="{% static '/assets/js/owl.carousel.min.js' %}"></script>
+<script src="{% static '/assets/js/visible.js' %}"></script>
+<script src="{% static '/assets/js/jquery.countTo.js' %}"></script>
+<script src="{% static '/assets/js/chart.js' %}"></script>
+<script src="{% static '/assets/js/plyr.js' %}"></script>
+<script src="{% static '/assets/js/tinymce.min.js' %}"></script>
+<script src="{% static '/assets/js/slick.min.js' %}"></script>
+<script src="{% static '/assets/js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static '/assets/js/sweetalert2@9.js' %}"></script>
+<script src="{% static '/assets/js/jquery.cookie.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static '/assets/js/form2js.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+<script src="{% static 'dashboard/js/datePicker.js' %}"></script>
+<script src="{% static 'dashboard/js/upload-input.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#sign-in').validate({
+            errorClass: "my-error-class",
+        });
+        var urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has('email')){
+            $('#email').val(urlParams.get('email'));
+            $('#alert').val('on');
+        }
+        initAjaxForms();
+        var path = window.location.href
+        var message = path.split('/?').pop()
+        if(message == 'verification_success'){
+            showSuccess("Verified!","Your Account Is Verified!")
+        }
+        if(message == 'verification_failed'){
+            showError("Not Verified!", "Your Account Is not Verified!")
+        }
+    });
+    function redirectPage(data) {
+        console.log(data);
+        if(data.status==200){
+             window.location.href = "/company/dashboard/";
+        }
+        else{
+            $(".form-header").html('<h5 class="red-color"><i class="fas fa-times-circle padding-icon-10 red-color"></i>Login Error!</h5>' );
+        }
+        //set cookie
+        var access_lifetime_hr = (data.responseJSON.token_lifetime.ACCESS_TOKEN_LIFETIME-30)/3600;
+        var refresh_lifetime_hr = (data.responseJSON.token_lifetime.REFRESH_TOKEN_LIFETIME-30)/3600;
+        var company_name = data.responseJSON.company.name;
+        var company_picture = data.responseJSON.company.profile_picture;
+        var city = data.responseJSON.company.city;
+        var user_type = data.responseJSON.user.type;
+        setCookie('company_name',company_name , refresh_lifetime_hr)
+        setCookie('company_picture', company_picture, refresh_lifetime_hr)
+        setCookie('city', city, refresh_lifetime_hr)
+        setCookie('email', data.responseJSON.company.email, refresh_lifetime_hr)
+        setCookie('user_type',user_type , refresh_lifetime_hr)
+        setCookie('refresh',data.responseJSON.refresh , refresh_lifetime_hr)
+        setCookie('access_lifetime_hr',access_lifetime_hr , refresh_lifetime_hr)
+
+        setCookie('access',data.responseJSON.access , access_lifetime_hr)
+        {#document.cookie = "token = "+data.responseJSON.token;#}
+        {#console.log(document.cookie);#}
+        {#window.location.href = "/";#}
+    }
+</script>
+</body>
+</html>

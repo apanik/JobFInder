@@ -1,0 +1,251 @@
+{% load static %}
+<div class="jobxprss-app">
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <div class="app-download">
+                    <h2>Get JobXprss App</h2>
+                    <span class="bottom-border-app-link"></span>
+                    <p>To get the best JobXprss experience, use the mobile app.</p>
+                    <div class="app-download-button">
+                        <a href="#" target="_blank" style="display: none;" class="android-app"><img src="{% static 'images/badge-android.png'%}" /></a>&nbsp;&nbsp;
+                        <a href="#" target="_blank" style="display: none;" class="apple-app"><img src="{% static 'images/badge-iphone.png'%}" /></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md app_image">
+                <img src="{% static 'images/yellow/jobxprss_app.png'%}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="footer-top border-bottom section-padding-top padding-bottom-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="footer-logo">
+                        <a href="{% url 'home' %}">
+                            <img src="{% static 'images/logo.png'%}" class="logo img-fluid" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="footer-social">
+                        <a class="facebook-url" style="display: none;" href="#" target="_blank"><i class="fab fa-3x fa-facebook-square text-yellow"></i></a>&nbsp;
+                        <a class="linkedin-url" style="display: none;" href="#" target="_blank"><i class="fab fa-3x fa-linkedin text-yellow"></i></a>&nbsp;
+                        <a class="twitter-url"  style="display: none;" href="#"  target="_blank"><i class="fab fa-3x fa-twitter-square text-yellow"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="border-yellow w-auto" />
+    <div class="footer-widget-wrapper padding-bottom-60 padding-top-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="footer-widget footer-shortcut-link">
+                        <h4 class="text-yellow">Information</h4>
+                        <div class="widget-inner">
+                            <ul>
+                                <li><a href="{% url 'about_us' %}">About Us</a></li>
+                                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                                <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                                <li><a href="{% url 'terms-of-use' %}">Terms of Use</a></li>
+                                <li><a href="{% url 'FAQ' %}">FAQ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="footer-widget footer-shortcut-link">
+                        <h4 class="text-yellow">Job Seekers</h4>
+                        <div class="widget-inner">
+                            <ul>
+                                <li><a href="{% url 'register' %}">Create Account</a></li>
+                                <li><a href="{% url 'career_advice' %}">Career Advice</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="footer-widget footer-shortcut-link">
+                        <div class="widget-inner" style="pointer-events: none;">
+                            <h4 class="text-yellow">Address</h4>
+                            <address>
+                                House 76 (Level 4)<br />
+                                Road 4, Block B<br />
+                                Niketan, Gulshan 1<br />
+                                Dhaka 1212, Bangladesh<br />
+                            </address>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="footer-widget footer-newsletter">
+                        <h4 class="text-yellow">Job Alert</h4>
+                        <p class="display-none" id="alert-msg">Get email updates about our latest news.</p>
+                        <form action="" id="job-alert" class="newsletter-form display-none form-inline" method="POST" data-callback="" autocomplete="off">
+                            <div class="form-group" id="alert-field">
+                                <input type="text" name="email" id="email" regex='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$' class="form-control" required data-msg-required="Email is required" data-msg-regex="Please enter a valid email" placeholder="Email address...">
+                            </div>
+                            <button class="btn button primary-bg">Subscribe<i class="fas fa-caret-right"></i></button>
+                            <p class="newsletter-error">0 - Please enter a value</p>
+                            <p class="newsletter-success">Thank you for subscribing!</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <div class="footer-bottom border-top">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="powered-by"><span>Powered By </span> <a target="_blank" href="http://www.ishraak.com"><img src="/static/images/ishraak-solutions-logo.png" alt="ISHRAAK" width="80px"></a>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="back-to-top">
+                                    <a href="#">Back to top<i class="fas fa-angle-up"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<p class="copyright-text">Copyright © 2020 JobXprss, All Right Reserved <span class="version">{{ APP_VERSION_NUMBER }}</span></p>
+
+{% include 'layout/__script_includes.html' %}
+
+<script type="text/javascript">
+    $(function () {
+        $('#job-alert').validate({
+                errorClass: "my-error-class"
+        });
+        prof_id = getCookie('professional_id');
+        jobAlertUrl = '/api/professional/job_alert_notification/';
+        get(jobAlertUrl, loadJobAlert);
+        {#get('/log/', loadUser);#}
+        get('/api/pro/profile-completeness/',loadProfileCompleteness);
+        $("#job-alert").on('submit', function(event) {
+            event.preventDefault();
+            var email=$('#alert-field #email').val();
+            var getUrl = "/api/pro/check-professional-exist/?email=" + email;
+            var emailSubUrl = '/api/professional/email-subscription-on-off/';
+            if(!isLoggedIn()){
+                if($(this).valid()){
+                    get(getUrl, function (data) {
+                        var userEmail = { 'email': email};
+                        if(data.email_exist){
+                            localStorage.setItem('userEmail', JSON.stringify(userEmail));
+                            window.location.href = "/professional/sign-in/?email="+ email;
+                        }
+                        else{
+                            window.location.href = "/professional/signup/?email="+ email;
+                        }
+                    });
+                }
+            }else{
+                var data = {
+                    'job_alert_status' : true
+                };
+                put(emailSubUrl, JSON.stringify(data), jobAlertStatus);
+            }
+        });
+    });
+
+    $("body").delegate(".refresh-button", "click", function(){
+            get('/api/pro/profile-completeness/',loadProfileCompleteness);
+        });
+
+    function jobAlertStatus(data) {
+        if(data.responseJSON.job_alert_status === true){
+            $('.footer-newsletter p').html('You have subscribed job alert.');
+            $('#job-alert button').hide();
+        }
+    }
+
+    function loadJobAlert(data) {
+            if(data.code == 200 && data.status == 'subscribed'){
+                $('#job-alert').addClass('display-none');
+                $('.footer-newsletter p').html('You have subscribed job alert.').removeClass('display-none');
+            }
+            else if(data.code == 200 && data.status == 'not subscribed'){
+                $('#job-alert').removeClass('display-none');
+                $('.footer-newsletter p').html('Get email updates about our latest news.').removeClass('display-none');
+            }
+            else {
+                $('#job-alert').removeClass('display-none');
+                $('.footer-newsletter p').html('Get email updates about our latest news.').removeClass('display-none');
+            }
+        }
+
+
+
+    $('.account-button').text(getCookie('name'));
+    $('.account-body a').text(getCookie('name'));
+    $('#prof-name').text(getCookie('name'));
+    $('.account-body .mail').text(getCookie('email'));
+    $('#prof-email').text(getCookie('email'));
+
+    if(getCookie('image') != "null"){
+        $('#prof-image').html('<img src="'+ getCookie('image') +'" class="img-fluid" alt="">')
+        $('.account-thumb').html('<img src="'+ getCookie('image') +'" class="img-fluid" alt="">')
+    }
+    else{
+        $('#prof-image').html('<img src="/static/images/user_default.jpg" class="img-fluid" alt="">')
+        $('.account-thumb').html('<img src="/static/images/user_default.jpg" class="img-fluid" alt="">')
+    }
+    if (getCookie('name')){
+        $('#alert-field').hide();
+    }
+
+    profile_details_url = '/professional/applicant-profile/';
+    basic_profile_url = '/professional/profile-update/';
+    edit_profile_url  = '/professional/myprofile/';
+    $('#profile-details').attr('href', profile_details_url)
+    {#$('#basic-profile').attr('href', basic_profile_url)#}
+    $('#edit-profile-details').attr('href', edit_profile_url)
+    {#$('#skill-link').attr('href',url)#}
+
+    $('#copy-button').attr('data-clipboard-text','http://jobxprss.com/professional/userprofile_info/');
+    $('#public-profile').attr('href','/pro/'+ getCookie('slug'));
+
+
+
+    function loadProfileCompleteness(data) {
+        $('.profile-progress .profile-completeness').attr('aria-valuenow', data.percent_of_profile_completeness);
+        $('.profile-progress .progress-to').text(data.percent_of_profile_completeness + '%');
+        $('.profile-progress .progress-bar').css('width', data.percent_of_profile_completeness+'%')
+
+    }
+
+        var company_name = getCookie('company_name');
+        var city = getCookie('city');
+        var profile_picture = getCookie('company_picture')
+        if(profile_picture==="null"){
+        profile_picture = '/static/images/company/company-logo-1.png';
+        }
+        if(city==="null"){
+        $('#city').hide();
+        }
+        else{
+        $('#city').html('<h5>@'+city+'</h5>');
+        }
+        $('#company_name').html('<h5>'+company_name+'</h5>');
+        $('#c-image').html('<img src="'+ profile_picture +'" class="img-fluid" alt="">')
+    
+</script>
+<script src="{% static 'js/socket/socket.io.js'%}"></script>
+<script src="{% static 'js/socket_client.js'%}"></script>
+<script>
+        getNotifications();
+</script>

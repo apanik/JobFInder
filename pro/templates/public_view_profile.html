@@ -1,0 +1,507 @@
+{% extends 'layout/layout_home.html' %}
+{% load static %}
+{% block page_header %}
+    Public Profile
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Public Profile</span>
+{% endblock %}
+
+{%  block body_block %}
+    <div class="alice-bg padding-top-70 padding-bottom-70">
+
+    </div>
+    <div class="alice-bg section-padding-bottom">
+        <div class="container no-gliters">
+            <div class="row no-gliters">
+                <div class="col">
+                    <div class="dashboard-container display-none" style="width:100%;" >
+                        <div class="dashboard-content-wrapper" style="width: 100%;">
+                            <div class="dashboard-section upload-profile-photo float-right">
+                                    <div>
+                                        <div id="img" style="width:310px;padding: 30px;">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="name-social-section" class="dashboard-section">
+                                <div class="user-body" style="font-size: 20px; max-width: 910px;padding-left: 30px;">
+                                    <span><b><h3   id="name"></h3></b></span>
+                                </div>
+                                <div class="skill-and-profile dashboard-section" style="margin-left:32px; margin-top: 00px;">
+                                        <div class="social-profile" id="social_icon">
+                                             <label>Social:</label>
+                                             <a href="#" id="facebook"><i style="color: #3b5998;" class="fab fa-facebook-f" ></i></a>
+                                             <a href="#" id="twitter"><i style="color: #00acee;" class="fab fa-twitter" ></i></a>
+                                             <a href="#" id="linkedin"><i style="color: #0e76a8;" class="fab fa-linkedin-in" ></i></a>
+                                        </div>
+                                </div>
+                                <div class="public-pro-company"><label>Company: </label> <span id="current_company"></span></div>
+                                <div class="public-pro-designation"><label>Designation: </label> <span id="current_designation"></span></div>
+                            </div>
+                            <div class="about-details details-section dashboard-section basic-info-profile">
+                                <h4><i data-feather="user-check"></i>Basic Info</h4>
+                                <div class="pro_about" id="about-details-div">
+                                    <div class="information-and-contact">
+                                        <ul>
+                                            <span><h8>About Me: </h8></span><span class="about" id="about_me"></span>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <div class="col-sm-6" id="ind_exp">
+                                                    <span><h8>Industry: </h8></span> <span id="industry_expertise"></span>
+                                                </div>
+
+                                                <div class="col-sm-6" id="sts">
+                                                    <span><h8>Status:</h8></span> <span id="status"></span>
+                                                </div>
+
+                                                <div class="col-sm-6" id="exp">
+                                                    <span><h8>Years of Experience:</h8></span> <span id="experience"></span>
+                                                </div>
+
+{#                                                <div class="col-sm-6" id="gen">#}
+{#                                                    <span><h8>Gender:</h8></span> <span id="gender"></span>#}
+{#                                                </div>#}
+
+                                                <div class="col-sm-6" id="qua">
+                                                    <span><h8>Qualification:</h8></span> <span id="qualification"></span>
+                                                </div>
+
+                                                <div class="col-sm-6" id="loc">
+                                                    <span><h8>Location: </h8></span> <span id="address"></span>
+                                                </div>
+
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="edication-background details-section dashboard-section" id="edu" style="margin-top: 90px;">
+                                <h4><i data-feather="book"></i>Education</h4>
+                            </div>
+                            <div class="experience dashboard-section details-section" id="work">
+                                <h4><i data-feather="briefcase"></i>Work Experience</h4>
+                            </div>
+
+                            <div class="professonal-skill dashboard-section details-section" id="psks">
+                                <h4><i class="fas fa-tools profile-skill"></i>Professional Skill</h4>
+
+                                <div class="progress-group" id="pro_skill">
+                                </div>
+                            </div>
+
+                            <div class="certification dashboard-section details-section" id="certificate">
+                                <h4><img id="certification-logo" src="{% static 'images/certification-file.svg' %}"></i>Certification</h4>
+                            </div>
+
+                            <div class="membership dashboard-section details-section" id="mbrship">
+                                <h4><i data-feather="user-check"></i>Membership</h4>
+                            </div>
+
+                            <div class="portfolio dashboard-section details-section" id="pro_portfolio">
+                                <h4><i data-feather="gift"></i>Portfolio</h4>
+                            </div>
+
+                            <div class="reference details-section dashboard-section" id="reference">
+                                <h4><i data-feather="user-check"></i>Reference</h4>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $('.profile-details-bar').addClass('active')
+            initAjaxSelects();
+            $('#profile-form').validate();
+            var path = window.location.pathname.split('/');
+            var id = path[path.length-2];
+
+            var getUrl = '/api/pro/public-profile/'+ id + '/';
+            get(getUrl, loadProfile);
+            // get('/log/', loadUser);
+            initAjaxForms();
+
+        });
+
+
+        function loadProfile(data){
+            console.log("all", data)
+            $(".dashboard-container").removeClass("display-none");
+
+            //social link shows
+            if (!data.facebook_id){
+                $('#facebook').hide();
+            }else{ facebook = 'http://facebook.com/'+data.facebook_id;}
+            if (!data.twitter_id){
+                 $('#twitter').hide();
+            }else{twitter  = 'http://twitter.com/'+data.twitter_id;}
+            if (!data.linkedin_id){
+                $('#linkedin').hide();
+            }else{linkedin = 'http://linkedin.com/'+data.linkedin_id;}
+
+            $('#facebook').attr('href',facebook);
+            $('#twitter').attr('href',twitter);
+            $('#linkedin').attr('href', linkedin);
+
+            if(!data.facebook_id && !data.twitter_id && !data.linkedin_id)
+            {$('#social_icon').hide();}
+
+
+            // profile picture here
+            if(data.image){
+                $('#img').html('<img style="max-height: 200px;" src="'+ data.image +'"  class="img-fluid" alt="">')
+            }
+            else{
+                $('#img').html('<img src="/static/images/user_default.jpg" class="img-fluid" alt="">')
+            }
+            $('#name').text(data.full_name);
+
+
+            //about info show
+
+            if (!data.about_me){
+                  $('#about_me').hide();
+            }
+            else{ $('#about_me').html(data.about_me);}
+
+            if (!data.industry_expertise){
+                  $('#ind_exp').hide();
+            }
+            else{ $('#industry_expertise').text(data.industry_expertise);}
+            if (!data.status){
+                  $('#sts').hide();
+            }
+            else{ $('#status').text(data.status);}
+            if (!data.experience){
+                  $('#exp').hide();
+            }
+            else{
+                if(data.experience == 1){
+                    data.experience = data.experience + " year"
+                    $('#experience').text(data.experience)
+                }
+                else {
+                    data.experience = data.experience + " years"
+                    $('#experience').text(data.experience)
+                }
+            }
+            if (!data.gender){
+                  $('#gen').hide();
+            }
+            else{ $('#gender').text(data.gender);}
+            if (!data.current_company){
+                  $('#current_company').hide();
+            }
+            else{ $('#current_company').text(data.current_company);}
+            if (!data.current_designation){
+                  $('#current_designation').hide();
+            }
+            else{ $('#current_designation').text(data.current_designation);}
+            if (!data.qualification){
+                  $('#qua').hide();
+            }
+            else{ $('#qualification').text(data.qualification);}
+            if (!data.address){
+                  $('#loc').hide();
+            }
+            else{ $('#address').html(data.address);}
+
+
+            //education info show
+
+            edu_data = data['educations']
+            len = edu_data.length;
+
+            for(x=0;x<len;x++){
+                var enrolled_date = edu_data[x].enrolled_date;
+                var momentObj = moment(enrolled_date, 'YYYY-MM-DD');
+                var enrolled_date = momentObj.format('DD/MM/YYYY') + ' - ';
+                if(edu_data[x].is_ongoing == true){
+                    var graduation_date = 'Present';
+                }
+                else if(edu_data[x].graduation_date){
+                    var graduation_date = edu_data[x].graduation_date;
+                    var momentObj = moment(graduation_date, 'YYYY-MM-DD');
+                    var graduation_date = momentObj.format('DD/MM/YYYY');
+                }
+                if (!edu_data[x].description){
+                    edu_data[x].description="";
+                }
+                if (edu_data[x].institution){
+                    if(!edu_data[x].institution.image){
+                        edu_image = '/static/images/candidate/Institute.png';
+                    }else{
+                        var edu_image = edu_data[x].institution.image;
+                    }
+                }else{
+                    edu_image = '/static/images/candidate/Institute.png';
+                }
+
+
+                var edu_html='<div class="education-label edu-list">'+
+                    '<div class="thumb">\n' +
+                    '<a href="#">\n' +
+                    '<img src="'+edu_image+'" class="img-fluid" alt="">\n' +
+                    '</a>\n' +
+                    '</div>'+
+                    '<div class="body">' +
+                    '<span class="study-year">'+enrolled_date+'  '+graduation_date+'</span>'+
+                    '<h5>'+edu_data[x].degree_text+'<span>@'+edu_data[x].institution_text+'</span></h5>'+
+                    '<p>'+edu_data[x].description+'</p>'+
+                    '</div>'+
+                    '</div><br>';
+                $('#edu').append(edu_html);
+            }
+
+            if(data['educations'].length==0){$('#edu').hide();}
+
+
+            //work experience info show
+
+            work_data = data.work_experiences
+    //console.log('work_data', work_data)
+            len = work_data.length;
+            for(x=0;x<len;x++){
+                if(work_data[x].start_date){
+                    var start_date = work_data[x].start_date;
+                    var momentObj = moment(start_date, 'YYYY-MM-DD');
+                    var start_date = momentObj.format('DD/MM/YYYY');
+                }
+                if(work_data[x].is_currently_working == true){
+                    var end_date = 'Currently Working';
+                }
+                else if(work_data[x].end_date){
+                    var end_date = work_data[x].end_date;
+                    var momentObj = moment(end_date, 'YYYY-MM-DD');
+                    var end_date = momentObj.format('DD/MM/YYYY');
+                }
+                if(work_data[x].description){
+                    var description =  work_data[x].description;
+                }
+                else{
+                    var description = '';
+                }
+                var exp_image;
+                if(work_data[x].company){
+                    if(!work_data[x].company.profile_picture){
+                        exp_image = '/static/images/company/company-logo.png';
+                    }else {
+                        exp_image = work_data[x].company.profile_picture;
+                    }
+                }else{
+                    exp_image = '/static/images/company/company-logo.png';
+                }
+
+                var work_html='<div class="experience-section exp-list">'+
+                    '<div class="thumb">\n' +
+                    '<a href="#">\n' +
+                    '<img src="'+exp_image+'" class="img-fluid" alt="">\n' +
+                    '</a>\n' +
+                    '</div>'+
+                    '<div class="body">' +
+                    '<span class="service-year">'+start_date+' - '+end_date+'</span>'+
+                    '<h5>'+work_data[x].designation+'<span>@'+work_data[x].company_text+'</span></h5>'+
+                    '<p>'+ description + '</p>'+
+                    '</div>'+
+                    '</div><br>';
+                $('#work').append(work_html);
+            }
+
+            if(data.work_experiences.length==0){$('#work').hide();}
+
+            //Professional Skill info show
+
+            pro_skill_data = data.skills
+    //console.log('pro_skill_data', pro_skill_data)
+            len = pro_skill_data.length;
+            for(x=0;x<len;x++){
+                var rating = parseFloat(pro_skill_data[x].rating).toFixed(1)
+                var pro_skill_html='<div class="progress-item">'+
+                    '<div class="progress-head">'+
+                    '<p class="progress-on">'+pro_skill_data[x].skill+'</p>'+
+                    '</div>'+
+                    '<div class="progress-body">'+
+                    '<div class="progress">'+
+                    '<div class="progress-bar" role="progressbar" aria-valuenow="'+pro_skill_data[x].rating *10+'" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div>'+
+                    '</div>'+
+                    '<p class="progress-to">'+rating+'/10</p>'+
+                    '</div>'+
+                    '</div>';
+
+                $('#pro_skill').append(pro_skill_html);
+            }
+
+            if(data.skills.length==0){$('#psks').hide();}
+
+            //certification show
+            certification_info = data.certifications
+    //console.log('certification_info', certification_info)
+            len = certification_info.length;
+            for(x=0;x<len;x++){
+                if(certification_info[x].issue_date){
+                    var issue_date = certification_info[x].issue_date;
+                    var momentObj = moment(issue_date, 'YYYY-MM-DD');
+                    var issue_date = momentObj.format('DD/MM/YYYY');
+                }
+                if(certification_info[x].expiry_date){
+                    var expiry_date = certification_info[x].expiry_date;
+                    var momentObj = moment(expiry_date, 'YYYY-MM-DD');
+                    var expiry_date = momentObj.format('DD/MM/YYYY');
+                }
+                else{
+                    if(certification_info[x].has_expiry_period == false){
+                        var expiry_date = 'No Expiry Period';
+                    }
+                }
+                var cer_image;
+                if(certification_info[x].organization_key){
+                    if(!certification_info[x].organization_key.image){
+                        cer_image = '/static/images/candidate/Organization.png';
+                    }else {
+                        cer_image = certification_info[x].organization_key.image;
+                    }
+                }else{
+                    cer_image = '/static/images/candidate/Organization.png';
+                }
+
+                var cft_html='<div class="certification-label cer-list">'+
+                    '<div class="thumb">\n' +
+                    '<a href="#">\n' +
+                    '<img src="'+cer_image+'" class="img-fluid" alt="">\n' +
+                    '</a>\n' +
+                    '</div>'+
+                    '<div class="body">' +
+                    '<span class="study-year">'+issue_date+' - '+expiry_date+'</span>'+
+                    '<h5>'+certification_info[x].certificate_name+'<span>@'+certification_info[x].organization+'</span></h5>'+
+                    '</div>'+
+                    '</div><br>';
+                $('.certification').append(cft_html);
+            }
+
+            if(data.certifications.length==0){$('#certificate').hide();}
+
+
+            //membership show
+            membership_info = data.memberships
+    //console.log('membership_info', membership_info)
+            len = membership_info.length;
+            for(x=0;x<len;x++){
+                if(membership_info[x].start_date){
+                    var start_date = membership_info[x].start_date;
+                    var momentObj = moment(start_date, 'YYYY-MM-DD');
+                    var start_date = momentObj.format('DD/MM/YYYY');
+                }
+                if(membership_info[x].end_date){
+                    var end_date = membership_info[x].end_date;
+                    var momentObj = moment(end_date, 'YYYY-MM-DD');
+                    var end_date = momentObj.format('DD/MM/YYYY');
+                }
+                else{
+                    if(membership_info[x].membership_ongoing == true){
+                        var end_date = 'Ongoing';
+                    }
+                }
+                if(membership_info[x].description){
+                    var description = membership_info[x].description;
+                }
+                else{
+                    var description = '';
+                }
+                var mbr_image;
+                if(membership_info[x].organization_key){
+                    if(!membership_info[x].organization_key.image){
+                        mbr_image = '/static/images/candidate/Organization.png';
+                    }else {
+                        mbr_image = membership_info[x].organization_key.image;
+                    }
+                }else{
+                    mbr_image = '/static/images/candidate/Organization.png';
+                }
+                var mbr_html='<div class="membership-label mbr-list">'+
+                    '<div class="thumb">\n' +
+                    '<a href="#">\n' +
+                    '<img src="'+mbr_image+'" class="img-fluid" alt="">\n' +
+                    '</a>\n' +
+                    '</div>'+
+                    '<div class="body">' +
+                    '<span class="study-year">'+start_date+' - '+end_date+'</span>'+
+                    '<h5>'+membership_info[x].position_held+'<span> @' +membership_info[x].organization+'</span></h5>'+
+                    '<p>'+description+'</p>'+
+                    '</div>'+
+                    '</div><br>';
+                $('.membership').append(mbr_html);
+            }
+
+            if(data.memberships.length==0){$('#mbrship').hide();}
+
+            //reference show
+            reference_info = data.references
+            //console.log('membership_info', membership_info)
+            len = reference_info.length;
+            for(x=0;x<len;x++){
+
+                if(reference_info[x].description){
+                    var description = reference_info[x].description;
+                }
+                else{
+                    var description = '';
+                }
+                var ref_html='<div class="reference-label">'+
+                    '<p>'+description+'</p>'+
+                    '</div><br>';
+                $('#reference').append(ref_html);
+            }
+
+            if(data.memberships.length==0){$('#mbrship').hide();}
+
+
+            //portfolio show
+
+            portfolio_data = data.portfolios
+    //console.log('portfolio_data' , portfolio_data)
+            len = portfolio_data.length;
+            for(x=0;x<len;x++) {
+               if(portfolio_data[x].description){
+                    var description = portfolio_data[x].description;
+                }
+                else{
+                    var description = '';
+                }
+
+                if(!portfolio_data[x].image){
+                    port_image = '/static/images/candidate/Portfolio.png';
+                }else {
+                    port_image = portfolio_data[x].image;
+                }
+
+               var portfolio_html = '<div class="portfolio-section por-list">\n' +
+                   '<div class="thumb">\n' +
+                    '<img src="'+port_image+'" class="img-fluid" alt="">\n' +
+                    '</div>'+
+                    '<div class="body">' +
+                    '<b class="port-title service-year">'+portfolio_data[x].name+'</b>\n'  +
+                    '<p>'+ description + '</p>'+
+                    '</div>'+
+                    '</div>'
+               $('.portfolio').append(portfolio_html);
+            }
+
+            if(data.portfolios.length==0){$('#pro_portfolio').hide();}
+
+
+
+        }
+
+    </script>
+{% endblock %}

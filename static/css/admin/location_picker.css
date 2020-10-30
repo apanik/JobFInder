@@ -1,0 +1,18 @@
+.setloc-map {
+    max-width: 50%;
+    height: 500px;
+    margin-top: 1em;
+    border: 1px solid #eee;
+}
+
+#pac-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    margin-top: 10px;
+    padding: 5px 11px 5px 13px;
+    text-overflow: ellipsis;
+    width: auto;
+}

@@ -1,0 +1,774 @@
+{% extends 'layout/layout_home.html' %}
+{% load static %}
+{% block extra_css %}
+    <style>
+        .recent-job .section-header.section-header-2 {
+            padding-top: 72px;
+        }
+        .recent-job .section-header {
+            margin-bottom: 35px;
+        }
+        .explore-job {
+            background: #fff;
+            border-radius: 10px;
+
+        }
+        .explore-job-wrapper {
+            padding-bottom: 40px;
+        }
+        .explore-job-wrapper .section-header p {
+            margin-top: 20px;
+        }
+        .recent-bottom-border {
+            width: 100px;
+            display: block;
+            border: 2px solid #f5d91d;
+            height: 2px;
+        }
+        .browse-all-padding{
+            padding-bottom: 82px;
+            padding-top: 82px;
+        }
+        .browse-all-btn{
+            padding: 6px 20px;
+            font-weight: 500;
+        }
+        .vital-stats{
+            background-image: url("/static/images/yellow/bg_vital_stats.jpg");
+        }
+        .fact .fact-name{
+            color: #f5d91d;
+            font-size: 3rem;
+        }
+        .fact .fact-number{
+            font-family: "Arial";
+            font-size: 72px;
+            font-weight: bold;
+        }
+        .bg-vital-stats{
+            background: rgba(0,0,0,0.5);
+        }
+        .explore-job-header-border {
+            margin-top: 0rem;
+            margin-bottom: 0rem;
+            border: 0;
+            border-top: 1px solid #f5d91d;
+            width: 50%;
+            margin-left: 28px;
+        }
+        .explore-job .explore-job-header {
+            border: 0px;
+        }
+        .banner-4 .banner-content .banner-search {
+            border-radius: 0 0 30px 30px;
+        }
+        .banner-4 .banner-content .banner-search .search-form input {
+            margin-right: -25px;
+            border-bottom: 2px solid #f5d91d;
+            opacity: 0.5;
+        }
+        .banner-4 .banner-content .banner-search .trending-key {
+            margin-left: 16px;
+        }
+        .banner-search button{
+            padding: 0!important;
+        }
+        .featured-company-list{
+            background-color: #ffffff;
+            border: 1px solid rgb(0, 0, 0, 0.08);
+        }
+        .margin-top-bottom-3rem {
+            margin-bottom: 3rem;
+            margin-top: 3rem;
+        }
+        .margin-top-bottom-3rem:last-child {
+            margin-bottom: 0;
+        }
+        .top-companies-wrapper {
+            padding-bottom: 80px;
+        }
+        .career-advice-wrapper {
+            padding-top: 80px;
+        }
+        .career-advice-wrapper h2.mb-4 {
+            padding-bottom: 10px;
+        }
+        .career-advice-wrapper .section-header {
+            margin-bottom: 35px;
+        }
+        #trend-keywords a+a::before {
+            content: "|";
+            font-style: normal;
+        }
+
+        .job-list .body .more .buttons .favourite.active svg {
+            fill: #f5d91d;
+        }
+        #apply_now{
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        button#apply_now:hover{
+            border:1px solid #f5d91d !important;
+        }
+        .navbar-collapse{
+            top:100% !important; ;
+        }
+    </style>
+{% endblock %}
+{% block body_block %}
+
+    <!-- Banner -->
+    <div class="banner banner-height banner-4 banner-4-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="banner-content">
+                        <h1>All the Great Jobs in One Place!</h1>
+                        <p> Find Jobs, Employment & Career Opportunities</p>
+                        <div class="banner-search">
+                            <form action="" id="search-form" class="search-form" method="" novalidate="novalidate" autocomplete="off">{% csrf_token %}
+                                <input type="text" name="keyword" id="keyword" placeholder="Enter Keywords">
+                                <button class="button btn-yellow primary-bg search-btn"><i class="fas fa-search text-dark" style="color:#ffffff;"></i>SEARCH</button>
+                                <div class="error-msg-location alert alert-danger" style="text-align: left;position: relative; top: 17px; display: none;"></div>
+                            </form>
+                            <div class="trending-key">
+                                <span id="trend-keywords"><b>Trending Keywords:</b></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner End -->
+
+    <!-- Explore Job -->
+    <div class="section-padding-top bg-yellow explore-job-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section-header">
+                        <h2>Explore The Right Job</h2>
+                        <p>Go for the top ones</p>
+                    </div>
+                </div>
+            </div>
+            <form action="/jobs/" id="top-category-top-company-form" method="POST">{% csrf_token %}
+                <input type="hidden" name="top-category" value="" id="top-category">
+                <input type="hidden" name="top-skill" value="" id="top-skill">
+            </form>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="explore-job">
+                        <div class="explore-job-header">
+                            <h5 class="title">TOP CATEGORIES</h5>
+                            <i class="fas fa-city text-dark"></i>
+                        </div>
+                        <hr class="explore-job-header-border">
+                        <div class="key-info">
+                            <ul id="category-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="explore-job">
+                        <div class="explore-job-header">
+                            <h5 class="title">TOP Skills</h5>
+                            <i class="fas fa-tools text-dark"></i>
+                        </div>
+                        <hr class="explore-job-header-border">
+                        <div class="key-info">
+                            <ul id="skill-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="explore-job">
+                        <div class="explore-job-header">
+                            <h5 class="title">Top Companies</h5>
+                            <i class="fas fa-building text-dark"></i>
+                        </div>
+                        <hr class="explore-job-header-border">
+                        <div class="key-info">
+                            <ul id="popular-job-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Explore Job End -->
+
+    <!-- Jobs -->
+    <div class="recent-job">
+        <div class="container">
+            <div class="section-header section-header-2">
+                <h2 class="text-center mb-5">Recent Jobs</h2>
+                <span class="m-auto recent-bottom-border">&nbsp;</span>
+            </div>
+            <div class="row" id="jobs">
+                <div class="col" id="job-list">
+                    <div class="apply-popup">
+                        <div class="modal fade" id="apply-popup-id" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"><i data-feather="edit"></i>APPLY</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5 id="job-title"></h5>
+                                        <form action="#" id="apply-form" novalidate="novalidate">
+
+                                            <div class="form-group apply-name display-none">
+                                                <input type="text" name="full_name" id="name" placeholder="Name" class="form-control" required>
+                                            </div>
+                                            <div class="form-group apply-phone display-none">
+                                                <input type="text" regex="\+?(88)?0?1[56789][0-9]{8}\b" name="phone" id="phone" placeholder="Mobile" class="form-control" data-msg-regex="Enter a valid Mobile Number" required>
+                                            </div>
+                                            <div class="form-group apply-email display-none">
+                                                <input type="email" name="email" id="email" regex='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$' placeholder="Email" class="form-control" data-msg-regex="Please enter a valid email" required>
+                                                <input type="hidden" name="job" id="job" class="form-control">
+                                                <input type="hidden" name="password" id="password" class="form-control">
+                                                <input type="hidden" name="terms_and_condition_status" id="terms_and_condition_status" class="form-control">
+                                            </div>
+                                            <!--                            <div class="form-group">-->
+                                            <!--                                <textarea class="form-control" placeholder="Message"></textarea>-->
+                                            <!--                            </div>-->
+                                            <div class="form-group file-input-wrap">
+                                                <label for="up-cv">
+                                                    <input id="up-cv" name="attachment" type="file" accept=".pdf,.doc,.docx,.zip">
+                                                    <i id="icon-change" data-feather="upload-cloud"></i>
+                                                    <span id="fileName">Attach your file <span>(pdf,zip,doc,docx)</span></span>
+                                                </label>
+                                                <textarea name="application_notes" id="application_notes" class="tinymce-editor tinymce-editor-1" placeholder="Application note here"></textarea>
+                                            </div>
+                                            <button id="apply_now" class="button btn-yellow btn-block">Apply Now</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center browse-all-padding">
+                <a href="{% url 'jobs' %}" class="button btn-yellow d-inline-block browse-all-btn">Browse All</a>
+            </div>
+        </div>
+    </div>
+    <!-- Jobs End -->
+
+    <!-- Top Companies -->
+    <div class="top-companies-wrapper" >
+        <div class="container" id="featured-companies">
+            <div class="row">
+                <div class="col">
+                    <div class="section-header">
+                        <h2 class="mb-5">Featured Companies</h2>
+                        <span class="m-auto recent-bottom-border">&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Top Companies End -->
+
+    <!-- Fun Facts -->
+    <div class="bg-dark vital-stats">
+        <div class="padding-top-90 padding-bottom-60 bg-vital-stats">
+            <div class="container">
+                <div class="row fact-items">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact">
+                            <div class="fact-icon">
+                                <i class="fas fa-briefcase fa-3x text-yellow"></i>
+                            </div>
+                            <p class="fact-number" id="job_counts"><span class="count" data-form="0" data-to=""></span></p>
+                            <p class="fact-name">Jobs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact">
+                            <div class="fact-icon">
+                                <i class="fas fa-users-cog fa-3x text-yellow"></i>
+                            </div>
+                            <p class="fact-number" id="vacancy_count"><span class="count" data-form="0" data-to=""></span></p>
+                            <p class="fact-name">Vacancies</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact">
+                            <div class="fact-icon">
+                                <i class="fas fa-tools fa-3x text-yellow"></i>
+                                <!--                            <i data-feather="file-text"></i>-->
+                            </div>
+                            <p class="fact-number" id="skill_count"><span class="count" data-form="0" data-to="28166"></span></p>
+                            <p class="fact-name">Skills</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="fact">
+                            <div class="fact-icon">
+                                <i class="fas fa-building fa-3x text-yellow"></i>
+                            </div>
+                            <p class="fact-number" id="companies_count"><span class="count" data-form="0" data-to="1366"></span></p>
+                            <p class="fact-name">Companies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fun Facts End -->
+
+
+    <!-- Career Advice -->
+    <div class="padding-bottom-90 career-advice-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section-header">
+                        <h2 class="mb-4">Career Advice</h2>
+                        <span class="m-auto recent-bottom-border">&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="career-advice">
+
+            </div>
+            <div class=" browse-all-career-advise" style="text-align: center;padding-top:50px;">
+                <a href="/career-advice" class="button btn-yellow d-inline-block browse-all-btn">Browse All</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Career Advice End -->
+
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $("#apply-form").validate();
+            $("#search-form").submit(function(event){
+                event.preventDefault();
+                var keyword = $("#keyword").val();
+                var data = {"keyword": keyword};
+                data = JSON.stringify(data);
+                if($(this).valid()){
+                    post("/api/job/trending_keywords/save/", data, function (data) {
+                    window.location.href = "/jobs/?q="+keyword;
+                });
+                }
+            });
+
+            $("body").delegate("#trend-keywords a", "click", function(){
+                var keywordItem = $(this).children().html();
+                $("#keyword").val(keywordItem);
+                $('#search-form').trigger('submit');
+            });
+
+            $("body").delegate("#category-list li a", "click", function(){
+                var category = $(this).data('category');
+                category = encodeURIComponent(category);
+                $("#top-category").val(category);
+                $('#top-category-top-company-form').trigger('submit');
+            });
+
+            $("body").delegate("#skill-list li a", "click", function(){
+                var skill = $(this).data('skill');
+                skill = encodeURIComponent(skill);
+                $("#top-skill").val(skill);
+                $('#top-category-top-company-form').trigger('submit');
+            });
+
+            $("#up-cv").change(function() {
+                var fileName = $(this).val().split('/').pop().split('\\').pop();
+                $("#fileName").text(fileName);
+            });
+
+            var job;
+            var jobTitle;
+            $("#job-list").on('click', '.apply:not(.applied)', function (event) {
+                if(!isLoggedIn()){
+                    $(".apply-popup .modal").removeAttr("id");
+                    var prevPosition = "jobs";
+                    showQuestion("Sign In required!", "Do you want to sign in now?", function(){
+                        window.location.href = '/professional/sign-in/?next=' + window.location.pathname + '#' + prevPosition;
+                    } , 'no');
+                }else{
+                    $("#up-cv").val('');
+                    $("#fileName").html("Attach your file <span>(pdf,zip,doc,docx)</span>");
+                    $("#apply-form")[0].reset();
+                    job = $(this).attr('href');
+                    jobTitle = $(this).parents().eq(2).find(".job-title").text();
+                    $("#job-title").text(jobTitle);
+                }
+            });
+
+            if(!isLoggedIn()){
+                $(".apply-name").removeClass("display-none");
+                $(".apply-phone").removeClass("display-none");
+                $(".apply-email").removeClass("display-none");
+            }
+
+            $("#apply-form").on('submit', function(event) {
+                event.preventDefault();
+                $('#apply_now').prop('disabled','disabled')
+                $('#job').val(job);
+                let resume = $('#up-cv').get(0).files[0];
+                applyUrl = "/api/job_apply/";
+
+                if($(this).valid()){
+                    var dataUrl;
+                    if(resume){
+                        var reader = new FileReader();
+                        reader.readAsDataURL(resume);
+                        reader.onload = function () {
+                            dataUrl = reader.result;
+                        };
+                    }
+
+                    upload(applyUrl, 'apply-form', function (data) {
+
+                        console.log(data)
+                        if(data.pro){
+
+                            let job_id = data.job;
+                            if(isLoggedIn()){
+                                var el = $("#jobs").find("[href='"+ job_id +"']");
+                                el.each(function () {
+                                    if($(this).hasClass("apply")){
+                                        $(this).addClass('disabled');
+                                        $(this).text('Applied');
+                                        $(this).removeAttr('href').css({"cursor":"default","color":"#ffffff"});
+                                        $(this).removeAttr("data-toggle");
+                                        $('#apply-popup-id').modal('hide');
+                                        showSuccess('Successful!', 'Job applied successfully.');
+                                        $('#apply_now').removeAttr('disabled')
+                                    }
+                                })
+                            }
+                        }else {
+                            showError('Error', 'Email exists');
+                            $('#apply_now').removeAttr('disabled')
+                        }
+                    },function (data){
+                        showError("Error", data.responseJSON.details);
+                        $('#apply_now').removeAttr('disabled')
+                    })
+                }
+
+        });
+
+
+            $('#search-form').validate({
+                rules: {
+                    keyword: {
+                        required:  function(element) {
+                            var keyword = $("#keyword").val();
+                            keyword = keyword.trim();
+                            return keyword == '';
+                        }
+                    }
+                },
+
+                messages: {
+                    "keyword": {
+                        required: "keyword can not be empty"
+                    }
+                },
+                errorElement : 'div',
+                errorLabelContainer: '.error-msg-location'
+            });
+            initAjaxForms();
+            statUrl = '/api/vital_stats/get/';
+            featuredCompaniesUrl = '/api/company/list/featured';
+            key_url='/api/job/trending_keywords/';
+            cat_url='/api/job/top-categories/';
+            skills_url='/api/job/top-skills/';
+            careerUrl = '/api/career_advice_show/';
+            recentJobsUrl = 'api/job/recent/';
+            popularJobsUrl = '/api/job/top-companies/';
+            // jobAlertUrl = '/api/professional/job_alert_notification/';
+
+            skilllistUrl = '/api/skill/list/';
+            get(skilllistUrl,loadSkillcount);
+
+            get(cat_url,loadCategory);
+            get(featuredCompaniesUrl,loadFeaturedCompanies);
+            get(statUrl,loadStats);
+            get(key_url,loadKey);
+            get(careerUrl,loadAdvice);
+            get(skills_url,loadSkills);
+            get(recentJobsUrl,loadJobs);
+            get(popularJobsUrl,loadPopularJobs);
+            // get(jobAlertUrl, loadJobAlert);
+            favouriteJobAddRemove('job-list', '/api/job/favourite/toggle');
+            {#applyOnlineJobAddRemove('job-list', '/api/job/apply/');#}
+        });
+
+
+        function loadCategory(data) {
+            for(index=0;index<data.length;index++){
+                $('#category-list').append('<li><a data-category="'+ data[index].name +'" href="/jobs?category='+ encodeURIComponent(data[index].name) +'">'+ data[index].name +'<span>('+ data[index].num_posts +')</span></a></li>')
+            }
+        }
+
+
+        function verifyRecaptchaCallback() {
+            recaptchachecked = true;
+            if(recaptchachecked==true){
+                document.getElementById('error-captcha').innerHTML="";
+            }
+        }
+
+        function generatePassword() {
+            var length = 8,
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                retVal = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            return retVal;
+        }
+
+
+
+        function loadStats(data) {
+            $('#vacancy_count').text(data.num_of_vacancy)
+            $('#job_counts').text(data.open_job)
+            $('#companies_count').text(data.company_count)
+
+        }
+
+
+
+        function loadSkills(data) {
+            for(index=0;index<data.length;index++){
+                $('#skill-list').append('<li><a href="/jobs?skill='+ encodeURIComponent(data[index].name) +'" data-skill="'+ data[index].id +'">'+ data[index].name +'<span>('+ data[index].skills_count +')</span></a></li>')
+            }
+        }
+
+        function loadPopularJobs(data) {
+            if (data){
+                for(index=0;index<data.length;index++){
+                    if (data[index].name != 'Unknown'){
+                        $('#popular-job-list').append('<li><a data-category="'+ data[index].name +'" href="company-details/'+ data[index].name +'">'+ data[index].name +'<span>('+ data[index].num_posts +')</span></a></li>')
+                    }
+                }
+            }
+        }
+
+        function loadFeaturedCompanies(data) {
+            console.log(data);
+            if (data){
+                var city_str = ' <div class="info">\n' +
+                        '   <span class="office-location"><a href="#"><i data-feather="map-pin"></i></a></span>\n' +
+                        ' </div>\n'
+                var str = '<div class="row">';
+                for(index=1;index<=data.count;index++){
+                    var dataindex = index-1;
+                    if(data.results[dataindex].city){
+                       let location = data.results[dataindex].city;
+                       location = location.split(',');
+                        location = location[1] + ', ' + location[0];
+                        city_str = ' <div class="info">\n' +
+                        '   <span class="office-location"><a href="#"><i data-feather="map-pin"></i>' + location + '</a></span>\n' +
+                        ' </div>\n'
+                    }else{
+                        city_str = ' <div class="info">\n' +
+                        '   <span class="office-location" style="display: none"><a href="#"><i data-feather="map-pin"></i></a></span>\n' +
+                        ' </div>\n'
+                    }
+                    str += '<div class="col-md-4">\n' +
+                        '                    <div class="job-list featured-company-list">\n' +
+                        '                    <div class="thumb">\n' +
+                        '                        <a href="#">\n' +
+                        '                            <img src="'+data.results[dataindex].profile_picture+'" class="img-fluid" alt="">\n' +
+                        '                        </a>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="body">\n' +
+                        '                        <div class="content">\n' +
+                        '                            <h4><a href="/company-details/'+data.results[dataindex].name+'">'+data.results[dataindex].name+'</a></h4>\n' +
+                                                     city_str +
+                        '<a href="/company-details/'+data.results[dataindex].name+'/" class="button btn-yellow" style="margin-top: 10px">'+ data.results[dataindex].num_posts+' Job(s)</a>'+
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                </div>'+
+                        '</div>';
+                    if(index%3==0 && data.results.length != index){
+                        str += "</div><div class='row margin-top-bottom-3rem'>";
+                    }
+                }
+                str += "</div>";
+                $('#featured-companies').append(str);
+            }
+        }
+
+        function loadJobs(data) {
+            //console.log('loadJobs', data)
+            var dateString = new Date()
+            var todaymomentObj = moment(dateString, 'YYYY-MM-DD');
+            for(index=0;index<data.length;index++){
+                var dateMomentString = 'None'
+                if(data[index].application_deadline){
+                    var dateString = data[index].application_deadline;
+                    var deadlinemomentObj = moment(dateString, 'YYYY-MM-DD');
+                     var date1 = new Date(deadlinemomentObj);
+                var date2 = new Date(todaymomentObj)
+                var timeDiff = (date1.getTime() - date2.getTime());
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                }else{
+                    var diffDays = 0
+                }
+
+                if(data[index].post_date){
+                    var PostdateString = data[index].post_date;
+                    var momentObj = moment(PostdateString, 'YYYY-MM-DD');
+                    PostdateMomentString = momentObj.format('DD/MM/YYYY');
+                }
+                if(data[index].salary && data[index].salary != 'Negotiable'){
+                    salary = Number(data[index].salary) + ' BDT'
+                }else{
+                    salary = 'Negotiable'
+                }
+                if(data[index].salary_min && data[index].salary_max){
+                    if(data[index].salary_min==data[index].salary_max){
+                        salary = Number(data[index].salary_min) + ' BDT'
+                    }
+                    else {
+                        salary = Number(data[index].salary_min) + '-' + Number(data[index].salary_max) +' BDT'
+                    }
+                }
+                var image_url;
+                if (data[index].company.profile_picture){
+                    var image_url = data[index].company.profile_picture;
+                }else {
+                    var image_url = '/static/images/company/company-logo.png';
+                }
+                var applyOrCopy = '<a href="'+data[index].job_id+'" id="'+data[index].slug+'" class="button btn-yellow apply" data-toggle="modal" data-target="#apply-popup-id" style="min-width: 115px;text-align: center;">Apply</a>';
+                var favoriteJob = '<a href="'+data[index].job_id+'" class="favourite"><i data-feather="heart"></i></a>';
+                if(isCompany()){
+                    applyOrCopy = '<a href="/company/post-job/?copy-from='+data[index].slug+'" class="button btn-yellow">Copy This Job</a>';
+                    favoriteJob = '<a href="'+data[index].job_id+'" class="favourite display-none"><i data-feather="heart"></i></a>';
+                }
+                var job_html_1st= '<div class="job-list">'+
+                    '<div class="thumb">'+
+                    '<a href="/company-details/'+data[index].company.name+'">'+
+                    '<img src="'+image_url+'" class="img-fluid" alt="">'+
+                    '</a>'+
+                    '</div>'+
+                    '<div class="body">'+
+                    '<div class="content" style="max-width: 700px;">'+
+                    '<h4><a class="job-title" href="'+'job-detail/'+data[index].slug+'">'+data[index].title+'</a></h4>'+
+                    '<div class="info">'+
+                    '<span class="company"><a href="/company-details/'+data[index].company.name+'"><i class="fas fa-building" style="margin-right: 5px"></i>'+data[index].company.name+'</a></span>';
+                var job_html_office_location= '<span class="office-location"><a><i data-feather="map-pin"></i>'+data[index].address+'</a></span>';
+                var job_html_last= '<span class="job-type full-time"><a><i data-feather="clock"></i><span class="text-normal">'+data[index].job_type+'</span></a></span>'+
+                    '</div>'+
+                    '<div class="info" style="margin-top: 10px;">'+
+                    '<span class="posted_date"><i class="fas fa-calendar" style="margin-right: 5px"></i>Posted on '+PostdateMomentString+'</span>'+
+                    '<span class="salary"><i class="fas fa-money-bill" style="margin-right: 5px"></i>Salary: '+salary+'</span>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="more">'+
+                    '<div class="buttons">'+
+                    applyOrCopy+
+                    favoriteJob+
+                    '</div>'+
+                    '<p class="deadline-'+index+'"style="font-size: 1.3rem;margin-top: 10px; font-style: italic;font-weight: 300;display: block;text-align: right;">'+'Deadline in '+diffDays+' days</p>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>';
+
+                if (data[index].address){
+                    var job_html_total = job_html_1st + job_html_office_location + job_html_last;
+                }else {
+                    var job_html_total = job_html_1st + job_html_last;
+                }
+                $('#job-list').append(job_html_total);
+                if(diffDays <= 0){
+                    $('.deadline-'+index).css('display','none')
+                }
+                var el = $("#job-list").find("[href='"+ data[index].job_id +"']");
+                el.each(function () {
+                    if($(this).hasClass('apply')){
+
+                        // $(this).removeClass('active');
+                        // showError('Oopss!', 'Job removed.')
+                        if(data[index].is_applied == true && isLoggedIn()){
+                            $(this).addClass('disabled');
+                            $(this).text('Applied');
+                            $(this).removeAttr('href');
+                            $(this).removeAttr("data-toggle");
+                        }
+                    }
+                    if($(this).hasClass("favourite")){
+                        if(data[index].is_favourite == true && isLoggedIn()){
+                            $(this).addClass('active');
+                            $(this).children().attr("fill", "#ff8fa6");
+                        }
+                        // $(this).addClass('active');
+                        // showSuccess('Successful!', 'Job saved as a favourite.')
+
+                    }
+
+                });
+                feather.replace();
+            }
+        }
+
+        function loadAdvice(data) {
+            len= data.length;
+            for(x=0;x<len;x++){
+                var dateString = data[x].posted_at
+                var momentObj = moment(dateString, 'YYYY-MM-DD');
+                var dayString = momentObj.format('dddd');
+                var dateString = momentObj.format('DD/MM/YYYY');
+
+                $('#career-advice').append('<div class="col-md-6 col-lg-4">' +
+                    ' <article class="blog-grid">' +
+                    ' <div class="careerAdviceImgageWrapper">' +
+                    '<img class="image" width="100%" src="'  + data[x].thumbnail_image + '" alt="">' +
+                    '<div class="middle">\n' +
+                    '    <a href="/career-advice/details/'+ data[x].id +'" class="text"><i style="position: relative; top: 20px; left: 2px; color: #000; " class="fas fa-3x fa-glasses"></i></a></div></div>\n' +
+                    '<div class="body">' +
+                    '<h3 style="min-height:50px;max-height:50px">'+data[x].title+'</h3>' +
+                    '<span class="author d-block" id="ad-author"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> '+data[x].author+'</span>' +
+                    '<span>'+dateString+'</span>' +
+                    '<p style="max-height:97px;min-height:97px; margin-top: 10px; overflow: hidden;"id="ad-description">'+data[x].short_description+'</p>' +
+                    '</div>' +
+                    '</article>'+
+                    '</div>')
+
+            }
+
+
+        }
+        function loadKey(data) {
+            len= data.length;
+            for(x=0;x<len;x++){
+                if (data[x].keyword !=''){
+                    $('#trend-keywords').append('<a href="javascript:void(0)"><span style="padding-left: 10px">'+ data[x].keyword +'</span></a>');
+                }
+            }
+        }
+
+        function loadSkillcount (data) {
+            //console.log('loadSkillcount', data.length);
+            $('#skill_count').text(data.length);
+        }
+
+    </script>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends 'layout/layout_professional.html' %}
+{% load static %}
+
+{% block page_header %}
+    Dashboard
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Dashboard</span>
+{% endblock %}
+
+{% block professional_block %}
+
+    <div class="dashboard-section user-statistic-block">
+        <div class="user-statistic skill-statistics" style="cursor: pointer">
+            <i class="fas fa-tools dashboard-skill"></i>
+            <h3 id="prof-skills"></h3>
+            <a id="skill-link" href=""><span>Skills</span></a>
+        </div>
+        <div class="user-statistic applied-job-statistics" style="cursor: pointer">
+            <i data-feather="briefcase"></i>
+            <h3 id="applied-jobs"></h3>
+            <a href="/professional/applied-jobs/"><span>Applied Jobs</span></a>
+        </div>
+        <div class="user-statistic favorite-job-statistics" style="cursor: pointer">
+            <i data-feather="heart"></i>
+            <h3 id="favourite-jobs"></h3>
+            <a href="/professional/favorite-jobs/"><span>Favorite Jobs</span></a>
+        </div>
+    </div>
+    <div class="dashboard-section dashboard-view-chart">
+        <canvas id="data-chart" width="400" height="200"></canvas>
+    </div>
+
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $('.dashboard-bar').addClass('active');
+            get('/api/pro/dashboard/infobox/',infoBoxCallBack);
+            get('/api/pro/dashboard/skill/',DataChartCallBack);
+        });
+
+        let prof_skill;
+        var skills = new Set();
+
+
+
+        $("body").delegate(".skill-statistics", "click", function(){
+            window.location.href =  '/professional/myprofile/';
+        });
+
+        $("body").delegate(".applied-job-statistics", "click", function(){
+            window.location.href =  '/professional/applied-jobs/';
+        });
+
+        $("body").delegate(".favorite-job-statistics", "click", function(){
+            window.location.href =  '/professional/favorite-jobs/';
+        });
+
+        function infoBoxCallBack(data) {
+            $('#prof-skills').text(data.skills_count)
+            $('#applied-jobs').text(data.applied_job_count)
+            $('#favourite-jobs').text(data.favourite_job_count)
+
+        }
+        function DataChartCallBack(data) {
+            let dataCallback = function(data2){
+
+                for(i=0;i<data2.skill_info.length;i++){
+                    skills.add(data2.skill_info[i].skill_obj.name)
+                }
+                prof_skill = Array.from(skills).join(', ')
+                months = []
+                jobs = []
+                len = data.length
+                if(len>6){
+                    start = len-6
+                }
+                else {
+                    start = 0
+                }
+                for (i = start; i < data.length; i++){
+                    var calender = [[1,'Jan'], [2,'Feb'], [3,'Mar'], [4,'Apr'], [5,'May'], [6,'Jun'],
+                        [7,'Jul'], [8,'Aug'], [9,'Sep'], [10,'Oct'], [11,'Nov'], [12,'Dec']]
+                    var monthNo = data[i][1]
+                    for(x=0; x< calender.length; x++){
+                        if(monthNo == calender[x][0] ){
+                            var monthName = calender[x][1] +', ' + data[i][0]
+                        }
+                    }
+
+                    months.push(monthName)
+                    jobs.push(data[i][2])
+
+                }
+
+                if(data.length == 0){
+                    $('.dashboard-view-chart').html('<p class="text-center text-danger" >Please Enter Your Skills For Accesing Job Chart</p>')
+                }
+                else{
+                    if ($("#data-chart").length > 0) {
+                        var ctx = document.getElementById("data-chart").getContext('2d');
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: months,
+                                datasets: [{
+                                    label: 'Posted Jobs',
+                                    data: jobs,
+                                    backgroundColor:
+                                        'rgba(36, 109, 248, .2)',
+                                    borderColor:
+                                        'rgba(36, 109, 248, 1 )',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                title: {
+                                    display: true,
+                                    position :'top',
+                                    text: ['Monthly Jobs' , 'for Skills ('+ prof_skill +')'],
+                                    fontSize : 15
+                                },
+                                gridLines: {
+                                    display: false
+                                },
+                                legend: {
+                                    display: false
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: true
+                                },
+                                responsive: true,
+                                scales: {
+                                    xAxes: [{
+                                        stacked: true,
+                                    }],
+                                    yAxes: [{
+                                        stacked: true,
+                                    }]
+                                }
+                            }
+                        });
+                    }
+                }
+
+            };
+            get('/api/professional/profile/',dataCallback );
+
+
+        }
+
+
+
+
+
+    </script>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+    <meta name="X-CSRF-TOKEN" content="44f02902-3ac0-4d5a-86e2-da3d17430c26"/>
+    <title>JobXprss: All the Great Jobs in One Place!</title>
+
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/toastr.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/fontawesome/css/all.css'%}"/>
+    <link rel="stylesheet" href="{% static 'assets/icofont/icofont.min.css'%}"/>
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/bootstrap-tagsinput.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static '/assets/css/jquery-ui.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cropper.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/yellow.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins" />
+
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/favicon-57.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicon-72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicon-114.png' %}">
+
+    <!--[if lt IE 9]>
+    <script src="{% static '/assets/js/html5shiv.min.js' %}"></script>
+    <script src="{% static '/assets/js/respond.min.js' %}"></script>
+    <![endif]-->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B24WQR88NR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-B24WQR88NR');
+    </script>
+    <!-- End Google Analytics -->
+
+    <!-- Global site tag (gtag.js) - Google Ads: 720178701 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-720178701"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-720178701');
+    </script>
+    <!-- End Google Ads -->
+
+    {% block extra_css %}
+        <style>
+        #public-profile:hover{
+            color: #093988 !important;
+        }
+        #applicant-profile:hover{
+             color: #093988 !important;
+        }
+        </style>
+    {% endblock %}
+</head>
+<body>
+{% include header %}
+
+{% if request.get_full_path != home_url %}
+    <div class="header-other"></div>
+    <div class="alice-bg shadow mb-3">
+        <div class="container mb-2">
+            <div class="row">
+                <div class="col-md page-title">
+                    {% block page_header %}
+                    {% endblock %}
+                </div>
+                <div class="col-md bread-crumb text-right">
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="alice-bg section-padding-bottom">
+    <div class="container no-gliters">
+        <div class="row no-gliters">
+            <div class="col">
+                <div class="dashboard-container">
+                    <div class="dashboard-content-wrapper">
+                        {% block professional_block %}
+
+                        {% endblock %}
+                    </div>
+                    <div class="dashboard-sidebar">
+                        <div class="user-info">
+                            <div class="thumb"id="prof-image">
+                            </div>
+                            <div class="user-body public-profile-link">
+                                <h5 id="prof-name"></h5>
+                                <span id="prof-email"></span>
+                                <a id="public-profile" href="" target="_blank"style="color: #1566e9; font-size: 11px">Public Profile</a> |
+                                <a id="applicant-profile" href="/professional/applicant-profile/" target="_blank"style="color: #1566e9; font-size: 11px">Applicant Profile</a>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                        <div class="profile-progress" style="width: 90%; padding-left: 20px;">
+                            <div class="progress-item">
+                                <div class="progress-head">
+                                    <p class="progress-on">Profile</p>
+                                </div>
+                                <div class="progress-body">
+                                    <div class="progress">
+                                        <div class="progress-bar profile-completeness" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div>
+                                    </div>
+                                    <p class="progress-to"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="float-right refresh-div" style="width: 10%; padding-left: 8px;padding-top: 5px; cursor: pointer;">
+                            <a target="_blank"><i class="refresh-button" data-feather="refresh-cw" style="color: #f5d91d"></i></a>
+                        </div>
+                        </div>
+                        <div class="dashboard-menu">
+                            <ul>
+                                <li class="side-menu dashboard-bar"><i class="fas fa-home"></i><a href="/professional/profile-dashboard/">Dashboard</a></li>
+                                <li class="side-menu profile-details-bar"><i class="fas fa-file-alt"></i><a id="edit-profile-details" href="/professional/myprofile/">My Profile</a></li>
+                                <li class="side-menu favourite-job-bar"><i class="fas fa-heart"></i><a href="/professional/favorite-jobs/">Favorite Jobs</a></li>
+                                <li class="side-menu applied-job-bar"><i class="fas fa-check-square"></i><a href="/professional/applied-jobs/">Applied Jobs</a></li>
+                                <li class="side-menu messages"><i class="fas fa-envelope"></i><a href="/professional/messages/">Messages</a></li>
+                                <li class="side-menu pro_recent_activity"><i class="fas fa-history"></i><a href="/professional/recent-activity/">Recent Activity</a></li>
+                                <li class="side-menu professional_notification"><i class="fas fa-bell"></i><a href="/professional/notifications/">Notifications</a></li>
+                            </ul>
+
+                            <!-- Modal -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include footer %}
+{% block extra_js %}
+{% endblock %}
+</body>
+</html>

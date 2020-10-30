@@ -1,0 +1,187 @@
+python manage.py test --keepdb question.tests.QuestionTest.test_getRandomQuestionnaire__when__give_same_exam_id__Should_retun_diffirentQuestion_in_every_request
+Signup API:
+------------------------------------------
+
+
+request type: POST
+url: http://192.168.1.143/api/signup/email
+body: {
+    "email": "rashedhsn16@gmail.com"
+}
+# in both case Http Status code  200
+output: {
+    "success": {
+        "status": "success",
+        "code": 200,
+        "message": "Email send successfully",
+        "result": {
+            "user": {
+                "email": "rashedhsn16@gmail.com"
+            }
+        }
+    }
+    "failed": {
+        "status": "failed",
+        "code": 401,
+        "message": "This email already in use. Please try another one.",
+        "result": {
+            "user": {
+                "email": "rashedhsn16@gmail.com"
+            }
+        }
+    }
+}
+
+Email Verification:
+----------------------------------
+request type: POST
+url: http://192.168.1.143/api/signup/email-verification
+body: {
+    "email": "rashedhsn16@gmail.com",
+    "code": 512861
+}
+output: {
+    "success": {
+        "status": "success",
+        "code": 200,
+        "message": "Email successfully verified",
+        "result": {
+            "user": {
+                "email": "rashedhsn16@gmail.com"
+            }
+        }
+    }
+    "failed": {
+        "status": "failed",
+        "code": 401,
+        "message": "Invalid Verification Code",
+        "result": {
+            "user": {
+                "email": "rashedhsn16@gmail.com"
+            }
+        }
+    }
+}
+
+Examinee Profile Update:
+----------------------------------
+request type: PUT
+url: http://192.168.1.143/api/signup/examinee/31/
+body: {
+    "name": "rasheda",
+    "email": "hasan@gmail.com",
+    "password": 5128611
+}
+output: {
+    "success": {
+        "id": 31,
+        "username": null,
+        "name": "Shofi",
+        "email": "hasan@gmail.com",
+        "password": "pbkdf2_sha256$150000$AZJARqe6ZuIS$9oCK4yOBk1x9vEmDTTlPVKJJQBR+yV/vEkjOrODwSFU=",
+        "mobile_number": "",
+        "father_name": "",
+        "mother_name": "",
+        "national_id_number": "",
+        "address": "",
+        "created_date": "2019-11-03T15:50:21.889491+06:00"
+    }
+    "failed": {
+        "detail": "Not found."
+        }
+    }
+}
+
+
+Examinee Login:
+----------------------------------
+request type: PUT
+url: http://192.168.1.143/api/login
+body: {
+    "email": "rashedhsn16@gmail.com",
+    "password": 123
+}
+output: {
+    "success": {
+        "status": "success",
+        "code": 200,
+        "message": "You are successfully logged in",
+        "result": {
+            "user": {
+                "username": "rashedhsn16@gmail.com",
+                "examinee_id": 1,
+                "examinee_email": "rashedhsn16@gmail.com",
+                "status": true
+            }
+        }
+    }
+    "failed": {
+        "status": "failed",
+        "code": 401,
+        "message": "Wrong Username or Password",
+        "result": {
+            "user": {
+                "": ""
+            }
+        }
+    }
+}
+Exam List of particular examinee based on email:
+----------------------------------
+request type: GET
+url: http://192.168.1.143/registration/index/rashedhsn16@gmail.com
+
+output: {
+    "success": {
+        "registration": [
+            {
+                "id": 1,
+                "candidate_id": "123",
+                "candidate_name": "Rashed",
+                "exam_id": "11",
+                "exam_name": "Python Management",
+                "email": "rashedhsn16@gmail.com",
+                "duration_in_minutes": "50",
+                "status": "0",
+                "created_date": "2019-11-09T13:41:48.978335+06:00"
+            },
+            {
+                "id": 3,
+                "candidate_id": "123",
+                "candidate_name": "Rashed",
+                "exam_id": "12",
+                "exam_name": "Python Management",
+                "email": "rashedhsn16@gmail.com",
+                "duration_in_minutes": "50",
+                "status": "0",
+                "created_date": "2019-11-09T13:41:48.978335+06:00"
+            }
+        ]
+    }
+    "failed": {
+        "registration": []
+    }
+}
+
+Exam List of particular examinee based on email:
+----------------------------------
+request type: GET
+url: http://dev.ishraak.com/api/exam/result/19
+
+output: {
+        "success": {
+            "status": "ok",
+            "code": 200,
+            "message": "success",
+            "result": {
+                "number_of_question": 20,
+                "correct_ans": 12,
+                "percentage_of_right_ans": 60.0
+            }
+        }
+    "failed": {
+        "registration": []
+    }
+}
+
+

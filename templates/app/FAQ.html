@@ -1,0 +1,381 @@
+{% load static %}
+<html>
+<head>
+
+   <!-- Bootstrap CSS -->
+ <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+
+    <!-- External Css -->
+    <link rel="stylesheet" href="{% static '/assets/css/fontawesome-all.min.css'%}" />
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/bootstrap-tagsinput.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static '/assets/css/jquery-ui.min.css' %}">
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/faviconl.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/icon-114x114.png' %}">
+
+
+    <!--[if lt IE 9]>
+    <script src="{% static '/assets/js/html5shiv.min.js' %}"></script>
+    <script src="{% static '/assets/js/respond.min.js' %}"></script>
+    <![endif]-->
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+
+</head>
+<body>
+
+
+    <!-- How It Work -->
+    <div class="alice-bg section-padding-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="white-bg others-block">
+              <!-- FAQ -->
+              <div class="padding-top-60 padding-bottom-60">
+                <div class="container">
+                  <div class="row">
+                    <div class="col">
+                      <div class="section-header section-header-center">
+                        <h6>Your answers here</h6>
+                        <h2>Frequently Asked Questions</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                      <div class="tab-content faq-tab-content" id="myTabContent">
+                        <div class="tab-pane fade active show" id="feature" role="tabpanel" aria-labelledby="feature-tab">
+                          <div class="accordion" id="accordionExample">
+                            <div class="card">
+                              <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    What is JobXprss?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>JobXprss is an intelligent people-position matchmaking platform for the professionals and organizations. To know more, please visit About Us.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Is it free?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>JobXprss is offering some free services and will continue to do so.
+                                        In future, some paid subscriptions will be offered with some exciting new services.</p></div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingThree">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Do you guarantee a job?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>JobXprss does not guarantee a job. But, job seekers on JobXprss are more informed about the jobs and the organizations they apply to and consider joining. So, the chance is higher that you will get a suitable job quicker.
+                                    </p></div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    How to post a job on JobXprss?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>To post a job you need a company account. To open a account, please submit a request on Contact Us.
+                                        Our team will get back to you.
+                                    </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingFive">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    Do you guarantee authenticity of the job details?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                                <div class="card-body">
+                                  <p>At JobXprss, we give our best effort to make information as accurate as possible. But, we do not guarantee the correctness of the information. We gather information from different online sources. Job seekers are requested to verify their authenticity before taking any important step.</p>
+                                </div>
+                              </div>
+                            </div>
+                              <div class="card">
+                              <div class="card-header" id="headingSix">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    Do you provide training?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>We do not provide training as a part of JobXprss. But our expert team from Ishraak Solutions offer training sessions on different cutting edge tools & technologies. Details can be found on Ishraak Solutions.</p>
+                                </div>
+                              </div>
+                            </div>
+                              <div class="card">
+                              <div class="card-header" id="headingSix">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                    Do you have any mobile apps?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>Yes, we have user-friendly mobile apps for both Android and iOS users. To download the latest apps, please visit  <a href="/" style="color: blue;">JobXprss homepage</a></p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="latest" role="tabpanel" aria-labelledby="latest-tab">
+                          <div class="accordion" id="accordionExample2">
+                            <div class="card">
+                              <div class="card-header" id="headingSix">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+                                    How we sell your product here ?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseSix" class="collapse show" aria-labelledby="headingSix" data-parent="#accordionExample2">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingSeven">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                    How we sell your product here?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionExample2">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingEight">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                    What is our features product?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionExample2">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingNine">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                    Is it ecommerce site?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordionExample2">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingTen">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                                    How we take payment from our customers?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="#accordionExample2">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                          <div class="accordion" id="accordionExample3">
+                            <div class="card">
+                              <div class="card-header" id="headingEleven">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseEleven" aria-expanded="true" aria-controls="collapseEleven">
+                                    How we sell your product here ?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseEleven" class="collapse show" aria-labelledby="headingEleven" data-parent="#accordionExample3">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingTweleve">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTweleve" aria-expanded="false" aria-controls="collapseTweleve">
+                                    How we sell your product here?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseTweleve" class="collapse" aria-labelledby="headingTweleve" data-parent="#accordionExample3">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingThirteen">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+                                    What is our features product?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseThirteen" class="collapse" aria-labelledby="headingThirteen" data-parent="#accordionExample3">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingFourteen">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
+                                    Is it ecommerce site?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseFourteen" class="collapse" aria-labelledby="headingFourteen" data-parent="#accordionExample3">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card">
+                              <div class="card-header" id="headingFifteen">
+                                <h5 class="mb-0">
+                                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
+                                    How we take payment from our customers?
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapseFifteen" class="collapse" aria-labelledby="headingFifteen" data-parent="#accordionExample3">
+                                <div class="card-body">
+                                  <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary.</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    <!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/js/popper.min.js"></script>
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/assets/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/feather.min.js"></script>
+<script src="/static/assets/js/bootstrap-select.min.js"></script>
+<script src="/static/assets/js/jquery.nstSlider.min.js"></script>
+<script src="/static/assets/js/owl.carousel.min.js"></script>
+<script src="/static/assets/js/visible.js"></script>
+<script src="/static/assets/js/jquery.countTo.js"></script>
+<script src="/static/assets/js/chart.js"></script>
+<script src="/static/assets/js/plyr.js"></script>
+<script src="/static/assets/js/tinymce.min.js"></script>
+<script src="/static/assets/js/slick.min.js"></script>
+<script src="/static/assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="/static/assets/js/jquery.cookie.min.js"></script>
+<script src="/static/js/custom.js"></script>
+<script src="/static/assets/js/form2js.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/assets/js/sweetalert2%409.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYT7cwP2Ki9fwJBmRH6t2FkjjkjsywVaE"></script>
+<script src="/static/js/map.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script src="/static/assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="/static/assets/js/jquery-ui.min.js"></script>
+<script src="/static/js/select2.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/dashboard/js/dashboard.js"></script>
+<script src="/static/dashboard/js/datePicker.js"></script>
+<script src="/static/dashboard/js/upload-input.js"></script>
+<script src="/static/js/common.js"></script>
+<script type="text/javascript">
+    $(function () {
+        socialUrl = '/api/settings/';
+        get(socialUrl,loadSocialUrl);
+    });
+    function loadSocialUrl(data) {
+        if (data.length>0) {
+            data = data[0];
+            if(data.phone){
+                $('.phone-number').html("("+data.phone+")");
+            }
+        }
+    }
+</script>
+</body>
+</html>
+
+
+
+
+

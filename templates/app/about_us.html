@@ -1,0 +1,303 @@
+{% load static %}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}" />
+
+    <!-- External Css -->
+    <link rel="stylesheet" href="{% static '/assets/css/fontawesome-all.min.css'%}" />
+    <link rel="stylesheet" href="{% static '/assets/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/et-line.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap-select.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/bootstrap-tagsinput.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/plyr.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/flag.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/slick.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/assets/css/jquery.nstSlider.min.css' %}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static '/assets/css/jquery-ui.min.css' %}">
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/dashboard.css' %}">
+
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/faviconl.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/icon-114x114.png' %}">
+
+
+</head>
+<body>
+
+
+    <div class="alice-bg section-padding-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="white-bg others-block">
+              <div class="about-company">
+                <div class="row">
+{#                  <div class="col-lg-6 order-lg-2">#}
+{#                    <div class="feature-thumb">#}
+{#                      <img src="{% static 'images/bg/bg_home.jpg' %}" style="opacity: 50%;" class="img-fluid" alt="">#}
+{#                    </div>#}
+{#                  </div>#}
+                  <div class="col-lg-6 order-lg-1">
+                    <div class="feature-content">
+                        <h5>Our Mission</h5>
+                    </div>
+                        <p>
+                            To provide an intelligent people-position matchmaking platform for the professionals and organizations.
+                        </p>
+                        <h5>Our Vision</h5>
+                        <p>To create the most compelling job platform by ensuring the best job for every professional and ideal talent pool for every organization.</p>
+                        <h5>Our Values</h5>
+                        <p>
+                            <b>Innovation and Proactiveness</b>: We actively pursue new and divergent ways to further our cause. Our tracks are built with utmost professionalism and creativity. We continuously adopt new cutting-edge technology concepts to best serve our professionals clients.
+                        </p>
+                        <p>
+                            <b>Openness</b>: We value transparency and believe in sharing information so that we can constantly learn, collaborate and arrive at the right decisions.
+                        </p>
+                        <p>
+                            <b>People Orientation</b>: We work together with integrity. We have respect and compassion for one another; fairness and group cohesion are strongly promoted.
+                        </p>
+                        <h5>About JobXprss</h5>
+                        <p>JobXprss is the most advanced job platform in Bangladesh.</p>
+                        <p>We use intelligent technology to match the right people with thousands of latest job postings obtained from numerous job sources.
+                            Compiled resumes are also awaiting to be sorted as per client requirements.</p>
+                      <p>Unlike other job sites, all these information are shared and presented in a way that best serves the
+                          purpose of the professionals and the organizations. In turn, job seekers on JobXprss are more informed
+                          about the jobs and the organizations they apply to and consider joining. JobXprss is available anywhere
+                          through its mobile apps.</p>
+                        <p>JobXprss is powered by Ishraak Solutions, a team of great technology experts.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+{#              <div class="infobox-wrap">#}
+{#                <div class="row">#}
+{#                  <div class="col-lg-4 col-md-6">#}
+{#                    <div class="info-box">#}
+{#                      <div class="icon">#}
+{#                        <i data-feather="cast"></i>#}
+{#                      </div>#}
+{#                      <h4>Our Mission</h4>#}
+{#                      <p>To provide an intelligent people-position matchmaking platform for the professionals and organizations.</p>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                  <div class="col-lg-4 col-md-6">#}
+{#                    <div class="info-box">#}
+{#                      <div class="icon">#}
+{#                        <i data-feather="layout"></i>#}
+{#                      </div>#}
+{#                      <h4>Our Vision</h4>#}
+{#                      <p>To create the most compelling job platform by ensuring the best job for every#}
+{#                          professional and ideal talent pool for every organization.</p>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                  <div class="col-lg-4 col-md-6">#}
+{#                    <div class="info-box">#}
+{#                      <div class="icon">#}
+{#                        <i data-feather="compass"></i>#}
+{#                      </div>#}
+{#                      <h4>Our Values</h4>#}
+{#                      <p><strong>Innovation and Proactiveness:</strong> We actively pursue new and divergent ways to further our cause. Our tracks are built with utmost professionalism and creativity. We continuously adopt new cutting-edge technology concepts to#}
+{#                          best serve our professionals clients.</p>#}
+{#                        <p><strong>Openness:</strong> We value transparency and believe in sharing information so that we can constantly learn,#}
+{#                            collaborate and arrive at the right decisions.</p>#}
+{#                        <p><strong>People Orientation:</strong> We work together with integrity. We have respect and compassion for one another; fairness and group cohesion are strongly#}
+{#                            promoted.</p>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </div>#}
+
+{#              <div class="padding-top-90 padding-bottom-90 action-box">#}
+{#                <div class="container">#}
+{#                  <div class="row">#}
+{#                    <div class="col-lg-6">#}
+{#                      <div class="call-to-action-box candidate-box">#}
+{#                        <div class="icon">#}
+{#                          <img src="{% static 'images/register-box/1.png' %}" alt="">#}
+{#                        </div>#}
+{#                        <span>Do you have</span>#}
+{#                        <h3>An account with us?</h3>#}
+{#                        <a href="/professional/sign-in/" data-toggle="" data-target="#exampleModalLong3">Sign In <i class="fas fa-arrow-right"></i></a>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                    <div class="col-lg-6">#}
+{#                      <div class="call-to-action-box employer-register">#}
+{#                        <div class="icon">#}
+{#                          <img src="{% static 'images/register-box/2.png' %}" alt="">#}
+{#                        </div>#}
+{#                        <span>Don't have</span>#}
+{#                        <h3>An account?</h3>#}
+{#                        <a href="/professional/register/" data-toggle="" data-target="#exampleModalLong3">Register <i class="fas fa-arrow-right"></i></a>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </div>#}
+              <!-- Modal -->
+              <div class="account-entry">
+                <div class="modal fade" id="exampleModalLong3" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title"><i data-feather="edit"></i>Registration</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="account-type">
+                          <a href="#" class="candidate-acc active"><i data-feather="user"></i>Candidate</a>
+                          <a href="#" class="employer-acc"><i data-feather="briefcase"></i>Employer</a>
+                        </div>
+                        <form action="#">
+                          <div class="form-group">
+                            <input type="text" placeholder="Username" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <input type="email" placeholder="Email Address" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <input type="password" placeholder="Password" class="form-control">
+                          </div>
+                          <div class="more-option terms">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                              <label class="form-check-label" for="defaultCheck2">
+                                I accept the <a href="#">terms & conditions</a>
+                              </label>
+                            </div>
+                          </div>
+                          <button class="button primary-bg btn-block">Register</button>
+                        </form>
+                        <div class="shortcut-login">
+                          <span>Or connect with</span>
+                          <div class="buttons">
+                            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Facebook</a>
+                            <a href="#" class="google"><i class="fab fa-google"></i>Google</a>
+                          </div>
+                          <p>Already have an account? <a href="#">Login</a></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Testimonial -->
+<!--              <div class="padding-bottom-90">-->
+<!--                <div class="container">-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-md-12">-->
+<!--                      <div class="testimonial">-->
+<!--                        <div class="testimonial-quote">-->
+<!--                          <img src="{% static 'images/testimonial/quote.png' %}" class="img-fluid" alt="">-->
+<!--                        </div>-->
+<!--                        <div class="testimonial-for">-->
+<!--                          <div class="testimonial-item">-->
+<!--                            <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob One”</p>-->
+<!--                            <h5>Maria Marlin @ Google</h5>-->
+<!--                          </div>-->
+<!--                          <div class="testimonial-item">-->
+<!--                            <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Two”</p>-->
+<!--                            <h5>Laura Harper @ Amazon</h5>-->
+<!--                          </div>-->
+<!--                          <div class="testimonial-item">-->
+<!--                            <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Three”</p>-->
+<!--                            <h5>John Doe @ Envato</h5>-->
+<!--                          </div>-->
+<!--                          <div class="testimonial-item">-->
+<!--                            <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Four”</p>-->
+<!--                            <h5>Jenny Doe @ Dribbble</h5>-->
+<!--                          </div>-->
+<!--                          <div class="testimonial-item">-->
+<!--                            <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Five”</p>-->
+<!--                            <h5>Michle Clark @ Apple</h5>-->
+<!--                          </div>-->
+<!--                          <div class="testimonial-item">-->
+<!--                            <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Two”</p>-->
+<!--                            <h5>Laura Harper @ Amazon</h5>-->
+<!--                          </div>-->
+<!--                          <div class="testimonial-item">-->
+<!--                            <p>“On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charmsto send our denim shorts wardrob Three”</p>-->
+<!--                            <h5>John Doe @ Envato</h5>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                        <div class="testimonial-nav">-->
+<!--                          <div class="commenter-thumb">-->
+<!--                            <img src="{% static 'images/testimonial/thumb-1' %}.jpg" class="img-fluid commenter" alt="">-->
+<!--                            <img src="{% static 'images/testimonial/1.png' %}" class="comapnyLogo" alt="">-->
+<!--                          </div>-->
+<!--                          <div class="commenter-thumb">-->
+<!--                            <img src="{% static 'images/testimonial/thumb-2.jpg' %}" class="img-fluid commenter" alt="">-->
+<!--                            <img src="{% static 'images/testimonial/2.png' %}" class="comapnyLogo" alt="">-->
+<!--                          </div>-->
+<!--                          <div class="commenter-thumb">-->
+<!--                            <img src="{% static 'images/testimonial/thumb-3.jpg' %}" class="img-fluid commenter" alt="">-->
+<!--                            <img src="{% static 'images/testimonial/3.png' %}" class="comapnyLogo" alt="">-->
+<!--                          </div>-->
+<!--                          <div class="commenter-thumb">-->
+<!--                            <img src="{% static 'images/testimonial/thumb-4.jpg' %}" class="img-fluid commenter" alt="">-->
+<!--                            <img src="{% static 'images/testimonial/4.png' %}" class="comapnyLogo" alt="">-->
+<!--                          </div>-->
+<!--                          <div class="commenter-thumb">-->
+<!--                            <img src="{% static 'images/testimonial/thumb-5.jpg' %}" class="img-fluid commenter" alt="">-->
+<!--                            <img src="{% static 'images/testimonial/5.png' %}" class="comapnyLogo" alt="">-->
+<!--                          </div>-->
+<!--                          <div class="commenter-thumb">-->
+<!--                            <img src="{% static 'images/testimonial/thumb-2.jpg' %}" class="img-fluid commenter" alt="">-->
+<!--                            <img src="{% static 'images/testimonial/2.png' %}" class="comapnyLogo" alt="">-->
+<!--                          </div>-->
+<!--                          <div class="commenter-thumb">-->
+<!--                            <img src="{% static 'images/testimonial/thumb-3.jpg' %}" class="img-fluid commenter" alt="">-->
+<!--                            <img src="{% static 'images/testimonial/3.png' %}" class="comapnyLogo" alt="">-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+              <!-- Testimonial End -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Candidates Details End -->
+    <script src="{% static 'assets/js/jquery.min.js'%}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js'%}"></script>
+<script src="{% static 'assets/js/feather.min.js'%}"></script>
+<script src="{% static 'assets/js/bootstrap-select.min.js'%}"></script>
+<script src="{% static 'assets/js/jquery.nstSlider.min.js'%}"></script>
+<script src="{% static 'assets/js/owl.carousel.min.js'%}"></script>
+<script src="{% static 'assets/js/plyr.js'%}"></script>
+<script src="{% static 'assets/js/tinymce.min.js'%}"></script>
+<script src="{% static 'assets/js/slick.min.js'%}"></script>
+<script src="{% static 'js/custom.js'%}"></script>
+
+
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+

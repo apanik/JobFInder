@@ -1,0 +1,124 @@
+{% extends 'layout/layout_company.html' %}
+{% load static %}
+{% block page_header %}
+    Manage Jobs
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Manage Jobs</span>
+{% endblock %}
+
+{% block body_block %}
+    <div class="manage-job-container">
+    <div class="job-view-filter">
+            <label for="page_size">Show:</label>
+            <select name="page_size" id="page_size">
+                <option value="10" selected>10</option>
+                <option value="25" >25</option>
+                <option value="50" >50</option>
+                <i class="fa fa-caret-down"></i>
+            </select>
+            <strong class="manage-title float-right"></strong>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Applications</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th class="action">Action</th>
+            </tr>
+            </thead>
+            <tbody id="manage_jobs">
+            </tbody>
+        </table>
+        <nav id="pagination-wrapper" class="mt-3">
+        </nav>
+    </div>
+
+
+{% endblock %}
+{% block extra_js %}
+<script>
+    $(function () {
+        var company_name = getCookie('company_name');
+        var getUrl = '/api/company/job/search/';
+        get(getUrl,LoadManageJobs);
+        $("select#page_size").change(function (){
+            page_size = $(this).children("option:selected").val()
+            var getUrl = '/api/company/job/search/?page_size='+ page_size;
+            get(getUrl, LoadManageJobs);
+        });
+    });
+
+
+         function LoadManageJobs(data){
+            $(".job-items").remove();
+            var startIndex = data.start_index;
+            var endIndex = data.end_index;
+            var count = data.count;
+            var paginationSummary = "Showing " + startIndex + ' - ' + endIndex + ' of ' + count + ' Jobs';
+            $('.manage-title').text(paginationSummary)
+            for(index=0;index<data.results.length;index++){
+
+                if(data.results[index].publish_date){
+                    var dateString = data.results[index].publish_date;
+                    var momentObj = moment(dateString, 'YYYY-MM-DD');
+                    publishedDate = momentObj.format('DD/MM/YYYY');
+                }else{
+                    publishedDate = "";
+                }
+
+                if(data.results[index].application_deadline){
+                    var remaining_date =   Math.round((new Date(data.results[index].application_deadline) - (new Date()))/ (1000 * 60 * 60 * 24));
+                    if(remaining_date>0){
+                        remaining_date = remaining_date + " day(s) remaining"
+                    }else{
+                        remaining_date = "0 day(s) remaining"
+                    }
+                }
+                else {
+                    remaining_date = ""
+                }
+
+                if(data.results[index].status=="NOT_READY"){
+                    var shortlisted_links = '<td class="application">'+data.results[index].applied_count+'  Application(s)</td>';
+                }
+                else{
+                    var shortlisted_links = '<td class="application"><a href="/company-manage-candidates/?job-id='+data.results[index].job_id+'">'+data.results[index].applied_count+'  Application(s)</a></td>';
+                }
+                $('#manage_jobs').append('<tr class="job-items">'+
+                    '<td class="title">'+
+                    '<h5><a href="'+'/company/job-detail/'+data.results[index].slug+'">'+data.results[index].title+'</a></h5>'+
+                    '<div class="info">'+
+                    '<span class="office-location'+index+'"><a><i data-feather="calendar"></i>'+publishedDate+'</a></span>'+
+                    '<span class="job-type full-time"><a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span class="text-normal">'+data.results[index].job_type+'</span></a></span>'+
+                    '</div>'+
+                    '</td>'+
+                     shortlisted_links+
+                    '<td class="deadline">'+remaining_date+'</td>'+
+                    '<td class="status active">'+data.results[index].status+'</td>'+
+                    '<td class="action">'+
+                    '<a href="'+'/company/job-detail/'+data.results[index].slug+'" class="preview" title="Preview"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></a>'+
+                    '<a href="'+'/company/update-job/'+data.results[index].slug+'" class="edit" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg></a>'+
+                    '<a href="/company/post-job/?copy-from='+data.results[index].slug+'" class="copy" title="Copy"><i data-feather="copy"></i></a>'+
+                    '</td>'+
+                    '</tr>');
+
+                if(!data.results[index].publish_date){
+                    $('.office-location'+index+'').hide();
+                }
+                feather.replace();
+            }
+            makePaginator("#pagination-wrapper", data, 'LoadManageJobs');
+        }
+
+
+
+    
+  $('.managejobs').addClass("active");
+
+</script>
+{% endblock %}
+

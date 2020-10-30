@@ -1,0 +1,140 @@
+{% extends 'layout/layout_professional.html' %}
+{% load static %}
+
+{% block page_header %}
+    Applied Jobs
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Applied Jobs</span>
+{% endblock %}
+
+{% block professional_block %}
+    <div class="dashboard-applied">
+    <div class="job-view-filter">
+            <label for="page_size">Show:</label>
+            <select name="page_size" id="page_size">
+                <option value="10" selected>10</option>
+                <option value="25" >25</option>
+                <option value="50" >50</option>
+                <i class="fa fa-caret-down"></i>
+            </select>
+            <h4 class="apply-title float-right"></h4>
+        </div>
+
+        <div class="dashboard-apply-area">
+        </div>
+        <nav id="pagination-wrapper" class="mt-3">
+        </nav>
+    </div>
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+       $(document).ready(function() {
+           $('.applied-job-bar').addClass('active')
+        var path = window.location.pathname.split('/')
+        var id = path[path.length-2]
+        var getUrl = '/api/job/applied/';
+        get(getUrl, appliedJobs);
+        $("select#page_size").change(function (){
+            page_size = $(this).children("option:selected").val()
+            var getUrl = '/api/job/applied/?page_size='+ page_size;
+            get(getUrl, appliedJobs);
+        })
+
+
+    });
+       function  appliedJobs(data){
+           $(".job-list").remove();
+           var startIndex = data.start_index;
+            var endIndex = data.end_index;
+            var count = data.count;
+            var paginationSummary = "Showing " + startIndex + ' - ' + endIndex + ' of ' + count + ' Jobs';
+           $('.apply-title').text(paginationSummary);
+            var dateString = new Date()
+            var todaymomentObj = moment(dateString, 'YYYY-MM-DD');
+            for(index=0;index<data.results.length;index++){
+                var dateString = data.results[index].applied_at;
+                var momentObj = moment(dateString, 'YYYY-MM-DD');
+                var dateMomentString = momentObj.format('DD/MM/YYYY');
+                {#var timeMomentString = momentObj.format("hh:mm A")#}
+                if(data.results[index].application_deadline){
+                    var deadlineString = data.results[index].application_deadline
+                    var deadlinemomentObj = moment(deadlineString, 'YYYY-MM-DD');
+                    var date1 = new Date(deadlinemomentObj);
+                    var date2 = new Date(todaymomentObj)
+                    var timeDiff = (date1.getTime() - date2.getTime());
+                    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                }else{
+                    var diffDays = 0;
+                }
+                var aDate = new Date(Date.parse(data.results[index].applied_at));
+                var hour = aDate.getHours();
+                var minute = aDate.getMinutes();
+                if (hour < 10) h = '0' + hour;
+                if (minute < 10) m = '0' + minute;
+                var TimeString = hour + ':' + minute ;
+                TimeString =  moment(TimeString, "HH:mm:ss").format("hh:mm A");
+                if(data.results[index].post_date){
+                    var PostdateString = data.results[index].post_date;
+                    var momentObj = moment(PostdateString, 'YYYY-MM-DD');
+                    PostdateMomentString = momentObj.format('DD/MM/YYYY');
+                }
+                if(data.results[index].salary && data.results[index].salary != 'Negotiable'){
+                    salary = Number(data.results[index].salary) + ' BDT'
+                }else{
+                    salary = 'Negotiable'
+                }
+                if(data.results[index].salary_min && data.results[index].salary_max){
+                    if(data.results[index].salary_min==data.results[index].salary_max){
+                        salary = Number(data.results[index].salary_min) + ' BDT'
+                    }
+                    else {
+                        salary = Number(data.results[index].salary_min) + '-' + Number(data.results[index].salary_max) +' BDT'
+                    }
+                }
+                var job_html_1st = '<div class="job-list">'+
+                    '<div class="thumb">'+
+                    '<a href="/company-details/'+data.results[index].company.name+'">'+
+                    '<img src="'+data.results[index].company.profile_picture+'" class="img-fluid" style="max-width:70px;" alt="">'+
+                    '</a>'+
+                    '</div>'+
+                    '<div class="body">'+
+                    '<div class="content">'+
+                    '<h4><a href="/job-detail/'+ data.results[index].slug+'">'+data.results[index].title+'</a></h4>'+
+                    '<div class="info">'+
+                    '<span class="company"><a href="/company-details/'+data.results[index].company.name+'"><i class="fas fa-building" style="margin-right: 5px"></i>'+data.results[index].company.name+'</a></span>';
+                var job_html_office_location = '<span class="office-location"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>'+data.results[index].address+'</span>';
+                var job_html_last = '<span class="job-type full-time"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span class="text-normal"> '+data.results[index].job_type+'</span></span>'+
+                    '</div>'+
+                    '<div class="info" style="margin-top: 10px;">'+
+                    '<span class="posted_date"><i class="fas fa-calendar" style="margin-right: 5px"></i>Posted on '+PostdateMomentString+'</span>'+
+                    '<span class="salary"><i class="fas fa-money-bill" style="margin-right: 5px"></i>Salary: '+salary+'</span>'+
+                    '</div>'+
+                        '</div>'+
+                        '<div class="more">'+
+                          '<div class="">'+
+                            '<Span>Applied On '+ dateMomentString +'</span><br><span> at '+TimeString +'</span><br>'+
+                            '<p class="deadline-'+index+'"style="font-size: 1.3rem;margin-top: 10px; font-style: italic;font-weight: 300;display: block;text-align: right;">'+'Deadline in '+diffDays+' days</p>'+
+                          '</div>'+
+
+                        '</div>'+
+                      '</div>'+
+                    '</div>';
+            if (data.results[index].address){
+                 var job_html_total = job_html_1st + job_html_office_location + job_html_last;
+            }else {
+                var job_html_total = job_html_1st + job_html_last;
+            }
+            $('.dashboard-apply-area').append(job_html_total);
+            if(diffDays <= 0){
+                    $('.deadline-'+index).css('display','none')
+                }
+        }
+            makePaginator("#pagination-wrapper", data, 'appliedJobs');
+
+}
+
+    </script>
+{% endblock %}

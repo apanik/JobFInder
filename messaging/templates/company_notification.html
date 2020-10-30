@@ -1,0 +1,79 @@
+{% extends 'layout/layout_company.html' %}
+{% load static %}
+{% block page_header %}
+    Notifications
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Notifications</span>
+{% endblock %}
+{% block body_block %}
+    <div class="notification">
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        const notification_url = '/api/notification/'
+        get(notification_url,LoadNotification)
+        const mark_read_url = '/api/notification/mark-read/'
+
+        function LoadNotification(data){
+            let bg_color;
+            for (i = 0; i < data.results.length; i++) {
+                if (data.results[i].is_read === false) {
+                    status = "Mark as read"
+                    bg_color = "#efe7e7"
+                } else {
+                    status = "Mark as unread"
+                    bg_color = "##fff"
+                }
+                const aDate = new Date(Date.parse(data.results[i].created_at));
+                const hour = aDate.getHours();
+                const minute = aDate.getMinutes();
+                if (hour < 10) h = '0' + hour;
+                if (minute < 10) m = '0' + minute;
+                let TimeString = hour + ':' + minute;
+                TimeString = moment(TimeString, "HH:mm:ss").format("hh:mm A");
+                $('.notification').append('<div class="job-list" id="notification_list" style="background:' + bg_color + '">\n' +
+                    '            <div class="body">\n' +
+                    '                <div class="content">\n' +
+                    '                    <h4><i class="fas fa-bell" style="margin-right: 5px"></i><span>' + data.results[i].title + '</span></h4>\n' +
+                    '<div class="others" style="display: flex;">' +
+                    '<p style="margin-top: 5px;"><i class="far fa-clock" style="margin-right: 5px;"></i>Time: ' + TimeString + '</p>' +
+                    '<p style="margin-top: 5px;"><a href="javascript:void(0)" class="mark_me" id="' + data.results[i].id + '" style="margin-left: 30px;"><i class="fas fa-check"  style="margin-right: 5px;"></i>' + status + '</a></p>' +
+                    '</div>' +
+                    '                    <div class="info">\n' +
+                    '                        <span><i class="fas fa-envelope-open" style="margin-right: 5px;"></i><span>' + data.results[i].message + '</span></span>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '</div><br>'
+                );
+            }
+            $('.notification').delegate('a','click',function() {
+                var id = $(this).attr('id');
+                var status = $(this).text();
+
+                if (status === "Mark as read"){
+                    $(this).html('<i class="fas fa-check"  style="margin-right: 5px;"></i>Mark as unread')
+                    let val = true;
+                    let data = {'is_read':val}
+                    put(mark_read_url+id+'/',JSON.stringify(data))
+                    bg_color = "#fff"
+                    $(this).parent().closest('.job-list').css('background',bg_color)
+
+                }
+                else {
+                    let val = false;
+                    $(this).html('<i class="fas fa-check"  style="margin-right: 5px;"></i>Mark as read')
+                    let data = {'is_read':val}
+                    put(mark_read_url+id+'/',JSON.stringify(data))
+                    bg_color = "#efe7e7"
+                    $(this).parent().closest('.job-list').css('background',bg_color)
+                }
+            });
+        }
+
+        $('.company_notification').addClass("active");
+    </script>
+{% endblock %}

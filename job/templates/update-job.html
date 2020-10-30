@@ -1,0 +1,617 @@
+{% extends 'layout/layout_company.html' %}
+{% load static %}
+{% block breadcrumb %} Update Job {% endblock %}
+{% block extra_css %}
+    <style>
+        input[type="radio"] {
+            /* remove standard background appearance */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            /* create custom radiobutton appearance */
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            padding: 3px;
+            /* background-color only for content */
+            outline: none !important;
+            border: 1px solid #bbbbbb;
+            border-radius: 50%;
+            margin-top: 2px;
+        }
+
+        /* appearance for checked radiobutton */
+        input[type="radio"]:checked {
+
+            background-color: #f5d91d;
+        }
+
+        #radios{
+            display: flex;
+        }
+        #amount{
+            margin-top: 4px;
+            margin-right: 3px;
+        }
+        #range, #negotiable{
+            margin-left: 150px;
+            margin-top: 4.5px;
+            margin-right: 3px;
+        }
+        #salary,#salary_min,#salary_max{
+            margin-top: 23px;
+        }
+
+
+    </style>
+{% endblock %}
+{% block body_block %}
+    <div class="post-content-wrapper">
+        <form id="job-update-form" class="job-post-form ajax" method="PUT" novalidate="novalidate" data-callback="jobupdateCallback" autocomplete="off">
+            <div class="basic-info-input">
+                <h4><i data-feather="edit"></i>Update Job</h4>
+                <div id="job-title" class="form-group row">
+                    <label class="col-md-3 col-form-label">Job Title</label>
+                    <div class="col-md-9">
+                        <input name="title" id="title" required type="text" regex='[A-Z]' class="form-control" maxlength="70" placeholder="Your job title here" data-msg-required="Title is required">
+                    </div>
+                </div>
+                <div id="job-description" class="row">
+                    <label class="col-md-3 col-form-label">Job Description</label>
+                    <div class="col-md-9">
+                        <textarea name="description" id="description" required class="tinymce-editor tinymce-editor-1" placeholder="Description text here"></textarea>
+                    </div>
+                </div>
+                <div id="job-summery" class="row">
+                    <label class="col-md-3 col-form-label">Job Summary</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="job_category_id" id="job_category" data-text="name" data-value="name" data-placeholder="Select Category" data-src="/api/job/top-categories/">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="experience_id" id="experience" data-text="name" data-value="name" data-placeholder="Select Experience" data-src="/api/experience/list">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="job_gender_id" id="job_gender" data-text="name" data-value="name" data-placeholder="Select Gender" data-src="/api/job-gender/list/">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" name="qualification_id" id="qualification" data-text="name" data-value="name" data-placeholder="Select Qualification" data-src="/api/qualification/list">
+                                    </select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" name="vacancy" id="vacancy"  class="form-control" placeholder="No of Vacancy" min="1" required data-msg-required="Vacancy is required">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3 col-form-label" id="radio">Salary </label>
+                    <div  class="col-md-9" id="radios">
+                        <input type="radio" id="amount" name="myRadio" value="amount">
+                        <span></span>
+                        <label for="amount">Amount</label><br>
+                        <input type="radio" id="range" name="myRadio" value="range">
+                        <span></span>
+                        <label for="range">Range</label><br>
+                        <input type="radio" id="negotiable" name="myRadio" value="negotiable">
+                        <span></span>
+                        <label for="negotiable">Negotiable</label><br>
+                    </div>
+                    <label id="single_label" style="display: none;" class="col-md-3 col-form-label"></label>
+                    <div class="col-md-4" id="single_salary" style="display:none;">
+                        <div class="form-group">
+                            <input  name="salary" id="salary" type="text" class="form-control" placeholder="Salary">
+                        </div>
+                    </div>
+
+
+
+                    <label id="range_label" style="display: none;" class="col-md-3 col-form-label"></label>
+                    <div id="min_range" class="col-md-4" style="display: none;">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="salary_min" id="salary_min" type="text"  placeholder="Salary Min">
+                        </div>
+                    </div>
+                    <div id="max_range" class="col-md-4" style="display: none;">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="salary_max" id="salary_max" type="text"  placeholder="Salary Max">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label class="col-md-3 col-form-label">Application Deadline</label>
+                    <div class="col-md-4">
+                        <div class="form-group datepicker">
+                            <input  name="application_deadline" id="application_deadline" class="form-control datepicker"  placeholder="DD-MM-YYYY" value="">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="response" class="row">
+                    <label class="col-md-3 col-form-label">Responsibilities</label>
+                    <div class="col-md-9">
+                        <textarea id="responsibilities" name="responsibilities" class="tinymce-editor tinymce-editor-1" placeholder="Responsibilities (Optional)"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3 col-form-label">Education</label>
+                    <div class="col-md-9">
+                        <textarea id="education" name="education" class="tinymce-editor tinymce-editor-1" placeholder="Education (Optional)"></textarea>
+                    </div>
+                </div>
+                <div id="job-skills" class="row" >
+                    <label class="col-md-3 col-form-label">Additional Requirements</label>
+                    <div class="col-md-9">
+                        <!--                                        <input name="skills" id="skills" required type="text" class="form-control" placeholder="Your job skills here" data-msg-required="Skills are required">-->
+                        <textarea name="additional_requirements" id="additional_requirements" class="tinymce-editor tinymce-editor-1" placeholder="Description text here"></textarea>
+                    </div>
+                </div>
+
+                <div id="others" class="row">
+                    <label class="col-md-3 col-form-label">Other Benefits</label>
+                    <div class="col-md-9">
+                        <textarea id="other_benefits" name="other_benefits" class="tinymce-editor tinymce-editor-1" placeholder="Description text here"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Job Location</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" required data-msg-required="Address is required">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="job_area" name="job_area" placeholder="Area">
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="job_city" id="job_city" data-text="name" data-value="name" data-placeholder="Select City"
+                                            data-src="/api/city/list"></select>
+                                </div>
+
+                                <!--                            <div class="form-group">-->
+                                <!--                              <select class="form-control">-->
+                                <!--                                <option>Country</option>-->
+                                <!--                                <option>Bangladesh</option>-->
+                                <!--                                <option>USA</option>-->
+
+                                <!--                              </select>-->
+                                <!--                              <i class="fa fa-caret-down"></i>-->
+                                <!--                            </div>-->
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">About Job</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <select required class="form-control" name="job_site" id="job_site" data-text="id" data-value="id" data-placeholder="Select Job Site"
+                                            data-src="/api/job-site/list"></select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+
+                                <div class="form-group">
+                                    <select required class="form-control" name="job_nature" id="job_nature" data-text="id" data-value="id" data-placeholder="Select Job Nature"
+                                            data-src="/api/job-nature/list"></select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                                <div class="form-group">
+                                    <select required class="form-control" name="job_type" id="job_type" data-text="id" data-value="id" data-placeholder="Select Job Type"
+                                            data-src="/api/job-type/list"></select>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Required Skills</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input name="skills" id="skills" required type="text" class="form-control" placeholder="Your job skills here" data-msg-required="Skills are required">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="about-company" class="row">
+                    <label class="col-md-3 col-form-label">About Company</label>
+                    <div class="col-md-9">
+                        <textarea name="company_profile" id="company_profile" required class="tinymce-editor tinymce-editor-1" placeholder="Company Profile text here"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label"></label>
+                    <div class="col-md-9" id="button-section">
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $("#job-update-form").validate({
+                errorClass: "my-error-class",
+                rules: {
+                    salary_max: {
+                        gre:"#salary_min"
+                    },
+                }
+            });
+            var path = window.location.pathname.split('/')
+            var id = path[path.length-2];
+            var getUrl = '/api/company/job/get/'+ id + '/';
+            initAjaxSelects();
+            salaryType();
+            initAjaxForms();
+            autoSuggesion('/api/skill/search', "skills");
+            setTimeout(function () {
+                get(getUrl, loadJob);
+            }, 1000);
+        });
+        $('#application_deadline').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            dateFormat: 'dd-mm-yy',
+            changeYear: true,
+            changeMonth: true,
+            yearRange: "1930:2020"
+        });
+        function  loadJob(data){
+            id = $('form.ajax').attr('id');
+            if(data){
+                if(data.application_deadline) {
+                    dateMomentString = data.application_deadline;
+                    var momentObj = moment(dateMomentString, 'YYYY-MM-DD');
+                    data.application_deadline = momentObj.format('DD-MM-YYYY');
+                }
+                if(data.salary_min){
+                    data.salary_min = Number(data.salary_min)
+                }
+                if(data.salary_max){
+                    data.salary_max = Number(data.salary_max)
+                }
+                if (data.status == 'PUBLISHED'){
+                    $('#button-section').append('<button type="button" class="button btn-yellow" id="unpublish_btn">Unpublish</button>')
+                }
+
+                if (data.status == 'DRAFT'){
+                    $('#button-section').append('<button type="submit" class="button btn-yellow" id="update_btn">Update</button>');
+                    $('#button-section').append('<button type="button" class="button btn-yellow" id="post_btn">Post</button>')
+                }
+                if (data.status == 'POSTED'){
+                    $('#button-section').append('<button type="submit" class="button btn-yellow" id="update_btn">Update</button>');
+                }
+                if (data.status == 'UNPUBLISHED'){
+                    $('#button-section').append('<button type="submit" class="button btn-yellow" id="publish_btn">Publish</button>');
+                }
+
+                if (data.salary_option=="AMOUNT"){
+                    $('#amount').prop("checked",true)
+                    $('#single_label,#single_salary').show()
+                    $('#min_range,#max_range').val('')
+                    data.salary = data.salary_min
+                }
+                if (data.salary_option=="RANGE"){
+                    $('#range').prop("checked",true)
+                    $('#range_label,#min_range,#max_range').show()
+                    data.salary = data.salary_min
+                }
+                if (data.salary_option=="NEGOTIABLE"){
+                    $('#negotiable').prop("checked",true)
+                    data.salary = data.salary_min
+                }
+
+                json2Form(data, id);
+                $.each(data.job_skills, function (index, item) {
+                    $("input[name='skills']").tagsinput('add', item.name);
+                });
+            }
+
+            $("#comapny_name").append('<input type="hidden" id="company" name="company" >');
+
+            $('#company').val({'a':'1'});
+
+
+
+            var job_id = data.job_id;
+            var postUrl = '/api/job/update/'+ job_id + '/';
+            $('#job-update-form').on('submit',function (event) {
+                mydata = {}
+                description = $('#description').val()
+                title = $('#title').val()
+                job_category = $('#job_category').val()
+                experience = $('#experience').val()
+                job_gender = $('#job_gender').val()
+                vacancy = $('#vacancy').val()
+                salary = $('#salary').val()
+                salary_min = $('#salary_min').val()
+                salary_max = $('#salary_max').val()
+                responsibilities = $('#responsibilities').val()
+                education = $('#education').val()
+                additional_requirements = $('#additional_requirements').val()
+                other_benefits = $('#other_benefits').val()
+                address = $('#address').val()
+                job_area = $('#job_area').val()
+                job_city = $('#job_city').val()
+                job_site = $('#job_site').val()
+                job_nature = $('#job_nature').val()
+                job_type = $('#job_type').val()
+                company_profile = $('#company_profile').val()
+                skills = $('#skills').val()
+                application_deadline = $('#application_deadline').val()
+
+                if(title){
+                    mydata.title = title;
+                }if(description){
+                    mydata.description = description;
+
+                }
+                else{
+                    mydata.description = ""
+                }if(job_category){
+                    mydata.job_category = job_category;
+                }
+                else{
+                    mydata.job_category = ""
+                }if(experience){
+                    mydata.experience = experience;
+                }
+                else {
+                    mydata.experience = null
+                }if(job_gender){
+                    mydata.job_gender = job_gender;
+                }
+                else{
+                    mydata.job_gender = ""
+                }if(salary_min){
+                    mydata.salary_min = salary_min;
+                }
+                else{
+                    mydata.salary_min = null
+                }if(salary_max){
+                    mydata.salary_max = salary_max;
+                }
+                else{
+                    mydata.salary_max = null
+                }if(responsibilities){
+                    mydata.responsibilities = responsibilities;
+                }
+                else{
+                    mydata.responsibilities = ""
+                }if(education){
+                    mydata.education = education;
+                }
+                else{
+                    mydata.education = ""
+                }if(additional_requirements){
+                    mydata.additional_requirements = additional_requirements;
+                }
+                else{
+                    mydata.additional_requirements = ""
+                }if(other_benefits){
+                    mydata.other_benefits = other_benefits;
+                }
+                else{
+                    mydata.other_benefits = ""
+                }if(job_area){
+                    mydata.job_area = job_area;
+                }
+                else{
+                    mydata.job_area = ""
+                }if(job_city){
+                    mydata.job_city = job_city;
+                }
+                else{
+                    mydata.job_city = ""
+                }if(job_site){
+                    mydata.job_site = job_site;
+                }
+                else{
+                    mydata.job_site = ""
+                }if(job_nature){
+                    mydata.job_nature = job_nature;
+                }
+                else{
+                    mydata.job_nature = ""
+                }if(job_type){
+                    mydata.job_type = job_type;
+                }
+                else{
+                    mydata.job_type = ""
+                }if(company_profile){
+                    mydata.company_profile = company_profile;
+                }
+                else{
+                    mydata.company_profile = ""
+                }if(skills){
+                    mydata.skills = skills;
+                }
+                else{
+                    mydata.skills = ""
+                }
+                if(vacancy){
+                    mydata.vacancy = vacancy;
+                }if(address){
+                    mydata.address = address;
+                }if(application_deadline){
+                    var momentObj = moment(application_deadline, 'DD-MM-YY');
+                    mydata.application_deadline = momentObj.format('YYYY-MM-DD');
+
+                }
+                else{
+                    mydata.application_deadline = null
+                }
+                if(salary){
+                    mydata.salary_min = salary
+                    mydata.salary_max = salary
+                    mydata.salary = ""
+                    mydata.salary_option = "AMOUNT"
+                }
+                else {
+                    mydata.salary_option = "RANGE"
+                }
+                if(!salary && !salary_min && !salary_max)
+                {
+                    mydata.salary_option = "NEGOTIABLE"
+                }
+
+                if(Object.keys(data).length>1 && $(this).valid()){
+                    put(postUrl, JSON.stringify(mydata), jobupdateCallback);
+                }
+            });
+
+            $('#unpublish_btn').one('click',function (event) {
+                event.preventDefault()
+                unpublishUrl = '/api/job/update/unpublish/'+ job_id + '/'
+                put(unpublishUrl,{},jobupdateCallback)
+
+            });
+            $('#publish_btn').one('click',function (event) {
+                event.preventDefault()
+                publishUrl = '/api/job/update/publish/'+ job_id + '/'
+                put(publishUrl,{},jobupdateCallback)
+
+            });
+
+            $('#post_btn').one('click',function (event) {
+                event.preventDefault()
+                postedhUrl = '/api/job/update/post/'+ job_id + '/'
+                put(postedhUrl,{},jobupdateCallback)
+
+            });
+
+
+        }
+
+        function redirectPage() {
+            {#window.location.href = "/";#}
+
+        }
+
+        function autoSuggesion(url, id) {
+            var previousItems = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: url,
+                    prepare: function (query, settings) {
+                        settings.url = settings.url + '?name=' + query
+                        settings.headers = {
+                            "Authorization": "Bearer " + getCookie('access')
+                        };
+
+                        return settings;
+                    },
+                    filter: function(list) {
+                        return $.map(list, function(itemname) {
+                            return { name: itemname.name}; });
+                    }
+                },
+                limit: 5 });
+            previousItems.initialize();
+            $("#" + id).tagsinput({
+                typeaheadjs: [{
+                    hint: true,
+                    highlight: true, /* Enable substring highlighting */
+                    minLength: 2 /* Specify minimum characters required for showing result */
+                },
+                    {
+                        name: 'previousSkills',
+                        displayKey: 'name',
+                        valueKey: 'name',
+                        source: previousItems.ttAdapter()
+                    }]
+            });
+        }
+
+        function jobupdateCallback(data) {
+            if(data.status === 200){
+                showSuccess("Successful!", "Job updated successfully.")
+                window.location.href = '/company/manage-jobs/';
+            }
+        }
+
+        function salaryType() {
+            $('#salary-max, #salary-min, #currency-div').hide();
+            $('#salary').on('change', function () {
+                var salaryTypeValue = $(this).val();
+                if(salaryTypeValue=='salary_range'){
+                    $('#salary-max, #salary-min, #currency-div').show();
+                }else{
+                    $('#salary-max, #salary-min, #currency-div').hide();
+                }
+            });
+        }
+
+
+        $('input[type=radio][name=myRadio]').on('change', function() {
+            switch ($(this).val()) {
+                case 'amount':
+                    $('#salary,#salary_min, #salary_max').val("")
+                    $('#single_label,#single_salary').show()
+                    $('#range_label,#min_range,#max_range').hide()
+                    break;
+                case 'range':
+                    $('#salary,#salary_min, #salary_max').val("")
+                    $('#single_label,#single_salary').hide()
+                    $('#range_label,#min_range,#max_range').show()
+                    break;
+                case 'negotiable':
+                    $('#salary').val('Negotiable')
+                    $('#salary,#salary_min, #salary_max').val("")
+                    $('#single_label,#single_salary,#range_label,#min_range,#max_range').hide()
+                    break;
+            }
+        });
+        $.validator.addMethod("gre",
+            function (value, element, param) {
+                var $otherElement = $(param);
+                if(parseInt(value) >0){
+                    return parseInt(value, 10) > parseInt($otherElement.val(), 10);
+                }else{
+                    return true;
+                }
+            }, "Maximum salary should be high");
+    </script>
+{% endblock %}
+

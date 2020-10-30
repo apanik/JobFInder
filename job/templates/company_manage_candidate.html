@@ -1,0 +1,469 @@
+{% extends 'layout/layout_company.html' %}
+{% load static %}
+{% block page_header %}
+    Manage Candidates
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Manage Candidates</span>
+{% endblock %}
+{%  block extra_css %}
+    <style>
+    .selectJob{
+        background-color: #fff;
+    }
+
+    .yellow-checkbox{
+        margin-right: 14px;
+    }
+    .filter-option-inner-inner{
+        margin-left: 10px;
+    }
+    .filter-option{
+        background-color:#f0f0f0 ;
+    }
+    .tr{
+        width: 105%;
+    }
+    .feather-download,.fa-comments,.fa-edit{
+        color:black;
+    }
+    .feather-download,.fa-comments,.fa-edit{
+        color:black;
+    }
+    .feather-download:hover,.fa-comments:hover,.fa-edit:hover{
+        color:#f5d91d;
+    }
+    </style>
+{% endblock %}
+{% block body_block %}
+
+
+    <div class="manage-candidate-container" id="jobs">
+        <div class="mt-0 terms shortlisted-div">
+            {#            <input type="checkbox" id="shortlisted-candidate" value="">#}
+            {#            <label for="shortlisted-candidate">#}
+            {#                <span class="dot"></span> <span id="shortlist-text">Show the shortlisted candidates only</span>#}
+            {#            </label>#}
+            <label class="yellow-checkbox">
+                <p id="shortlist-text">Show the shortlisted candidates only</p>
+                <input type="checkbox" id="shortlisted-candidate" name="shortlisted-candidate" value="">
+                <span></span>
+            </label>
+        </div>
+
+        <div class="job-filter-wrapper">
+            <div class="job-filter-dropdown selectJob">
+
+                <select class="selectpicker" multiple data-max-options="1" data-live-search="true"  title="Choose a Job" id="category">
+
+
+                </select>
+            </div><br/>
+        </div>
+
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Candidates</th>
+                <th>Shortlisted</th>
+                <th>Status</th>
+                <th class="action">Action</th>
+            </tr>
+            </thead>
+            <tbody id="table">
+            </tbody>
+        </table>
+        <nav id="pagination-wrapper" class="mt-3">
+        </nav>
+    </div>
+    <div class="dashboard-section">
+        <div class="modal fade modal-manage-candidate" id="modal-manage-candidate" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="title">
+                            <h4><i data-feather="briefcase"></i>Manage Candidate</h4>
+                            <!--                        <a href="#" id="add-experience" class="add-more">+ Add Experience</a>-->
+                        </div>
+                        <div class="content">
+                            <form action="#" id="manage-candidate-form" novalidate="novalidate" autocomplete="off">
+                                <div class="input-block-wrap input-block-experience">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label"></label>
+                                        <div class="col-sm-9" >
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Application Status</div>
+                                                </div>
+                                                <select class="form-control" name="application_status" id="application_status" data-text="name" data-value="id"  data-placeholder="Select Status" data-src="/api/application_status/list/" value="" required>
+                                                </select>
+                                                <input type="hidden" name="application_id" id="application_id" class="form-control" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-9 offset-sm-3">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">Application Note</div>
+                                                </div>
+                                                <textarea type="text" name="application_notes" id="application_notes" class="tinymce-editor tinymce-editor-1" ></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-9 offset-sm-3">
+                                            <div class="mt-0 terms">
+                                                <input type="checkbox" id="is_shortlisted" name="is_shortlisted">
+                                                <label for="is_currently_working">
+                                                    <span class="dot"></span> Is Shortlisted
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="offset-sm-3 col-sm-9">
+                                        <div class="buttons">
+                                            <button class="button btn-yellow manage-candidate-save">Save</button>
+                                            <button class="button btn-yellow" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="apply-popup attachment-download">
+        <div class="modal fade" id="download-popup-id" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i data-feather="download"></i>DOWNLOAD</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="attachment-download-buttons">
+                            <a href="" class="button btn-yellow download-attachment-btn">Download Attatchment</a>
+                            <a href="" class="button btn-yellow download-resume-btn">Download Resume</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        var selected_job_value;
+        var jobID;
+        $(document).ready(function() {
+            initAjaxSelects();
+            initAjaxForms();
+            var company_name = getCookie('company_name');
+            if(!company_name){
+                goCompanySignIn();
+            }
+            var jobUrl = '/api/company/job/search/'+"?page_size=100";
+            get(jobUrl,loadJob);
+            favouriteJobAddRemove('jobs', '/api/job/favourite/toggle');
+            $(".modal-content").css("width", '90%');
+
+            $('#shortlisted-candidate').click(function () {
+                if($(this).prop("checked")){
+                    get('/api/application/shortlist/'+selected_job_value+'/',loadShort);
+                }
+                else{
+                    get('/api/application/list/'+selected_job_value+'/',loadShort);
+                }
+            });
+            $("#jobs").on("click", '.download', function(){
+                jobID = $(this).attr('href');
+                $(".download-attachment-btn").attr("href", jobID);
+                $(".download-resume-btn").attr("href", jobID);
+            });
+
+            $(".download-attachment-btn").on('click', function (event){
+                event.preventDefault();
+                get("/company/download-attachment/"+$(this).attr('href'), downloadAttachment);
+            });
+
+            $(".download-resume-btn").on('click', function (event){
+                event.preventDefault();
+                get("/company/download-resume/"+$(this).attr('href'), downloadResume);
+            });
+            $('#manage-candidate-form').validate({
+                errorClass: "my-error-class",
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element.parent());
+                },
+            });
+        });
+
+        function downloadAttachment(data){
+            if(data){
+                window.location = "/company/download-attachment/"+jobID;
+            }
+        }
+
+        function downloadResume(data){
+            if(data){
+                window.location = "/company/download-resume/"+jobID;
+            }
+        }
+
+        function loadJob(data){
+            var company_name = getCookie('company_name');
+            var urlParams = new URLSearchParams(window.location.search);
+            for (i=0;i<data.results.length;i++){
+                if(data.results[i].company.name == company_name){
+                    if(data.results[i].status === "PUBLISHED" || data.results[i].status === "UNPUBLISHED"){
+                        $('#category').append('<option value="'+data.results[i].job_id+'">'+data.results[i].title+'</option>');
+                        if ($('#category option').length == 1 && !urlParams.has("job-id")) {
+                            $('.selectpicker').selectpicker('val', data.results[i].job_id);
+                            get('/api/application/list/'+data.results[i].job_id+'/',loadShort);
+                            selected_job_value = data.results[i].job_id
+                            urlParams = new URLSearchParams(window.location.search)
+                            if(urlParams.has('is_shortlisted')){
+                                $('#shortlisted-candidate').prop('checked',true);
+                                get('/api/application/shortlist/'+selected_job_value+'/',loadShort);
+                            }
+                        }
+                    }
+                }
+                $("#category").selectpicker('refresh');
+            }
+            if(urlParams.has("job-id")){
+                $('.selectpicker').selectpicker('val', urlParams.get('job-id'));
+                get('/api/application/list/'+urlParams.get('job-id')+'/',loadShort);
+            }
+        }
+
+        $("#category").on('change', function() {
+            selected_job_value = this.value;
+            $('.candidates-list').css('display','none');
+            if(this.value && $('#shortlisted-candidate').is(':checked')){
+                var listed = '/api/application/shortlist/'+this.value+'/';
+            }
+            else{
+                var listed = '/api/application/list/'+this.value+'/';
+            }
+            get(listed,loadShort);
+        });
+
+        $('#table').on('click','.edit-candidate',function (event) {
+            event.preventDefault();
+            $('#manage-candidate-form').validate().resetForm();
+            var application_id = $(this).attr('data-value');
+            get('/api/application/list/'+selected_job_value+'/', function (data) {
+                for(i=0;i<data.results.length;i++) {
+                    if (data.results[i].application_id == application_id) {
+                        if(data.results[i].application_notes == null){
+                            delete data.results[i].application_notes;
+                        }
+                        json2Form(data.results[i], 'manage-candidate-form');
+                        if(data.results[i].is_shortlisted){
+                            $('#is_shortlisted').prop('checked',true);
+                        }
+                    }
+                }
+            });
+        });
+
+        $(".dashboard-content-wrapper").on('click', '.inbox', function (event) {
+            var user = $(this).data('user');
+            $("#message-receiver").val(user);
+         });
+
+        $('#manage-candidate-form').on('submit',function (event) {
+            event.preventDefault();
+            var application_id = $(this).find('#application_id').val();
+            var application_status = $(this).find('#application_status').val();
+            var application_status_name = $(this).find('#application_status option:selected').text();
+            var application_notes = $(this).find('#application_notes').val();
+            var is_shortlisted = $(this).find('#is_shortlisted').is(':checked');
+            data = {}
+            if(application_status){
+                data.application_status = application_status;
+            }
+            if(application_notes){
+                data.application_notes = application_notes;
+            }
+            if(application_status_name){
+                data.application_status_name = application_status_name;
+            }
+            data.is_shortlisted = is_shortlisted;
+            markShortlistUpdateUrl = "/api/company-shortlist/mark/"+application_id+"/";
+            if(Object.keys(data).length>1 && $(this).valid() && application_id){
+                put(markShortlistUpdateUrl, JSON.stringify(data), loadShortListUpdate);
+            }
+        });
+
+
+        function loadShort(data){
+            $('.candidates-list').remove();
+            $('.candidates-list').css('display','none');
+            applicants_data = data.results;
+            for(index=0;index<data.results.length;index++){
+                if (data.results.length==0){
+                    $('.candidates-list').css('display','none');
+                }
+                if(!data.results[index].image){
+                    data.results[index].image = '/static/images/alternate.jpg';
+                }
+
+                if(data.results[index].is_shortlisted===true){
+                    active = false
+                    el_shortlisted = '<i class="is_shortlisted shortlist-active" data-feather="heart" style="margin-left: 20px;"></i>';
+                }else{
+                    active = true
+                    el_shortlisted = '<i class="is_shortlisted" data-feather="heart" style="margin-left: 20px;color:#aaaaaa;"></i>';
+                }
+                var exp_str = "";
+                if(data.results[index].experience){
+                    exp_str = data.results[index].experience + " Years of Experience";
+                }
+
+                var skill_str = "";
+                if(data.results[index].skills.length > 0){
+                    skill_str = "Skills: ";
+                    console.log(data.results[index].skills.length)
+                    $.each(data.results[index].skills, function (i, value){
+                        if(i === (data.results[index].skills.length-1)){
+                            skill_str = skill_str + value.skill;
+                        }else {
+                            skill_str = skill_str + value.skill + ", ";
+                        }
+                    });
+                }
+                if(!data.results[index].application_status_name){
+                    data.results[index].application_status_name=""
+                }
+
+                var list_html_1st = '<tr class="candidates-list">'+
+                    '<td class="title">'+
+                    '<div class="thumb">'+
+                    '<img  src="'+data.results[index].image+'" class="img-fluid" alt="">'+
+                    '</div>'+
+                    '<div class="body" style="max-width: 350px";>'+
+                    '<h5><a target="_blank"  href="/applicant/'+data.results[index].slug+'">'+data.results[index].full_name+'</a></h5>'+
+                    '<div class="info">';
+                var list_html_designation = '<span class="designation"><a href="#">'+data.results[index].current_designation+', '+data.results[index].current_company+'</a></span>';
+                var list_html_last = '<div>'+exp_str+'</div>'+
+                    '<div>'+skill_str+'</div>'+
+                    '</div>'+
+                    '</div>'+
+                    '</td>'+
+                    '<td><a class="application-id" data-value="'+active+'" href="'+data.results[index].application_id+'">'+el_shortlisted+'</a></td>'+
+                    '<td class="status">'+data.results[index].application_status_name+'</td>'+
+                    '<td class="action">'+
+                    '<a href="" class="fas fa-edit edit-candidate" id="edit-candidate" data-toggle="modal" data-value="'+data.results[index].application_id +'" data-target="#modal-manage-candidate"></a>'+
+                    '<a href="'+data.results[index].application_id+'" data-toggle="modal" data-target="#download-popup-id" class="download"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></a>'+
+                    '<a data-user="' + data.results[index].user + '" data-toggle="modal" data-target="#modal-message" href="javascript:void(0)" class="inbox"><i class="fas fa-comments"></i></a>'+
+                    '</td>'+
+                    '</tr>';
+
+
+                if(data.results[index].current_designation){total_list = list_html_1st + list_html_designation}
+                else{total_list = list_html_1st}
+                $('#table').append(total_list + list_html_last);
+
+                feather.replace();
+
+            }
+            makePaginator("#pagination-wrapper", data, 'loadShort');
+        }
+
+        function loadShortListUpdate(data){
+            if(data.status == 200){
+                console.log(data.responseJSON.id)
+                $("#modal-manage-candidate").modal("hide");
+                $("#modal-manage-candidate").find('form')[0].reset();
+                var el = $("#table").find("[data-value='"+ data.responseJSON.id +"']");
+                if(el.length>0){
+                    el_first_part = el.parent().parent().find(".title").html();
+                    if(data.responseJSON.is_shortlisted===true){
+                        el_shortlisted = '<i  class="is_shortlisted shortlist-active" data-feather="heart" style="margin-left: 20px;"></i>';
+                        active = false
+                    }else{
+                        el_shortlisted = '<i class="is_shortlisted" data-feather="heart" style="margin-left: 20px;color:#aaaaaa;"></i>';
+                        active = true
+                    }
+                    if(!data.responseJSON.application_status_name){
+                        data.responseJSON.application_status_name=""
+                    }
+                    el.parent().parent().html('<td class="title">'+
+                        el_first_part+
+                        '</td>'+
+                        '<td><a  href="'+data.responseJSON.id+'" class="application-id" data-value="'+active+'">'+el_shortlisted+'</a></td>'+
+                        '<td class="status">'+data.responseJSON.application_status_name+'</td>'+
+                        '<td class="action">'+
+                        '<a href="" class="fas fa-edit edit-candidate" id="edit-candidate" data-toggle="modal" data-value="'+data.responseJSON.id +'" data-target="#modal-manage-candidate"></a>'+
+                        '<a href="#" class="download"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></a>'+
+                        '<a  data-toggle="modal" data-target="#modal-message" href="javascript:void(0)" class="inbox"><i class="fas fa-comments"></i></a>'+
+                        '</td>'
+                    );
+                }
+                feather.replace();
+            }
+        }
+        $('#table').delegate('a.application-id','click',function(event) {
+            event.preventDefault();
+             data ={}
+             var id = $(this).attr('href');
+             data.is_shortlisted = $(this).attr('data-value')
+             markShortlistUpdateUrl = "/api/company-shortlist/mark/"+id+"/";
+             if(Object.keys(data).length>0){
+                put(markShortlistUpdateUrl, JSON.stringify(data), loadShortListUpdate);
+            }
+
+
+
+
+        });
+        function messageCreateCallback(data) {
+            if(data.status==201){
+                $("#message-content").val('');
+                showSuccess("Successful!", "Message send successfully.");
+                $("#modal-message").modal("hide");
+            }
+            else{
+                showError("Failed!", "Message not send.");
+            }
+        }
+        $('.managecandidate').addClass("active");
+    </script>
+    <div class="dashboard-section">
+        <div class="modal fade modal-message" id="modal-message" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <div class="title">
+                            <h4>Send Message</h4>
+                        </div>
+                        <form action="/api/employer-message-create/" id="message-create" class="ajax" method="POST" novalidate="novalidate" data-callback="messageCreateCallback">
+                            <textarea class="form-control" required id="message-content" data-msg-required="Please type something" name="message" placeholder="Type a message"></textarea>
+                            <input type="hidden" value="" name="receiver" id="message-receiver">
+                            <button style="float: right" type="submit" class="send-message btn btn-yellow pull-right mt-5 p-3">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

@@ -1,0 +1,190 @@
+{% extends 'layout/layout_home.html' %}
+{% load static %}
+{% block page_header %}
+    Request For Access
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Request For Access</span>
+{% endblock %}
+{% block body_block %}
+    <div class="alice-bg section-padding-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="contact-block">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="contact-address">
+                                    <h4>Contact Info</h4>
+                                    <ul>
+                                        <li><i data-feather="map-pin"></i><span id="address"></span></li>
+                                        <li><i data-feather="mail"></i> <span id="support_email"></span> </li>
+                                        <li><i data-feather="phone-call"></i><span id="phone"></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 offset-lg-1">
+                                <div class="contact-form">
+                                    <h4>Request For Access</h4>
+                                    <form action="/api/company/request_for_access/" id="requestFAForm" class="ajax" method="POST" novalidate="novalidate" data-callback="requestFACallback">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <input name="company_name" id="company_name" type="text" class="form-control" placeholder="Company Name" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input name="email" id="email" type="email" class="form-control" placeholder="Email" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input regex="\+?(88)?0?1[56789][0-9]{8}\b" name="phone" id="contact_no" type="text" class="form-control" placeholder="Phone" data-msg-regex="Enter a valid Mobile Number" required>
+                                                </div>
+                                            </div>
+                                            <h4 style="padding-left: 15px">Tell Us About You</h4>
+                                            <div class="col-sm-9">
+                                                <div class="form-group">
+                                                    <input name="person_name" id="person_name" type="text" class="form-control" placeholder="Your Name" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input name="company_role" id="company_role" type="text" class="form-control" placeholder="Role in the company" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input name="contact_info" id="contact_info" type="text" class="form-control" placeholder="Contact No" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                     <div class="g-recaptcha" data-sitekey="6LcOAKsZAAAAAP7MaEPv6A3T3mEC_UAsqTsu4epq" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div>
+                                                    <label id="error-captcha" class="my-error-class"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="button">Submit</button>
+                                        <p class="input-success">Your message has been sent. Thanks for contact.</p>
+                                        <p class="input-error">Something went wrong while sending. Please try leter.</p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+
+            $("form.ajax:not(.ajax-linked)").on('submit', function(event) {
+                event.preventDefault();
+                var response = grecaptcha.getResponse();
+                if(response.length == 0){
+                    document.getElementById('error-captcha').innerHTML="You can't leave Captcha";
+                }else{
+                    if ($(this).valid()){
+                    var url = $(this).prop('action');
+                    var formId = $(this).attr("id");
+                    var data = form2Json(formId);
+
+                    var method = $(this).attr('method');
+                    var callback= $(this).data("callback");  // $(this).attr("data-callback");
+                    send(url, method, data, callback);
+                    grecaptcha.reset();
+                    document.getElementById('error-captcha').innerHTML="";
+                }
+                }
+                return false;
+            });
+
+            $('#requestFAForm').validate();
+            settingsUrl = '/api/settings/';
+            get(settingsUrl,loadSettings);
+            autoSuggesionCompany('/api/company/search/', "company_name");
+        });
+
+        function verifyRecaptchaCallback() {
+            recaptchachecked = true;
+            if(recaptchachecked==true){
+                document.getElementById('error-captcha').innerHTML="";
+            }
+        }
+
+        function loadSettings(data) {
+            if (data.length>0){
+                data = data[0];
+                $('#address').html(data.address);
+                $('#phone').html(data.phone);
+                $('#support_email').html(data.support_email);
+                $('.cp-map').attr('data-lat',data.latitude);
+                $('.cp-map').attr('data-lng',data.longitude);
+                $('.cp-map').attr('data-zoom',data.zoom);
+                initMap();
+            }
+        }
+
+        function requestFACallback(data){
+            console.log(data);
+            $(".contact-form").find('form')[0].reset();
+            $('#contact_no').prop("readonly", false);
+            showSuccess("Thanks for requesting us! We will get in touch with you shortly.")
+        }
+
+        function autoSuggesionCompany(url, id) {
+            var previousItems = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: url,
+                    prepare: function (query, settings) {
+                        settings.url = settings.url + '?name=' + query
+                        settings.headers = {
+                            "api-key": "96d56aceeb9049debeab628ac760aa11"
+                        };
+
+                        return settings;
+                    },
+                    filter: function(list) {
+                        return $.map(list.results, function(itemname) {
+                            return { name: itemname.name, mobile: itemname.company_contact_no_one, email:itemname.email }; });
+                    }
+                },
+                limit: 5 });
+
+            previousItems.initialize();
+            $("#"+id).typeahead({
+                    hint: true,
+                    highlight: true, /* Enable substring highlighting */
+                    minLength: 2, /* Specify minimum characters required for showing result */
+                },
+                {
+
+                    name: 'previousItems',
+                    displayKey: 'name',
+                    valueKey: 'name',
+                    source: previousItems.ttAdapter(),
+
+
+                });
+            $("#"+id).on('typeahead:selected', function (e, data) {
+                $('#contact_no').val(data.mobile);
+                $('#email').val(data.email);
+                $('#contact_no').prop("readonly", true);
+
+            });
+
+        }
+    </script>
+{% endblock %}

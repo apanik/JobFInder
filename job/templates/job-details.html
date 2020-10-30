@@ -1,0 +1,613 @@
+{% extends 'layout/layout_home.html' %}
+{% load static %}
+{% block page_header %}
+    Job Details
+{% endblock %}
+{% block title_block %}
+    Loading...
+{% endblock %}
+{% block breadcrumb %}
+    <a href="{% url 'home' %}">Home</a> /
+    <span>Job Details</span>
+{% endblock %}
+{% block extra_css %}
+    <style>
+        #apply_now,#apply_{
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        button#apply_now:hover, #apply:hover, #apply_:hover{
+            border:1px solid #f5d91d !important;
+        }
+
+    </style>
+{% endblock %}
+{% block body_block %}
+{% autoescape off %}
+<div id="jobs">
+
+    <!-- Candidates Details -->
+    <div class="alice-bg padding-top-60 section-padding-bottom job-detail">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="job-listing-details">
+                        <div class="job-title-and-info">
+                            <div class="title">
+                                <div class="thumb" id="img">
+
+                                </div>
+                                <div class="title-body"  style="max-width: 600px;">
+                                    <h4 class="job-title-modal" id="title"></h4>
+                                    <div class="info">
+                                        <span class="company"><a id="company-details" href="#"><i class="fas fa-building" style="margin-right: 5px" ></i><span class="name" id="company_name"></span></a></span>
+                                        <span class="office-location"><a><i data-feather="map-pin"></i><span id="office_location"></span></a></span>
+                                        <span class="job-type full-time"><a><i data-feather="clock"></i><span id="job_type" class="text-normal"></span></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <a class="favourite fav-save" href="#"><i data-feather="heart"></i></a>
+                                <a href="" class="button btn-yellow job-copy save display-none" style="min-width: 115px;text-align: center;">Copy This Job</a>
+                                <a class="button btn-yellow apply display-none" style="min-width: 115px;text-align: center;" href="#" data-toggle="modal" data-target="#apply-popup-id">Apply</a>
+                            </div>
+                        </div>
+                        <div class="details-information section-padding-60">
+                            <div class="row">
+                                <div class="col-xl-7 col-lg-8">
+                                    <div class="description details-section">
+                                        <h4><i data-feather="align-left"></i>Job Description</h4>
+                                        <span id="description" class="tinymce-editor">
+                                    </span>
+                                    </div>
+                                    <div class="responsibilities details-section">
+                                        <h4><i data-feather="zap"></i>Responsibilities</h4>
+                                        <span id="responsibilities" class="tinymce-editor">
+                                    </span>
+                                    </div>
+                                    <div class="edication-and-experience details-section">
+                                        <h4><i data-feather="book"></i>Education</h4>
+                                        <span id="education" class="tinymce-editor">
+                                    </span>
+                                    </div>
+                                    <div class="currency details-section">
+                                        <h4><i data-feather="gift"></i>Salary</h4>
+                                        <span id="currency"></span>&nbsp;<span class="salary_min"></span><span></span>&nbsp;&nbsp;-&nbsp;&nbsp;<span class="salary_max"></span><span></span>
+                                        </span>
+                                    </div>
+                                    <div class="other-benifit details-section">
+                                        <h4><i data-feather="gift"></i>Other Benefits</h4>
+                                        <span id="other_benefits">
+                                    </span>
+                                    </div>
+                                    <div class="additional_requirements details-section">
+                                        <h4><i data-feather="gift"></i>Additional Requirements</h4>
+                                        <span id="additional_requirements">
+                                    </span>
+                                    </div>
+                                    <div class="job-apply-buttons">
+{#                                        <a href="#" class="apply"  data-toggle="#" data-target="#apply-popup-id">Apply Online</a>#}
+                                        <a href="#" id="apply_" class="button btn-yellow job-copy display-none" style="min-width: 115px;text-align: center;">Copy This Job</a>
+                                        <a href="#" id="apply_" class="button btn-yellow apply display-none" style="min-width: 115px;text-align: center;" data-toggle="modal" data-target="#apply-popup-id">Apply</a>
+                                        <a href="#" class="email display-none"><i data-feather="mail"></i>Email Job</a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 offset-xl-1 col-lg-4">
+                                    <div class="information-and-share">
+                                        <div class="job-summary">
+                                            <h4>Job Summary</h4>
+                                            <ul>
+                                                <li><span>Published on:</span> <span id="post_date" class="detail-color"></span></li>
+                                                <li><span>Vacancy:</span><span id="vacancy" class="detail-color"></span></li>
+                                                <li><span>Job Type:</span> <span id="job_type" class="detail-color text-normal"></span></li>
+                                                <li><span>Years of Experience:</span> <span id="experience" class="detail-color"></span></li>
+                                                <li><span>Location:</span> <span id="address" class="detail-color"></span></li>
+                                                <li><span>Salary:</span><span class="detail-color" id="currency"></span><span class="detail-color salary_min"></span><span class="detail-color"></span><span class="detail-color span-margin-remove">&nbsp;-&nbsp;</span> <span class="detail-color salary_max"></span><span class="detail-color"></span></li>
+                                                <li id="single_salary" style="display: none;"><span>Salary:</span><span class="detail-color nego" id="currency"></span><span class="detail-color salary"></span></li>
+                                                <li><span>Gender:</span></span><span id="job_gender" class="detail-color"></span></li>
+                                                <li><span>Application Deadline:</span> <span id="application_deadline" class="detail-color"></span></li>
+                                            </ul>
+                                        </div>
+                                        <br>
+                                        <div class="job-summary">
+                                            <h4>Required Skills</h4>
+                                            <div class="job-skills">
+                                                <div id="skills">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="share-job-post" style="padding-bottom: 3px;">
+                                            <div class="addthis_inline_share_toolbox_algq"></div>
+                                        </div>
+                                        <div class="job-location">
+                                            <h4>Job Location</h4>
+                                            <div id="map-area">
+                                                <div class="cp-map" id="location"  data-lat="" data-lng="" data-zoom="14"></div>
+                                                <!-- <div class="cp-map" id="location" data-lat="40.713355" data-lng="-74.005535" data-zoom="10"></div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-7 col-lg-8">
+                                <div class="company-information details-section">
+                                    <h4><i data-feather="briefcase"></i>About the Company</h4>
+                                    <ul>
+                                        <li><span>Company Name:</span> <a id="company_name_link" style="text-decoration: none;" href=""><span id="company_name" class="name detail-color"></span></a></li>
+                                        <li><span>Address:</span> <span class="detail-color company_address"></span></li>
+                                        <li><span>Company Profile:</span><span class="detail-color company_profile"></span></li>
+                                        <li style="display:none;"><span id="industry" name="industry"></span></li>
+<!--                                        <li id="company_profile">It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum looked up one of the more obscure Latin words, consectetur.</li>-->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Candidates Details End -->
+
+    <div class="apply-popup">
+        <div class="modal fade" id="apply-popup-id" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i data-feather="edit"></i>APPLY</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 id="job-title"></h5>
+                        <form action="#" id="apply-form" novalidate="novalidate">
+
+                            <div class="form-group apply-name display-none">
+                                <input type="text" name="full_name" id="name" placeholder="Name" class="form-control" required>
+                            </div>
+                            <div class="form-group apply-phone display-none">
+                                <input type="text" regex="\+?(88)?0?1[56789][0-9]{8}\b" name="phone" id="phone" placeholder="Mobile" class="form-control" data-msg-regex="Enter a valid Mobile Number" required>
+                            </div>
+                            <div class="form-group apply-email display-none">
+                                <input type="email" name="email" id="email" regex='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$' placeholder="Email" class="form-control" data-msg-regex="Please enter a valid email" required>
+                                <input type="hidden" name="job" id="job" class="form-control">
+                                <input type="hidden" name="password" id="password" class="form-control">
+                                <input type="hidden" name="terms_and_condition_status" id="terms_and_condition_status" class="form-control">
+                            </div>
+<!--                            <div class="form-group">-->
+<!--                                <textarea class="form-control" placeholder="Message"></textarea>-->
+<!--                            </div>-->
+                            <div class="form-group file-input-wrap">
+                                <label for="up-cv">
+                                    <input id="up-cv" name="attachment" type="file" accept=".pdf,.doc,.docx,.zip">
+                                    <i id="icon-change" data-feather="upload-cloud"></i>
+                                    <span id="fileName">Attach your file <span>(pdf,zip,doc,docx)</span></span>
+                                </label>
+                                <textarea name="application_notes" id="application_notes" class="tinymce-editor tinymce-editor-1" placeholder="Application note here"></textarea>
+                            </div>
+                            <button id="apply_now" class="button btn-yellow btn-block">Apply Now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jobs -->
+    <div class="section-padding-bottom alice-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section-header section-header-2 section-header-with-right-content">
+                        <h2>Similar Jobs</h2>
+                        <a href="{% url 'jobs' %}" class="header-right">+ Browse All Jobs</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="job-list">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Jobs End -->
+</div>
+
+<!-- Call to Action -->
+
+
+<!-- Call to Action End -->
+{% endautoescape %}
+{% endblock %}
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $("#apply-form").validate();
+        var path = window.location.pathname.split('/');
+        var id = path[path.length-2]
+        var getUrl = '/api/job/get/'+ id + '/';
+        var job_id = $(".apply").attr('href');
+        get(getUrl, loadJob);
+
+        $("#up-cv").change(function() {
+            var fileName = $(this).val().split('/').pop().split('\\').pop();
+            $("#fileName").text(fileName);
+            {#$('#icon-change').attr("data-feather", "x-circle");#}
+            {#feather.replace();#}
+        });
+
+        var job;
+        var jobTitle;
+        $(".job-listing-details").on('click', '.apply:not(.applied)', function (event) {
+            if(!isLoggedIn()){
+                $(".apply-popup .modal").removeAttr("id");
+                var prevPosition = "job-list";
+                showQuestion("Sign In required!", "Do you want to sign in now?", function(){
+                    window.location.href = '/professional/sign-in/?next=' + window.location.pathname;
+                } , 'no');
+            }else{
+                $("#up-cv").val('');
+                $("#fileName").html("Attach your file <span>(pdf,zip,doc,docx)</span>");
+                $("#apply-form")[0].reset();
+                job = $(this).attr('href');
+                jobTitle = $(".job-title-modal").text();
+                $("#job-title").text(jobTitle);
+            }
+        });
+        $("#job-list").on('click', '.apply:not(.applied)', function (event) {
+            if(!isLoggedIn()){
+                $(".apply-popup .modal").removeAttr("id");
+                var prevPosition = "job-list";
+                showQuestion("Sign In required!", "Do you want to sign in now?", function(){
+                    window.location.href = '/professional/sign-in/?next=' + window.location.pathname;
+                } , 'no');
+            }else{
+                $("#up-cv").val('');
+                $("#fileName").html("Attach your file <span>(pdf,zip,doc,docx)</span>");
+                $("#apply-form")[0].reset();
+                job = $(this).attr('href');
+                jobTitle = $(this).parents().eq(2).find(".job-title").text();
+                $("#job-title").text(jobTitle);
+            }
+        });
+
+        if(!isLoggedIn()){
+            $(".apply-name").removeClass("display-none");
+            $(".apply-phone").removeClass("display-none");
+            $(".apply-email").removeClass("display-none");
+        }
+        favouriteJobAddRemove('jobs', '/api/job/favourite/toggle');
+        {#applyOnlineJobAddRemove('jobs', '/api/job/apply/');#}
+
+        $("#apply-form").on('submit', function(event) {
+                event.preventDefault();
+                $('#apply_now').prop('disabled','disabled')
+                $('#job').val(job);
+                let resume = $('#up-cv').get(0).files[0];
+                applyUrl = "/api/job_apply/";
+
+                if($(this).valid()){
+                    var dataUrl;
+                    if(resume){
+                        var reader = new FileReader();
+                        reader.readAsDataURL(resume);
+                        reader.onload = function () {
+                            dataUrl = reader.result;
+                        };
+                    }
+
+                    upload(applyUrl, 'apply-form', function (data) {
+                        if(data.pro){
+                            let job_id = data.job;
+                            if(isLoggedIn()){
+                                var el = $("#jobs").find("[href='"+ job_id +"']");
+                                el.each(function () {
+                                    if($(this).hasClass("apply")){
+                                        $(this).addClass('disabled');
+                                        $(this).text('Applied');
+                                        $(this).removeAttr('href').css({"cursor":"default","color":"#ffffff"});
+                                        $(this).removeAttr("data-toggle");
+                                        $('#apply-popup-id').modal('hide');
+                                        showSuccess('Successful!', 'Job applied successfully.');
+                                        $('#apply_now').removeAttr('disabled')
+                                    }
+                                })
+                            }
+                        }else {
+                            showError('Error', 'Email exists');
+                            $('#apply_now').removeAttr('disabled')
+                        }
+                    },function (data){
+                        showError("Error", data.responseJSON.details);
+                        $('#apply_now').removeAttr('disabled')
+                    })
+                }
+
+        });
+
+    });
+
+    function verifyRecaptchaCallback() {
+        recaptchachecked = true;
+        if(recaptchachecked==true){
+            document.getElementById('error-captcha').innerHTML="";
+        }
+    }
+
+    function generatePassword() {
+        var length = 8,
+            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        return retVal;
+    }
+
+    function  loadJob(data){
+//console.log(data);
+        container = $('.job-detail');
+        if(data){
+            document.title = "JobXprss: "+data.company.name+" - "+data.title;
+            $('.fav-save').attr("href", data.job_id);
+            if(isCompany()){
+                $('.job-copy').attr('href', "/company/post-job/?copy-from=" + data.slug).removeClass("display-none");
+                $('.buttons .favourite').addClass("display-none");
+            }else{
+                $('.apply').attr("href", data.job_id).removeClass("display-none");
+            }
+            var deadline= data.application_deadline;
+            var momentObj = moment(data.post_date, 'YYYY-MM-DD');
+            data.post_date = momentObj.format('DD/MM/YYYY');
+            // var created_date = data.created_at
+            // data.created_at = created_date.split("-").reverse().join("-")
+            if(data.application_deadline){
+                var app_deadline = moment(data.application_deadline, 'YYYY-MM-DD');
+                data.application_deadline = app_deadline.format('DD/MM/YYYY');
+            }
+            if(!data.company.profile_picture){
+                data.company.profile_picture = '/static/images/company/company-logo.png';
+            }
+
+            $('#img').append('<a href="/company-details/'+data.company.name+'">'+
+             '<img src=" '+data.company.profile_picture+'" class="img-fluid" style="" alt="">');
+            $('.cp-map').attr('data-lat',data.company.latitude);
+            $('.cp-map').attr('data-lng',data.company.longitude);
+            initMap();
+            len= data.job_skills.length;
+            for(x=0;x<len;x++){
+                $('#skills').append('<p>'+ data.job_skills[x].name +'</p>')
+            }
+            var fav = $(".fav-save");
+            var apply = $(".apply");
+            if(data.is_favourite == '1' && isLoggedIn()){
+                fav.addClass('active');
+                fav.children().attr("fill", "#f5d91d");
+            }
+
+            if(data.is_applied == '1' && isLoggedIn()){
+                apply.addClass('applied');
+                apply.addClass('disabled');
+                apply.text('Applied');
+                apply.removeAttr('href').css({"cursor":"default","color":"#ffffff"});
+                apply.removeAttr("data-toggle");
+            }
+
+            if(data.experience){
+                if(data.experience == '1'){
+                    data.experience = data.experience + ' year';
+                }else{
+                    data.experience = data.experience + ' years';
+                }
+            }
+
+            if(!data.address){
+                $(".office-location").remove();
+            }
+
+            json2Div(data, container);
+            $('#job-title').text(data.title);
+            // if(data.salary_min){
+            //     $('.salary_min').html(Number(data.salary_min).toLocaleString('en'));
+            // }else {
+            //     $('.salary_min').parent().hide();
+            // }
+            // if(data.salary_max){
+            //     $('.salary_max').html(Number(data.salary_max).toLocaleString('en'));
+            // }else {
+            //     $('.salary_max').parent().hide();
+            // }
+            if(data.salary_min){
+                $('.salary_min').html(Number(data.salary_min).toLocaleString('en'));
+            }else {
+                $('.salary_min').parent().hide();
+            }
+            if(data.salary_max){
+                $('.salary_max').html(Number(data.salary_max).toLocaleString('en'));
+            }else {
+                $('.salary_max').parent().hide();
+            }
+            if(data.salary_min===data.salary_max){
+                $('.salary_min,.salary_max').parent().hide();
+                $('#single_salary').show()
+                $('.salary').html(Number(data.salary_max).toLocaleString('en'))
+            }
+            if(data.salary==="Negotiable" && !data.salary,!data.salary_min,!data.salary_max){
+                $('.nego').hide()
+                $('.salary').html(data.salary)
+            }
+            if(data.salary===null && data.salary_min===null && data.salary_max===null){
+                $('.nego').hide()
+                $('.salary').html("Negotiable")
+            }
+            if(data.salary && data.salary!=="Negotiable"){
+                $('.nego').show()
+                $('.salary').html(Number(data.salary).toLocaleString('en'))
+            }
+
+            $('#company-details').attr("href", "/company-details/"+data.company.name);
+
+            $('#company_name_link').attr("href", "/company-details/"+data.company.name);
+
+            if(data.company){
+                $(".name").html(data.company.name);
+            }
+            if(data.company.address){
+                $('.company_address').html(data.company.address);
+            }else {
+                $('.company_address').parent().hide();
+            }
+
+            if(data.address){
+                $('#office_location').html(data.address);
+            }else {
+                $('#office_location').html("Unknown");
+            }
+
+
+            if(data.company.web_address){
+                $('.web_address').html(data.company.web_address);
+            }else {
+                $('.web_address').parent().hide();
+            }
+            if(data.company.company_profile){
+                $('.company_profile').html(data.company.company_profile);
+            }else {
+                $('.company_profile').parent().hide();
+            }
+            identifier = data['job_id'];
+            catUrl = '/api/job/similar/'+ identifier;
+            get(catUrl,loadSimilarJob)
+
+        }
+
+    }
+    function redirectPage() {
+        window.location.href = "/job-list";
+    }
+
+    function loadSimilarJob(data) {
+        var dateString = new Date()
+        var todaymomentObj = moment(dateString, 'YYYY-MM-DD');
+        if(data.length > 0){
+            for(index=0;index<data.length;index++){
+                 var dateMomentString = 'None'
+                if(data[index].application_deadline){
+                    var dateString = data[index].application_deadline;
+                    var deadlinemomentObj = moment(dateString, 'YYYY-MM-DD');
+                }
+                 {#var deadline= data[index].application_deadline;#}
+                {# var deadlinemomentObj = moment(data[index].post_date, 'YYYY-MM-DD');#}
+                {##}
+                {#if(data[index].application_deadline){#}
+                {#    var app_deadline = moment(data[index].application_deadline, 'YYYY-MM-DD');#}
+                {#    data[index].application_deadline = app_deadline.format('DD/MM/YYYY');#}
+                {#}#}
+                {#else{#}
+                {#    data[index].application_deadline = dateMomentString;#}
+                {#}#}
+                var date1 = new Date(deadlinemomentObj);
+                var date2 = new Date(todaymomentObj)
+                var timeDiff = (date1.getTime() - date2.getTime());
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                if(data[index].post_date){
+                    var PostdateString = data[index].post_date;
+                    var momentObj = moment(PostdateString, 'YYYY-MM-DD');
+                    PostdateMomentString = momentObj.format('DD/MM/YYYY');
+                }
+                 if(data[index].salary){
+                    salary = data[index].salary
+                }
+                if(data[index].salary_min && data[index].salary_max){
+                    if(data[index].salary_min==data[index].salary_max){
+                        salary = data[index].salary_min
+                    }
+                    else {
+                        salary = data[index].salary_min + '-' + data[index].salary_max
+                    }
+                }
+                if (data[index].address){
+                        var address = data[index].address;
+                    }else {
+                        var address = "Unknown";
+                    }
+                if(!data[index].company.profile_picture){
+                    data[index].company.profile_picture = '/static/images/company/company-logo.png';
+                }
+                var applyOrCopy = '<a href="'+data[index].job_id+'" id="'+data[index].slug+'" class="button btn-yellow apply" data-toggle="modal" data-target="#apply-popup-id" style="min-width: 115px;text-align: center;">Apply</a>';
+                var favoriteJob = '<a href="'+data[index].job_id+'" class="favourite"><i data-feather="heart"></i></a>';
+                if(isCompany()){
+                    applyOrCopy = '<a href="/company/post-job/?copy-from='+data[index].slug+'" class="button btn-yellow">Copy This Job</a>';
+                    favoriteJob = '<a href="'+data[index].job_id+'" class="favourite display-none"><i data-feather="heart"></i></a>';
+                }
+            var job_html= '<div class="job-list">'+
+                '<div class="thumb">'+
+                '<a href="/company-details/'+data[index].company.name+'">'+
+                '<img src="'+data[index].company.profile_picture+'" class="img-fluid" alt="">'+
+                '</a>'+
+                '</div>'+
+                '<div class="body">'+
+                '<div class="content">'+
+                '<h4><a class="job-title" href="/job-detail/'+ data[index].slug+'">'+data[index].title+'</a></h4>'+
+                '<div class="info">'+
+                '<span class="company"><a href="/company-details/'+data[index].company.name+'"><i class="fas fa-building" style="margin-right: 5px"></i>'+data[index].company.name+'</a></span>'+
+                '<span class="office-location"><a><i data-feather="map-pin"></i>'+address+'</a></span>'+
+                '<span class="job-type full-time"><a><i data-feather="clock"></i><span class="text-normal">'+data[index].job_type+'</span></a></span>'+
+                '</div>'+
+                '<div class="info" style="margin-top: 10px;">'+
+                '<span class="posted_date"><i class="fas fa-calendar" style="margin-right: 5px"></i>Posted on '+PostdateMomentString+'</span>'+
+                '<span class="salary"><i class="fas fa-money-bill" style="margin-right: 5px"></i>Salary: '+salary+' BDT</span>'+
+                '</div>'+
+                '</div>'+
+                '<div class="more">'+
+                '<div class="buttons">'+
+                applyOrCopy+
+                favoriteJob+
+                '</div>'+
+                '<p class="deadline-'+index+'"style="font-size: 1.3rem;margin-top: 10px; font-style: italic;font-weight: 300;display: block;text-align: right;">'+'Deadline in '+diffDays+' days</p>'+
+                '</div>'+
+                '</div>'+
+                '</div>';
+            $('#job-list').append(job_html);
+            if (!data[index].address){
+                $(".job-list .office-location").hide();
+            }
+
+            if(diffDays <= 0){
+                    $('.deadline-'+index).css('display','none')
+                }
+
+            var el = $("#jobs").find("[href='"+ data[index].job_id +"']");
+            el.each(function () {
+                if($(this).hasClass('apply')){
+
+                    // $(this).removeClass('active');
+                    // showError('Oopss!', 'Job removed.')
+                    if(data[index].is_applied == true && isLoggedIn()){
+
+                        $(this).addClass('applied');
+                        $(this).text('Applied');
+                        $(this).removeAttr('href');
+                        $(this).removeAttr("data-toggle");
+                    }
+                }
+                if($(this).hasClass("favourite")){
+                    if(data[index].is_favourite == true && isLoggedIn()){
+                        $(this).addClass('active');
+                        $(this).children().attr("fill", "#f5d91d");
+                    }
+                    // $(this).addClass('active');
+                    // showSuccess('Successful!', 'Job saved as a favourite.')
+
+                }
+
+            });
+            feather.replace();
+        }
+        }
+    }
+</script>
+{% endblock %}

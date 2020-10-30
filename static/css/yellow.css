@@ -1,0 +1,553 @@
+body{
+}
+
+.banner-4-bg{
+    margin-top: -125px;
+    padding-top: 125px;
+}
+
+.logo{
+    width: 200px !important;
+}
+
+nav .logo{
+    width: 150px !important;
+}
+
+.text-yellow{
+    color:#f5d91d !important;
+}
+
+.bg-yellow{
+    background-color:#f5d91d !important;
+}
+
+.border-yellow{
+    border-color: #f5d91d !important;
+}
+
+.btn-yellow,
+.swal2-styled{
+    color:#000 !important;
+    font-size: 1.3rem !important;
+    padding: 6px 15px 6px 15px !important;
+    background-color:#f5d91d !important;
+    border-radius: 30px !important;
+    box-shadow: rgba(100, 100, 100, 0.3) 0px 0px 10px !important;
+
+}
+
+.btn-yellow.disabled,
+.btn-yellow:disabled{
+    background-color:#fff !important;
+}
+
+.jobxprss-app{
+    background: #f5d91d url("../images/yellow/bg_app.jpg");
+    color: #000000;
+    min-height: 350px;
+}
+
+.app-download{
+    padding: 70px 0;
+    padding-bottom: 80px;
+}
+
+.app_image{
+    text-align: right;
+}
+
+.app_image img{
+    height: 350px;
+}
+
+.app-download,
+.app-download h2,
+.app-download a,
+.app-download p{
+    color: #000000 !important;
+
+}
+.app-download p {
+    margin-bottom: 70px;
+}
+
+nav.main-nav{
+    opacity: 0.97;
+}
+
+.navbar-collapse{
+    position: absolute;
+    width: 300px;
+    right: 0px;
+    top: 100%;
+    padding: 10px 20px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(100, 100, 100, 0.3) 0px 0px 20px;
+    z-index: 1000;
+}
+
+nav.main-nav .navbar-toggler{
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 2.5rem;
+    border: none;
+}
+
+.top-links>.nav-item>.nav-link{
+    color:#fff !important;
+}
+
+.nav.top-links li a{
+    padding-top:12px !important;
+}
+
+
+.nav.top-links li button{
+    padding-top:8px !important;
+}
+
+nav.top-links .account-thumb img,
+.navbar-toggler.account-thumb img{
+    width:30px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.account-card {
+    display: flex;
+}
+
+.account-card .account-thumb {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.account-card .account-body h5 {
+    font-size: 1.6rem;
+    font-family: "Poppins";
+    font-weight: 600;
+}
+
+.top-links a.nav-link,
+.top-links a.nav-link span{
+    color:#000 !important;
+}
+
+#career-advice .blog-grid .body {
+    padding: 15px;
+    padding-left: 15px;
+}
+#career-advice .blog-grid .body h3 {
+    margin-bottom: 15px;
+}
+#career-advice .blog-grid .body h3 {
+    font-size: 2.1rem;
+}
+#career-advice .blog-grid {
+    border-radius: 15px;
+}
+
+
+#career-advice .image {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+#career-advice .middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 999;
+}
+
+#career-advice .blog-grid:hover {
+    background-color: rgba(210,210,210,1);
+}
+
+#career-advice .blog-grid:hover img{
+    opacity: 0.5;
+}
+
+#career-advice .blog-grid:hover .middle {
+    opacity: 0.9;
+}
+.careerAdviceImgageWrapper {
+    height: 200px;
+    overflow: hidden;
+}
+#career-advice .text {
+    background-color: #f5d91d;
+    color: white;
+    font-size: 16px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+}
+
+.android-app img,
+.apple-app img{
+    width:200px;
+}
+
+footer{
+    background: #000000;
+}
+
+footer,
+footer p,
+footer a,
+footer li, .copyright-text,
+footer address{
+    color: #aaa !important;
+}
+
+footer a:hover,
+footer li:hover{
+    color: #f5d91d !important;
+}
+
+.progress-bar{
+    background: #f5d91d !important;
+}
+
+.job-list.featured-company-list {
+    min-height: 185px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    align-items: normal;
+    border-radius: 20px;
+    margin:10px 0;
+}
+
+.job-list:nth-child(even) {
+    background: #fbfbfb;
+}
+.job-list:nth-child(odd) {
+    background: #fff;
+}
+
+.job-filter-result .job-list:nth-child(even) {
+    background: #fff;
+}
+.job-filter-result .job-list:nth-child(odd) {
+    background: #f0f0f0;
+}
+
+.top-companies-wrapper {
+    background: #f0f0f0;
+    padding-top: 63px;
+}
+.top-companies-wrapper .section-header {
+    margin-bottom: 35px;
+}
+
+.top-companies-wrapper .job-list:hover {
+    background: #ffffff !important;
+}
+
+.main-nav.navbar,
+.box-shadow{
+    box-shadow: rgba(100, 100, 100, 0.3) 0px 0px 20px;
+}
+
+header .nav-link .fab{
+    padding-top: 5px;
+    font-size: 1.75rem;
+}
+.bottom-border-app-link {
+    display: inline-block;
+    border: 2px solid #000;
+    width: 65px;
+    margin-bottom: 25px;
+}
+
+.header-other{
+    background: #333 url("../images/bg/bg_other.jpg");
+    background-attachment: fixed;
+    height:80px;
+    margin-top: -75px;
+    font-family: "Poppins";
+}
+
+
+.page-title{
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.bread-crumb{
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-top: 8px;
+}
+
+.bread-crumb span{
+    border-bottom: #f5d91d 3px solid ;
+}
+.page-item.active .page-link {
+    background: #f5d91d ;
+    border-color: #f5d91d;
+    color: #000;
+    font-weight: bold;
+}
+.page-item .page-link {
+    color: #000;
+    font-family: "Poppins";
+}
+.job-filter-wrapper {
+    background: #fff;
+}
+.job-listing-container {
+    background: #fff;
+    padding: 15px;
+}
+h2.filter-title {
+    font-size: 1.7rem;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    margin-left: 0px;
+}
+.job-filter-wrapper .job-filter-dropdown .btn-light {
+    border-bottom: 0;
+}
+.job-filter-dropdown {
+    background: #f0f0f0;
+    margin-bottom: 5px;
+}
+.location-search-input {
+    border-bottom: 0;
+}
+.job-filter-wrapper .job-filter-dropdown {
+    padding-top: 5px;
+}
+#jobs .sorting-job .filter-option .filter-option-inner-inner
+{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+#jobs {
+    padding-top: 10px;
+}
+.job-view-controller-wrapper .showing-number span {
+    font-size: 1.4rem;
+}
+
+.job-filter-wrapper .job-filter.same-pad.job-type {
+    background: #f0f0f0;
+    margin-top: 15px;
+}
+
+.job-filter-wrapper .job-filter.same-pad {
+    background: #f0f0f0;
+    margin-bottom: 1px;
+}
+.job-filter-wrapper .job-filter:before, .job-filter-wrapper .job-filter:last-child:after {
+    left: 0;
+    display: none;
+    height: 0;
+    background: none;
+}
+#message-create svg {
+    transform: rotate(45deg);
+    position: relative;
+    top: -1px;
+    left: -2px;
+}
+.alert-primary.basic-info-input h4 {
+    margin-bottom: 3px;
+}
+.no-message-found {
+    font-size: 1.8rem;
+    text-align: center;
+    padding: 20px;
+}
+.no-message-found {
+  display: inline-flex;
+  align-items: center;
+}
+.message-box .dashboard-conversation .conversation.in .send-time {
+    text-align: right;
+}
+.message-box .dashboard-conversation .conversation.in .send-time {
+    text-align: right;
+}
+.android-app-download-link {
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+.version {
+    display: block;
+    color: #676666;
+    text-transform: lowercase;
+    font-family: poppins;
+    position: relative;
+    z-index: 0;
+}
+
+/* The container */
+.yellow-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+
+/* Hide the browser's default checkbox */
+.yellow-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+
+
+/* Create a custom checkbox */
+.yellow-checkbox span{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #f5d91d;
+}
+
+
+
+/* On mouse-over, add a grey background color */
+.yellow-checkbox:hover input ~ span {
+    background-color: #f5d91d;
+}
+
+
+
+/* When the checkbox is checked, add a background */
+.yellow-checkbox input:checked ~ span {
+    background-color: #f5d91d;
+}
+
+
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.yellow-checkbox span:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+
+/* Show the checkmark when checked */
+.yellow-checkbox input:checked ~ span:after {
+    display: block;
+}
+
+
+
+/* Style the checkmark/indicator */
+.yellow-checkbox span:after {
+    left: 9px;
+    top: 4px;
+    width: 8px;
+    height: 15px;
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.footer-widget.footer-shortcut-link ul li + li {
+    margin-top: 0;
+}
+
+.yellow-checkbox-joblist {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.yellow-checkbox-joblist input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.yellow-checkbox-joblist span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #f5d91d;
+}
+.yellow-checkbox-joblist input:checked ~ span {
+    background-color: #f5d91d;
+}
+.yellow-checkbox-joblist span:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.yellow-checkbox-joblist input:checked ~ span:after {
+    display: block;
+}
+.yellow-checkbox-joblist span:after {
+    left: 9px;
+    top: 4px;
+    width: 8px;
+    height: 15px;
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.top-links a.nav-link:hover{
+    color: #f5d91d !important;
+    font-weight: bold;
+}
+.footer-bottom .back-to-top a{
+    position: relative ;
+    z-index: 999;
+}
+
+.job-list.featured-company-list:hover{
+    box-shadow: rgba(100, 100, 100, 0.3) 0px 0px 10px !important;
+}
+
+.search-btn{
+    box-shadow: rgba(0, 0, 0, .7) 0px 0px 10px !important;
+}
